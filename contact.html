@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITCORE - Contact Us</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#D6FF00', dark: '#0A0A0A', card: '#141414' },
+                    fontFamily: { heading: ['Oswald', 'sans-serif'], body: ['Poppins', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #0A0A0A; color: white; }
+        h1, h2, h3, .nav-logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        .form-input { 
+            background: #141414; 
+            border: 1px solid #1f1f1f; 
+            padding: 1rem; 
+            width: 100%; 
+            color: white;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus { border-color: #D6FF00; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center bg-dark/90 border-b border-gray-900">
+        <a href="index.html" class="nav-logo text-3xl font-bold text-white">FIT<span class="text-primary">CORE</span></a>
+        <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
+            <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+            <a href="programs.html" class="hover:text-primary transition-colors">Programs</a>
+            <a href="trainers.html" class="hover:text-primary transition-colors">Trainers</a>
+            <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
+        </div>
+    </nav>
+
+    <div class="pt-32 min-h-screen grid grid-cols-1 lg:grid-cols-2">
+        <div class="p-10 md:p-24 flex flex-col justify-center">
+            <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm">Get In Touch</h4>
+            <h1 class="text-5xl font-bold mb-8">START YOUR <br><span class="text-primary">JOURNEY</span></h1>
+            
+            <form class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input type="text" placeholder="Full Name" class="form-input">
+                    <input type="email" placeholder="Email Address" class="form-input">
+                </div>
+                <input type="text" placeholder="Subject" class="form-input">
+                <textarea rows="5" placeholder="Your Message" class="form-input"></textarea>
+                <button class="bg-primary text-black font-heading font-bold px-12 py-4 uppercase tracking-widest hover:bg-white transition-all">Send Message</button>
+            </form>
+        </div>
+
+        <div class="relative min-h-[400px] bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=1470&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-50" alt="Gym">
+            <div class="absolute inset-0 flex flex-col justify-end p-10 md:p-24 bg-gradient-to-t from-dark">
+                <div class="space-y-8">
+                    <div>
+                        <h4 class="text-primary font-heading tracking-widest uppercase mb-2">Location</h4>
+                        <p class="text-xl text-gray-300">123 Iron Avenue, <br>Muscle District, NY 1001</p>
+                    </div>
+                    <div>
+                        <h4 class="text-primary font-heading tracking-widest uppercase mb-2">Opening Hours</h4>
+                        <p class="text-xl text-gray-300">Mon - Fri: 5:00 AM - 11:00 PM <br>Sat - Sun: 7:00 AM - 9:00 PM</p>
+                    </div>
+                    <div class="flex gap-6 mt-10">
+                        <a href="#" class="text-white hover:text-primary">Instagram</a>
+                        <a href="#" class="text-white hover:text-primary">Facebook</a>
+                        <a href="#" class="text-white hover:text-primary">Twitter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROZYN • Elite Fitness</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=Space+Grotesk:wght@500;600;700&display=swap');
+        
+        :root {
+            --accent: #f97316;
+        }
+        
+        .tail-container {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .logo-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .hero-bg {
+            background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&q=90');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .section-header {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .nav-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link:hover {
+            color: #f97316;
+            transform: translateY(-2px);
+        }
+
+        .program-card {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .program-card:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: 0 30px 60px -15px rgb(249 115 22 / 0.3);
+        }
+
+        .glow-orange {
+            box-shadow: 0 0 35px -5px #f97316;
+        }
+    </style>
+</head>
+<body class="tail-container bg-neutral-950 text-white overflow-x-hidden">
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-neutral-950/90 backdrop-blur-xl border-b border-white/10">
+        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-9 h-9 bg-orange-500 rounded-xl flex items-center justify-center text-2xl font-black logo-font">P</div>
+                <div>
+                    <span class="text-3xl font-bold tracking-tighter logo-font">PROZYN</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-x-10 text-sm font-medium">
+                <a href="#" class="nav-link">HOME</a>
+                <a href="#" class="nav-link">PROGRAMS</a>
+                <a href="#" class="nav-link">COACHES</a>
+                <a href="#" class="nav-link">FACILITIES</a>
+                <a href="#" class="nav-link">TRANSFORMATIONS</a>
+            </div>
+
+            <div class="flex items-center gap-x-4">
+                <button onclick="document.getElementById('join-modal').classList.remove('hidden')"
+                    class="px-8 py-3.5 bg-white text-neutral-950 rounded-2xl font-semibold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95">
+                    JOIN NOW
+                </button>
+                <button onclick="toggleMobileMenu()" 
+                    class="md:hidden w-11 h-11 flex items-center justify-center text-2xl">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- MOBILE MENU -->
+        <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-neutral-950 z-50 pt-20 px-8">
+            <div class="flex flex-col gap-y-8 text-2xl font-medium">
+                <a href="#" class="nav-link">HOME</a>
+                <a href="#" class="nav-link">PROGRAMS</a>
+                <a href="#" class="nav-link">COACHES</a>
+                <a href="#" class="nav-link">FACILITIES</a>
+                <a href="#" class="nav-link">TRANSFORMATIONS</a>
+                <div class="pt-8">
+                    <button onclick="document.getElementById('join-modal').classList.remove('hidden');toggleMobileMenu()" 
+                        class="w-full py-5 bg-orange-500 rounded-3xl font-bold text-xl">JOIN PROZYN TODAY</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero-bg h-screen flex items-center relative">
+        <div class="max-w-screen-2xl mx-auto px-8 pt-24">
+            <div class="max-w-2xl">
+                <div class="inline-flex items-center gap-x-2 bg-white/10 backdrop-blur-md px-6 py-2 rounded-3xl text-sm mb-6">
+                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span class="uppercase tracking-[2px] font-medium">NOW OPEN IN PRETORIA</span>
+                </div>
+                
+                <h1 class="text-7xl md:text-8xl font-black leading-none tracking-tighter section-header mb-6">
+                    FORGE THE<br>ULTIMATE YOU
+                </h1>
+                
+                <p class="text-2xl text-neutral-300 max-w-md mb-12">
+                    Elite training. World-class facilities. 
+                    Real results. Welcome to Prozyn Fitness.
+                </p>
+                
+                <div class="flex flex-wrap gap-5">
+                    <button onclick="document.getElementById('join-modal').classList.remove('hidden')"
+                        class="px-10 py-6 bg-orange-500 hover:bg-orange-600 transition-all text-xl font-semibold rounded-3xl flex items-center gap-x-3 group">
+                        START YOUR TRANSFORMATION
+                        <i class="fa-solid fa-arrow-right group-active:rotate-45 transition-transform"></i>
+                    </button>
+                    
+                    <button onclick="document.getElementById('video-modal').classList.remove('hidden')"
+                        class="px-10 py-6 border-2 border-white/70 hover:border-white transition-all text-xl font-medium rounded-3xl flex items-center gap-x-3">
+                        <i class="fa-solid fa-play"></i>
+                        WATCH 1:12
+                    </button>
+                </div>
+                
+                <div class="mt-16 flex items-center gap-x-12 text-sm">
+                    <div>
+                        <div class="text-5xl font-bold text-orange-500">10K+</div>
+                        <div class="text-neutral-400">MEMBERS TRANSFORMED</div>
+                    </div>
+                    <div>
+                        <div class="text-5xl font-bold text-orange-500">47</div>
+                        <div class="text-neutral-400">CLASSES EVERY WEEK</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE GRAPHIC -->
+        <div class="hidden xl:block absolute bottom-12 right-12 bg-neutral-900/70 backdrop-blur-2xl p-6 rounded-3xl border border-white/10 max-w-xs">
+            <div class="flex gap-x-4 items-center">
+                <img src="https://images.unsplash.com/photo-1581009146140-2c4a2c5d5b5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                     class="w-16 h-16 rounded-2xl object-cover" alt="Member">
+                <div>
+                    <div class="font-semibold">"Lost 18kg in 90 days"</div>
+                    <div class="text-xs text-neutral-400">— Thabo M., Pretoria</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCROLL INDICATOR -->
+        <div class="absolute bottom-10 left-1/2 flex flex-col items-center gap-y-2">
+            <div class="text-xs tracking-widest font-medium">SCROLL TO EXPLORE</div>
+            <div class="w-px h-12 bg-gradient-to-b from-transparent via-white/40 to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <div class="bg-black py-6 border-b border-white/5">
+        <div class="max-w-screen-2xl mx-auto px-8 flex flex-wrap justify-center md:justify-between items-center gap-y-6 text-neutral-400 text-sm">
+            <div class="flex items-center gap-x-8">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2560px-Google_2015_logo.svg.png" class="h-5 opacity-40" alt="Google">
+                <span class="font-medium">4.98/5</span>
+            </div>
+            <div class="flex items-center gap-x-8">
+                <i class="fa-solid fa-dumbbell text-2xl"></i>
+                <span>State-of-the-art equipment</span>
+            </div>
+            <div class="flex items-center gap-x-8">
+                <i class="fa-solid fa-users text-2xl"></i>
+                <span>Community of 10,000+</span>
+            </div>
+            <div class="flex items-center gap-x-8">
+                <i class="fa-solid fa-medal text-2xl"></i>
+                <span>Certified coaches</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROGRAMS SECTION -->
+    <section class="py-28 bg-neutral-950" id="programs">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex justify-between items-end mb-16">
+                <div>
+                    <span class="uppercase text-orange-500 text-sm tracking-[3px] font-medium">TRAIN SMARTER</span>
+                    <h2 class="text-6xl font-bold section-header tracking-tighter">Signature Programs</h2>
+                </div>
+                <a href="#" class="hidden md:flex items-center gap-x-3 group text-sm font-medium">
+                    VIEW ALL PROGRAMS
+                    <span class="block w-8 h-px bg-white group-hover:bg-orange-500 transition-colors"></span>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1 -->
+                <div class="program-card bg-neutral-900 rounded-3xl overflow-hidden group">
+                    <div class="h-80 bg-cover bg-center relative" 
+                         style="background-image: url('https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?ixlib=rb-4.0.3&auto=format&fit=crop&q=90')">
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-neutral-900/90"></div>
+                        <div class="absolute top-6 right-6 bg-black/70 px-4 py-1 rounded-2xl text-xs font-medium">12 WEEKS</div>
+                    </div>
+                    <div class="p-8">
+                        <div class="text-orange-500 text-sm font-semibold mb-1">STRENGTH</div>
+                        <h3 class="text-3xl font-semibold mb-3">Iron Forge</h3>
+                        <p class="text-neutral-400 text-[15px]">Build raw power with Olympic lifting, powerlifting &amp; functional strength training.</p>
+                        <div class="mt-8 flex justify-between items-center">
+                            <div class="text-xs">
+                                <span class="line-through text-neutral-500">R899</span> 
+                                <span class="font-bold text-orange-500">R699/mo</span>
+                            </div>
+                            <button class="text-xs px-6 py-3 bg-white/10 hover:bg-orange-500 hover:text-white rounded-2xl transition-colors">JOIN PROGRAM</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="program-card bg-neutral-900 rounded-3xl overflow-hidden group">
+                    <div class="h-80 bg-cover bg-center relative" 
+                         style="background-image: url('https://images.unsplash.com/photo-1599058917212-2e7f4b7c3c3c?ixlib=rb-4.0.3&auto=format&fit=crop&q=90')">
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-neutral-900/90"></div>
+                        <div class="absolute top-6 right-6 bg-black/70 px-4 py-1 rounded-2xl text-xs font-medium">HIIT</div>
+                    </div>
+                    <div class="p-8">
+                        <div class="text-orange-500 text-sm font-semibold mb-1">METABOLIC</div>
+                        <h3 class="text-3xl font-semibold mb-3">Inferno Burn</h3>
+                        <p class="text-neutral-400 text-[15px]">High-intensity interval training that melts fat and builds athletic conditioning.</p>
+                        <div class="mt-8 flex justify-between items-center">
+                            <div class="text-xs">
+                                <span class="font-bold text-orange-500">R599/mo</span>
+                            </div>
+                            <button class="text-xs px-6 py-3 bg-white/10 hover:bg-orange-500 hover:text-white rounded-2xl transition-colors">JOIN PROGRAM</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="program-card bg-neutral-900 rounded-3xl overflow-hidden group">
+                    <div class="h-80 bg-cover bg-center relative" 
+                         style="background-image: url('https://images.unsplash.com/photo-1558618047-3c8c76ca5e6a?ixlib=rb-4.0.3&auto=format&fit=crop&q=90')">
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-neutral-900/90"></div>
+                        <div class="absolute top-6 right-6 bg-black/70 px-4 py-1 rounded-2xl text-xs font-medium">YOGA + MOBILITY</div>
+                    </div>
+                    <div class="p-8">
+                        <div class="text-orange-500 text-sm font-semibold mb-1">RECOVERY</div>
+                        <h3 class="text-3xl font-semibold mb-3">Zen Forge</h3>
+                        <p class="text-neutral-400 text-[15px]">Mobility, yoga &amp; breathwork for injury-proof athletes.</p>
+                        <div class="mt-8 flex justify-between items-center">
+                            <div class="text-xs">
+                                <span class="font-bold text-orange-500">R499/mo</span>
+                            </div>
+                            <button class="text-xs px-6 py-3 bg-white/10 hover:bg-orange-500 hover:text-white rounded-2xl transition-colors">JOIN PROGRAM</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="program-card bg-neutral-900 rounded-3xl overflow-hidden group relative">
+                    <div class="h-80 bg-cover bg-center relative" 
+                         style="background-image: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&auto=format&fit=crop&q=90')">
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-neutral-900/90"></div>
+                    </div>
+                    <div class="absolute top-6 left-6 bg-orange-500 text-black text-xs font-bold px-5 py-2 rounded-2xl">NEW</div>
+                    <div class="p-8">
+                        <div class="text-orange-500 text-sm font-semibold mb-1">1-ON-1</div>
+                        <h3 class="text-3xl font-semibold mb-3">Pro Coach</h3>
+                        <p class="text-neutral-400 text-[15px]">Personal training with our top coaches. Custom plans &amp; weekly check-ins.</p>
+                        <div class="mt-8 text-xs text-orange-500 font-medium">Starting at R1,299/mo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY PROZYN -->
+    <section class="py-28 bg-black">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div>
+                    <span class="text-orange-500 uppercase tracking-widest text-sm">NOT JUST A GYM</span>
+                    <h2 class="text-6xl font-bold section-header tracking-tighter leading-none mt-4 mb-10">
+                        Built for those who refuse to settle
+                    </h2>
+                    <div class="space-y-10">
+                        <div class="flex gap-7">
+                            <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">🏋️</div>
+                            <div>
+                                <div class="text-2xl font-semibold mb-2">Premium Equipment</div>
+                                <p class="text-neutral-400">Rogue, Eleiko, Technogym &amp; more. Never wait for a rack.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-7">
+                            <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">👥</div>
+                            <div>
+                                <div class="text-2xl font-semibold mb-2">Real Community</div>
+                                <p class="text-neutral-400">Weekly challenges, member events, and a squad that pushes you.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-7">
+                            <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">📈</div>
+                            <div>
+                                <div class="text-2xl font-semibold mb-2">Proven Results</div>
+                                <p class="text-neutral-400">Average member loses 12kg and gains 8kg muscle in 6 months.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca5e6a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=90" 
+                         class="rounded-3xl shadow-2xl" alt="Gym interior">
+                    <div class="absolute -bottom-8 -left-8 bg-neutral-900 p-8 rounded-3xl border border-white/10 max-w-[260px]">
+                        <div class="flex items-center gap-x-6">
+                            <div class="text-6xl">🔥</div>
+                            <div>
+                                <div class="text-5xl font-black text-orange-500">98%</div>
+                                <div class="text-sm uppercase tracking-widest">Member retention</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS / TRANSFORMATIONS -->
+    <section class="py-28 bg-neutral-950">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="text-center mb-16">
+                <span class="uppercase text-xs tracking-[4px] bg-neutral-900 px-6 py-3 rounded-3xl">REAL RESULTS</span>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-neutral-900 rounded-3xl p-8">
+                    <div class="flex gap-x-1 text-amber-400 mb-8">
+                        ★★★★☆
+                    </div>
+                    <p class="text-xl leading-relaxed">"I went from 112kg to 84kg in 5 months. The coaches actually care. Best decision I ever made."</p>
+                    <div class="mt-12 flex items-center gap-x-4">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-12 h-12 rounded-2xl" alt="">
+                        <div>
+                            <div class="font-semibold">Sipho Nkosi</div>
+                            <div class="text-xs text-neutral-500">Pretoria • Lost 28kg</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-neutral-900 rounded-3xl p-8">
+                    <div class="flex gap-x-1 text-amber-400 mb-8">
+                        ★★★★★
+                    </div>
+                    <p class="text-xl leading-relaxed">"The women-only classes + childcare made it possible for me to train consistently as a mom of two."</p>
+                    <div class="mt-12 flex items-center gap-x-4">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-12 h-12 rounded-2xl" alt="">
+                        <div>
+                            <div class="font-semibold">Nomsa Dlamini</div>
+                            <div class="text-xs text-neutral-500">Lost 14kg • Gained confidence</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-neutral-900 rounded-3xl p-8">
+                    <div class="flex gap-x-1 text-amber-400 mb-8">
+                        ★★★★☆
+                    </div>
+                    <p class="text-xl leading-relaxed">"Deadlift went from 80kg to 180kg. My back pain is gone. These guys know what they’re doing."</p>
+                    <div class="mt-12 flex items-center gap-x-4">
+                        <img src="https://randomuser.me/api/portraits/men/67.jpg" class="w-12 h-12 rounded-2xl" alt="">
+                        <div>
+                            <div class="font-semibold">Lebogang Molefe</div>
+                            <div class="text-xs text-neutral-500">+100kg deadlift PR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="py-32 bg-gradient-to-b from-neutral-950 to-black relative overflow-hidden">
+        <div class="max-w-screen-2xl mx-auto px-8 text-center">
+            <div class="max-w-2xl mx-auto">
+                <h2 class="text-6xl md:text-7xl font-black tracking-tighter mb-8">
+                    YOUR STRONGER<br>VERSION STARTS TODAY
+                </h2>
+                <p class="text-2xl text-neutral-300 mb-12">First month only R399. Cancel anytime.</p>
+                
+                <button onclick="document.getElementById('join-modal').classList.remove('hidden')"
+                    class="glow-orange text-2xl font-bold px-16 py-8 bg-orange-500 rounded-3xl hover:scale-105 transition-transform">
+                    CLAIM YOUR FIRST MONTH — R399
+                </button>
+                
+                <div class="text-xs text-neutral-400 mt-8">Limited spots • Offer ends soon</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-20 border-t border-white/10">
+        <div class="max-w-screen-2xl mx-auto px-8 grid md:grid-cols-5 gap-12">
+            <div>
+                <div class="flex items-center gap-x-3 mb-6">
+                    <div class="w-9 h-9 bg-orange-500 rounded-2xl flex items-center justify-center text-3xl font-black logo-font">P</div>
+                    <span class="text-4xl font-bold tracking-tighter logo-font">PROZYN</span>
+                </div>
+                <p class="text-neutral-400 text-sm">Pretoria’s premier performance gym.</p>
+            </div>
+            <div>
+                <div class="text-xs uppercase tracking-widest mb-6">Company</div>
+                <div class="space-y-4 text-sm">
+                    <a href="#" class="block hover:text-orange-500">About Us</a>
+                    <a href="#" class="block hover:text-orange-500">Careers</a>
+                    <a href="#" class="block hover:text-orange-500">Contact</a>
+                </div>
+            </div>
+            <div>
+                <div class="text-xs uppercase tracking-widest mb-6">Programs</div>
+                <div class="space-y-4 text-sm">
+                    <a href="#" class="block hover:text-orange-500">Iron Forge</a>
+                    <a href="#" class="block hover:text-orange-500">Inferno Burn</a>
+                    <a href="#" class="block hover:text-orange-500">Zen Forge</a>
+                </div>
+            </div>
+            <div>
+                <div class="text-xs uppercase tracking-widest mb-6">Locations</div>
+                <div class="space-y-4 text-sm">
+                    <div>Centurion • 24/7</div>
+                    <div>Pretoria East • 5am–11pm</div>
+                </div>
+            </div>
+            <div>
+                <div class="bg-neutral-900 rounded-3xl p-6 text-sm">
+                    <div class="font-medium mb-4">Follow the grind</div>
+                    <div class="flex gap-x-6 text-2xl">
+                        <i class="fa-brands fa-instagram hover:text-orange-500 cursor-pointer"></i>
+                        <i class="fa-brands fa-tiktok hover:text-orange-500 cursor-pointer"></i>
+                        <i class="fa-brands fa-x-twitter hover:text-orange-500 cursor-pointer"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center text-neutral-500 text-xs mt-20">
+            © 2026 PROZYN FITNESS • All rights reserved • Made with 🔥 for Pretoria
+        </div>
+    </footer>
+
+    <!-- JOIN MODAL -->
+    <div id="join-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-xl z-[100] flex items-center justify-center">
+        <div class="bg-neutral-900 rounded-3xl max-w-lg w-full mx-4 overflow-hidden">
+            <div class="px-8 pt-8 pb-6 border-b border-white/10 flex items-center justify-between">
+                <div class="text-3xl font-bold">Join Prozyn</div>
+                <button onclick="document.getElementById('join-modal').classList.add('hidden')" class="text-4xl leading-none">×</button>
+            </div>
+            
+            <div class="p-8 space-y-8">
+                <div>
+                    <label class="text-xs block mb-2 text-neutral-400">FULL NAME</label>
+                    <input type="text" class="w-full bg-neutral-800 border border-white/10 focus:border-orange-500 rounded-2xl px-6 py-5 outline-none" placeholder="Katlego M.">
+                </div>
+                <div>
+                    <label class="text-xs block mb-2 text-neutral-400">PHONE NUMBER</label>
+                    <input type="tel" class="w-full bg-neutral-800 border border-white/10 focus:border-orange-500 rounded-2xl px-6 py-5 outline-none" placeholder="+27 82 123 4567">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs block mb-2 text-neutral-400">AGE</label>
+                        <input type="number" class="w-full bg-neutral-800 border border-white/10 focus:border-orange-500 rounded-2xl px-6 py-5 outline-none" value="28">
+                    </div>
+                    <div>
+                        <label class="text-xs block mb-2 text-neutral-400">GOAL</label>
+                        <select class="w-full bg-neutral-800 border border-white/10 focus:border-orange-500 rounded-2xl px-6 py-5 outline-none">
+                            <option>Build Muscle</option>
+                            <option>Lose Fat</option>
+                            <option>Increase Strength</option>
+                            <option>Improve Mobility</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button onclick="alert('🎉 Welcome to PROZYN! Your first month is only R399. We’ll call you shortly.')"
+                    class="w-full py-7 bg-orange-500 hover:bg-orange-600 rounded-3xl text-xl font-bold transition-colors">
+                    SECURE MY SPOT — R399 FIRST MONTH
+                </button>
+                
+                <p class="text-center text-xs text-neutral-400">14-day money-back guarantee • No contracts</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIDEO MODAL -->
+    <div id="video-modal" class="hidden fixed inset-0 bg-black/95 z-[100] flex items-center justify-center">
+        <div class="w-full max-w-4xl mx-4">
+            <div class="flex justify-end mb-4">
+                <button onclick="document.getElementById('video-modal').classList.add('hidden')" 
+                    class="text-5xl text-white/70 hover:text-white">×</button>
+            </div>
+            <div class="aspect-video bg-black rounded-3xl overflow-hidden border border-white/20">
+                <iframe width="100%" height="100%" 
+                    src="https://www.youtube.com/embed/dQw4w9wgxcq" 
+                    title="Prozyn Fitness Experience" frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+        
+        // Close modals with ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") {
+                document.querySelectorAll('.hidden').forEach(el => {
+                    if (!el.classList.contains('hidden')) el.classList.add('hidden');
+                });
+            }
+        });
+        
+        // Tailwind script already loaded
+        console.log('%cPROZYN Fitness Landing Page loaded successfully 🔥', 'color:#f97316; font-family:monospace');
+    </script>
+</body>
+</html>

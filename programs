@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITCORE - Our Programs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#D6FF00', dark: '#0A0A0A', card: '#141414' },
+                    fontFamily: { heading: ['Oswald', 'sans-serif'], body: ['Poppins', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #0A0A0A; color: white; overflow-x: hidden; }
+        h1, h2, h3, .nav-logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        .text-outline { -webkit-text-stroke: 1px #D6FF00; color: transparent; }
+        .program-card { transition: all 0.4s ease; }
+        .program-card:hover img { transform: scale(1.1); }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-black">
+
+    <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center bg-dark/90 backdrop-blur-sm border-b border-gray-900">
+        <a href="index.html" class="nav-logo text-3xl font-bold tracking-wider text-white">
+            FIT<span class="text-primary">CORE</span>
+        </a>
+        <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
+            <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+            <a href="programs.html" class="text-primary transition-colors">Programs</a>
+            <a href="trainers.html" class="hover:text-primary transition-colors">Trainers</a>
+            <a href="#" class="hover:text-primary transition-colors">Pricing</a>
+        </div>
+        <button class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider hover:bg-white transition-colors">
+            Join Now
+        </button>
+    </nav>
+
+    <header class="pt-40 pb-20 px-6 md:px-16 bg-card border-b border-gray-900">
+        <div class="max-w-4xl mx-auto text-center">
+            <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm">Choose Your Path</h4>
+            <h1 class="text-5xl md:text-7xl font-bold leading-none mb-6">ELITE <span class="text-outline">PROGRAMS</span></h1>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto font-light">Whether you want to build muscle, lose weight, or improve your overall endurance, we have a specialized program designed for your exact goals.</p>
+        </div>
+    </header>
+
+    <section class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <div class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Strength" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity"></div>
+                <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                    <span class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block">01 / Build Muscle</span>
+                    <h3 class="text-3xl font-bold mb-3">Powerlifting</h3>
+                    <p class="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Master the squat, bench, and deadlift with our heavy-duty strength cycles.</p>
+                    <a href="#" class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</a>
+                </div>
+            </div>
+
+            <div class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
+                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1470&auto=format&fit=crop" alt="HIIT" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity"></div>
+                <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                    <span class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block">02 / Shred Fat</span>
+                    <h3 class="text-3xl font-bold mb-3">HIIT Core</h3>
+                    <p class="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">High-Intensity Interval Training designed to torch calories and build endurance fast.</p>
+                    <a href="#" class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</a>
+                </div>
+            </div>
+
+            <div class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
+                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1520&auto=format&fit=crop" alt="Yoga" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity"></div>
+                <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                    <span class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block">03 / Recovery</span>
+                    <h3 class="text-3xl font-bold mb-3">Mobility & Yoga</h3>
+                    <p class="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Improve flexibility, prevent injuries, and clear your mind with active recovery.</p>
+                    <a href="#" class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</body>
+</html>

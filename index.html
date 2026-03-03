@@ -191,9 +191,9 @@
         <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
             <h2 class="text-5xl md:text-7xl font-bold mb-6 text-white text-outline animate-fadeInUp">NEVER GIVE UP</h2>
             <p class="text-xl text-gray-200 mb-10">Sign up today and get your first week absolutely free. Start your transformation journey with the best in the business.</p>
-            <a href="#" onclick="showJoinModal()" class="inline-block bg-primary text-black font-heading font-bold px-12 py-5 text-xl uppercase tracking-wider rounded-pill btn-primary pill shadow-[0_0_20px_rgba(214,255,0,0.4)]">
+            <button onclick="showJoinModal()" class="inline-block bg-primary text-black font-heading font-bold px-12 py-5 text-xl uppercase tracking-wider rounded-pill btn-primary pill shadow-[0_0_20px_rgba(214,255,0,0.4)]">
                 Claim Your Free Trial
-            </a>
+            </button>
         </div>
     </section>
 
@@ -235,24 +235,24 @@
                 <div class="space-y-6">
                     <div>
                         <label class="text-xs text-gray-400 block mb-2">Full Name</label>
-                        <input id="join-name" type="text" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none">
+                        <input id="join-name" type="text" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
                     </div>
                     <div>
                         <label class="text-xs text-gray-400 block mb-2">Email</label>
-                        <input id="join-email" type="email" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none">
+                        <input id="join-email" type="email" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
                     </div>
                     <div>
                         <label class="text-xs text-gray-400 block mb-2">Phone</label>
-                        <input id="join-phone" type="tel" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none">
+                        <input id="join-phone" type="tel" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
                     </div>
                     <div>
                         <label class="text-xs text-gray-400 block mb-2">Preferred Plan</label>
-                        <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none">
-                            <option value="">Choose Plan</option>
-                            <option value="Monthly">Monthly Membership</option>
-                            <option value="Quarterly">Quarterly Membership</option>
-                            <option value="Annual">Annual Membership</option>
-                            <option value="Personal Training">Personal Training</option>
+                        <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                            <option value="" class="bg-dark">Choose Plan</option>
+                            <option value="Monthly" class="bg-dark">Monthly Membership</option>
+                            <option value="Quarterly" class="bg-dark">Quarterly Membership</option>
+                            <option value="Annual" class="bg-dark">Annual Membership</option>
+                            <option value="Personal Training" class="bg-dark">Personal Training</option>
                         </select>
                     </div>
                 </div>
@@ -264,8 +264,19 @@
         </div>
     </div>
 
+    <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
+        <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
+            <div class="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">REQUEST SENT!</h3>
+            <p class="text-gray-400 mb-8">Your application is now with our admin team. We'll reach out within 24 hours.</p>
+            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase tracking-widest">Great, thanks!</button>
+        </div>
+    </div>
+
     <div id="service-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[60] px-6">
-        <div class="bg-card border border-gray-900 w-full max-w-2xl rounded-3xl p-10 animate-fadeInUp relative">
+        <div class="bg-card border border-gray-900 w-full max-w-2xl rounded-3xl p-10 animate-fadeInUp relative text-white">
             <button onclick="closeServiceDetail()" class="absolute top-6 right-6 text-gray-500 hover:text-white text-2xl">&times;</button>
             <div id="service-content">
                 </div>
@@ -294,7 +305,7 @@
             console.error("Firebase Initialization Error:", e);
         }
 
-        // ====================== LIVE STATS FROM ADMIN COLLECTIONS ======================
+        // ====================== LIVE STATS ======================
         function loadLiveStats() {
             if (!db) {
                 document.getElementById("stat-trainers").textContent = "50+";
@@ -302,49 +313,27 @@
                 document.getElementById("stat-programs").textContent = "30+";
                 return;
             }
-
-            db.collection("trainers").onSnapshot(snapshot => {
-                document.getElementById("stat-trainers").textContent = snapshot.size;
-            });
-            db.collection("members").onSnapshot(snapshot => {
-                document.getElementById("stat-members").textContent = snapshot.size;
-            });
-            db.collection("classes").onSnapshot(snapshot => {
-                document.getElementById("stat-programs").textContent = snapshot.size;
-            });
+            db.collection("trainers").onSnapshot(s => document.getElementById("stat-trainers").textContent = s.size || "50+");
+            db.collection("members").onSnapshot(s => document.getElementById("stat-members").textContent = s.size || "970+");
+            db.collection("classes").onSnapshot(s => document.getElementById("stat-programs").textContent = s.size || "30+");
         }
 
-        // ====================== SERVICE DETAILS DATA ======================
+        // ====================== SERVICE DETAILS ======================
         const serviceData = {
             powerlifting: {
                 title: "Power Lifting Elite",
                 desc: "Master the art of strength. Our powerlifting program focuses on the 'Big Three'—Squat, Bench Press, and Deadlift.",
-                features: [
-                    "Form correction via video analysis",
-                    "Custom 12-week strength blocks",
-                    "Access to competition-grade plates & racks",
-                    "Nutritional guidance for mass building"
-                ]
+                features: ["Form correction via video analysis", "Custom 12-week strength blocks", "Access to competition-grade plates", "Nutritional guidance"]
             },
             cardio: {
                 title: "High Octane Cardio",
                 desc: "Torches calories and strengthens your heart. We combine HIIT, steady-state, and functional endurance.",
-                features: [
-                    "Heart rate monitored sessions",
-                    "Modern treadmill and rowing tech",
-                    "Metabolic conditioning (MetCon)",
-                    "Endurance tracking via our mobile app"
-                ]
+                features: ["Heart rate monitored sessions", "Modern treadmill tech", "Metabolic conditioning", "Endurance tracking"]
             },
             personal: {
                 title: "1-on-1 Performance",
                 desc: "The fastest way to reach your goals. Work directly with an expert who builds everything around you.",
-                features: [
-                    "Bespoke workout plans every week",
-                    "Monthly biometric & body fat scans",
-                    "Personalized supplement protocols",
-                    "24/7 accountability check-ins"
-                ]
+                features: ["Bespoke workout plans", "Monthly biometric scans", "Supplement protocols", "24/7 accountability"]
             }
         };
 
@@ -367,25 +356,19 @@
             document.getElementById("service-modal").classList.remove("hidden");
         }
 
-        function closeServiceDetail() {
-            document.getElementById("service-modal").classList.add("hidden");
-        }
+        function closeServiceDetail() { document.getElementById("service-modal").classList.add("hidden"); }
 
-        // ====================== JOIN MODAL LOGIC ======================
-        function showJoinModal() {
-            document.getElementById("join-modal").classList.remove("hidden");
-        }
+        // ====================== MODAL CONTROLS ======================
+        function showJoinModal() { document.getElementById("join-modal").classList.remove("hidden"); }
+        function hideJoinModal() { document.getElementById("join-modal").classList.add("hidden"); }
+        function showSuccessModal() { document.getElementById("success-modal").classList.remove("hidden"); }
+        function hideSuccessModal() { document.getElementById("success-modal").classList.add("hidden"); }
 
-        function hideJoinModal() {
-            document.getElementById("join-modal").classList.add("hidden");
-            document.getElementById("join-form").reset();
-        }
-
+        // ====================== FORM SUBMISSION ======================
         async function handleJoinSubmit(e) {
             e.preventDefault();
             const submitBtn = document.getElementById("submit-btn");
-            if (!db) { alert("Demo Mode: Configure Firebase to save requests."); return; }
-
+            
             const formData = {
                 name: document.getElementById("join-name").value,
                 email: document.getElementById("join-email").value,
@@ -395,24 +378,33 @@
                 status: "pending"
             };
 
+            if (!db) {
+                console.warn("Firebase not connected. Showing success modal for demo.");
+                hideJoinModal();
+                showSuccessModal();
+                document.getElementById("join-form").reset();
+                return;
+            }
+
             try {
                 submitBtn.disabled = true;
-                submitBtn.innerText = "Processing...";
+                submitBtn.innerText = "Sending...";
+                
                 await db.collection("membershipRequests").add(formData);
-                alert("✅ Your request has been sent! We will contact you soon.");
+                
                 hideJoinModal();
+                showSuccessModal();
+                document.getElementById("join-form").reset();
             } catch (error) {
-                alert("❌ Error sending request.");
+                console.error("Error:", error);
+                alert("Something went wrong. Please try again.");
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Submit Request";
             }
         }
 
-        // ====================== INITIALIZE ======================
-        window.onload = () => {
-            loadLiveStats();
-        };
+        window.onload = loadLiveStats;
     </script>
 </body>
 </html>

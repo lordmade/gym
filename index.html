@@ -260,25 +260,27 @@
     </div>
 
     <script>
-        // REPLACE WITH YOUR REALTIME DB URL
+        // UPDATED FIREBASE CONFIG
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            databaseURL: "https://your-project-default-rtdb.firebaseio.com",
-            projectId: "your-project",
+            apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
+            authDomain: "pinotp-d7ef5.firebaseapp.com",
+            databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
+            projectId: "pinotp-d7ef5",
+            storageBucket: "pinotp-d7ef5.firebasestorage.app",
+            messagingSenderId: "708458917827",
+            appId: "1:708458917827:web:375de278577df0adcf9776"
         };
 
         let db;
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         db = firebase.database();
 
-        // REALTIME STATS
         function loadLiveStats() {
             db.ref('stats/trainers').on('value', s => document.getElementById("stat-trainers").innerText = s.val() || "50+");
             db.ref('stats/members').on('value', s => document.getElementById("stat-members").innerText = s.val() || "970+");
             db.ref('stats/programs').on('value', s => document.getElementById("stat-programs").innerText = s.val() || "30+");
         }
 
-        // SERVICE DATA
         const serviceData = {
             powerlifting: { title: "Power Lifting", desc: "Build raw strength.", features: ["Form Correction", "Strength Blocks"] },
             cardio: { title: "Cardio", desc: "Burn fat fast.", features: ["HIIT", "Endurance"] },
@@ -297,7 +299,6 @@
         function showSuccessModal() { document.getElementById("success-modal").classList.remove("hidden"); }
         function hideSuccessModal() { document.getElementById("success-modal").classList.add("hidden"); }
 
-        // FAST REALTIME SUBMISSION
         async function handleJoinSubmit(e) {
             e.preventDefault();
             const btn = document.getElementById("submit-btn");
@@ -312,13 +313,18 @@
             try {
                 btn.disabled = true;
                 btn.innerText = "Sending...";
-                // Pushes data to 'membershipRequests' node in RTDB
+                // Data pushed to 'membershipRequests' node
                 await db.ref('membershipRequests').push(data);
                 hideJoinModal();
                 showSuccessModal();
                 document.getElementById("join-form").reset();
-            } catch (err) { alert("Error connecting to database."); }
-            finally { btn.disabled = false; btn.innerText = "Submit Request"; }
+            } catch (err) { 
+                console.error(err);
+                alert("Error connecting to database. Please ensure your Firebase rules allow writes."); 
+            } finally { 
+                btn.disabled = false; 
+                btn.innerText = "Submit Request"; 
+            }
         }
 
         window.onload = loadLiveStats;

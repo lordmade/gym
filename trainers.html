@@ -7,14 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#D6FF00', dark: '#0A0A0A', card: '#141414' },
-                    fontFamily: { heading: ['Oswald', 'sans-serif'], body: ['Poppins', 'sans-serif'] }
-                }
-            }
-        }
+        tailwind.config = { theme: { extend: { colors: { primary: '#D6FF00', dark: '#0A0A0A', card: '#141414' }, fontFamily: { heading: ['Oswald', 'sans-serif'], body: ['Poppins', 'sans-serif'] } } } }
     </script>
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #0A0A0A; color: white; overflow-x: hidden; }
@@ -23,20 +16,15 @@
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
-
     <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center bg-dark/90 backdrop-blur-sm border-b border-gray-900">
-        <a href="index.html" class="nav-logo text-3xl font-bold tracking-wider text-white">
-            FIT<span class="text-primary">CORE</span>
-        </a>
+        <a href="index.html" class="nav-logo text-3xl font-bold tracking-wider text-white">FIT<span class="text-primary">CORE</span></a>
         <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
             <a href="index.html" class="hover:text-primary transition-colors">Home</a>
             <a href="programs.html" class="hover:text-primary transition-colors">Programs</a>
             <a href="trainers.html" class="text-primary transition-colors">Trainers</a>
             <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
         </div>
-        <button class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider hover:bg-white transition-colors">
-            Join Now
-        </button>
+        <button class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider hover:bg-white transition-colors">Join Now</button>
     </nav>
 
     <header class="pt-40 pb-20 px-6 md:px-16 bg-card border-b border-gray-900">
@@ -48,60 +36,14 @@
     </header>
 
     <section class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            
-            <div class="group relative cursor-pointer" onclick="logTrainerClick('Marcus Thorne')">
-                <div class="w-full h-96 overflow-hidden bg-gray-900 mb-6 border border-gray-800 relative">
-                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=1470&auto=format&fit=crop" alt="Trainer" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
-                    <div class="absolute bottom-0 w-full p-4 flex justify-center space-x-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-black/80 backdrop-blur-sm">
-                        <span class="text-white hover:text-primary transition-colors text-xs font-bold">VIEW PROFILE</span>
-                    </div>
-                </div>
-                <h3 class="text-2xl font-bold mb-1">Marcus Thorne</h3>
-                <p class="text-primary text-sm font-heading tracking-widest uppercase">Head Strength Coach</p>
-            </div>
-
-            <div class="group relative cursor-pointer" onclick="logTrainerClick('Elena Rostova')">
-                <div class="w-full h-96 overflow-hidden bg-gray-900 mb-6 border border-gray-800 relative">
-                    <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=1374&auto=format&fit=crop" alt="Trainer" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
-                    <div class="absolute bottom-0 w-full p-4 flex justify-center space-x-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-black/80 backdrop-blur-sm">
-                        <span class="text-white hover:text-primary transition-colors text-xs font-bold">VIEW PROFILE</span>
-                    </div>
-                </div>
-                <h3 class="text-2xl font-bold mb-1">Elena Rostova</h3>
-                <p class="text-primary text-sm font-heading tracking-widest uppercase">HIIT & Conditioning</p>
-            </div>
-
-            <div class="group relative cursor-pointer" onclick="logTrainerClick('David Chen')">
-                <div class="w-full h-96 overflow-hidden bg-gray-900 mb-6 border border-gray-800 relative">
-                    <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=1470&auto=format&fit=crop" alt="Trainer" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
-                    <div class="absolute bottom-0 w-full p-4 flex justify-center space-x-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-black/80 backdrop-blur-sm">
-                        <span class="text-white hover:text-primary transition-colors text-xs font-bold">VIEW PROFILE</span>
-                    </div>
-                </div>
-                <h3 class="text-2xl font-bold mb-1">David Chen</h3>
-                <p class="text-primary text-sm font-heading tracking-widest uppercase">CrossFit Specialist</p>
-            </div>
-
-            <div class="group relative cursor-pointer" onclick="logTrainerClick('Sarah Jenkins')">
-                <div class="w-full h-96 overflow-hidden bg-gray-900 mb-6 border border-gray-800 relative">
-                    <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?q=80&w=1470&auto=format&fit=crop" alt="Trainer" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
-                    <div class="absolute bottom-0 w-full p-4 flex justify-center space-x-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-black/80 backdrop-blur-sm">
-                        <span class="text-white hover:text-primary transition-colors text-xs font-bold">VIEW PROFILE</span>
-                    </div>
-                </div>
-                <h3 class="text-2xl font-bold mb-1">Sarah Jenkins</h3>
-                <p class="text-primary text-sm font-heading tracking-widest uppercase">Yoga & Mobility</p>
-            </div>
-
+        <div id="trainers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Dynamic trainers loaded here -->
         </div>
     </section>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-
     <script>
-        // Your Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
             authDomain: "pinotp-d7ef5.firebaseapp.com",
@@ -112,26 +54,72 @@
             appId: "1:708458917827:web:375de278577df0adcf9776"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Function to log clicks
+        // Log trainer click (kept from your original code)
         function logTrainerClick(trainerName) {
-            const trainerRef = database.ref('trainer_views');
-            trainerRef.push({
+            database.ref('trainer_views').push({
                 trainer: trainerName,
                 timestamp: new Date().toISOString()
-            })
-            .then(() => {
-                console.log("View logged for " + trainerName);
-                // Optional: redirect to a specific trainer bio page
-                // window.location.href = `trainer-bio.html?name=${trainerName}`;
-            })
-            .catch((error) => {
-                console.error("Firebase log error:", error);
             });
         }
+
+        // Render dynamic trainers
+        function renderTrainers(trainers) {
+            const grid = document.getElementById('trainers-grid');
+            grid.innerHTML = '';
+
+            if (!trainers || Object.keys(trainers).length === 0) {
+                grid.innerHTML = `<p class="col-span-4 text-center text-gray-400 py-12">No trainers added yet. Admin can add them now.</p>`;
+                return;
+            }
+
+            Object.keys(trainers).forEach(key => {
+                const t = trainers[key];
+                const cardHTML = `
+                    <div class="group relative cursor-pointer" onclick="logTrainerClick('${t.name}')">
+                        <div class="w-full h-96 overflow-hidden bg-gray-900 mb-6 border border-gray-800 relative">
+                            <img src="${t.image}" alt="${t.name}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
+                            <div class="absolute bottom-0 w-full p-4 flex justify-center space-x-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-black/80 backdrop-blur-sm">
+                                <span class="text-white hover:text-primary transition-colors text-xs font-bold">VIEW PROFILE</span>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-1">${t.name}</h3>
+                        <p class="text-primary text-sm font-heading tracking-widest uppercase">${t.title}</p>
+                    </div>
+                `;
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        // Load trainers in real-time
+        function loadTrainers() {
+            database.ref('trainers').on('value', (snapshot) => {
+                const trainersData = snapshot.val();
+                renderTrainers(trainersData);
+            });
+        }
+
+        // Seed initial trainers if database is empty (runs once)
+        function seedInitialTrainers() {
+            database.ref('trainers').once('value', (snap) => {
+                if (!snap.exists()) {
+                    const initial = {
+                        t1: { name: "Marcus Thorne", title: "Head Strength Coach", image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=1470&auto=format&fit=crop", order: 1 },
+                        t2: { name: "Elena Rostova", title: "HIIT & Conditioning", image: "https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=1374&auto=format&fit=crop", order: 2 },
+                        t3: { name: "David Chen", title: "CrossFit Specialist", image: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=1470&auto=format&fit=crop", order: 3 },
+                        t4: { name: "Sarah Jenkins", title: "Yoga & Mobility", image: "https://images.unsplash.com/photo-1518310383802-640c2de311b2?q=80&w=1470&auto=format&fit=crop", order: 4 }
+                    };
+                    database.ref('trainers').set(initial);
+                }
+            });
+        }
+
+        window.onload = () => {
+            seedInitialTrainers();
+            loadTrainers();
+        };
     </script>
 </body>
 </html>

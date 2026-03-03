@@ -20,49 +20,144 @@
                     fontFamily: {
                         heading: ['Oswald', 'sans-serif'],
                         body: ['Poppins', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'pill': '9999px',
                     }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #0A0A0A; color: white; overflow-x: hidden; }
-        h1, h2, h3, .nav-logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
-        .hero-section { background-image: linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)); background-size: cover; background-position: center; }
-        .text-outline { -webkit-text-stroke: 1.5px #D6FF00; color: transparent; }
-        .pill { border-radius: 9999px; }
-        .card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 25px 50px -12px rgb(214 255 0 / 0.25); }
-        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 0 0 4px rgba(214, 255, 0, 0.3); }
-        
-        /* Subtext Styling for Admin Spans */
-        #hero-subtext span { color: white; font-weight: 600; }
-        #hero-subtext span.highlight { color: #D6FF00; }
-
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fadeInUp { animation: fadeInUp 0.6s ease forwards; }
-        
-        .hero-shimmer::before {
-            content: ''; position: absolute; top: 0; left: -150%; width: 60%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(214, 255, 0, 0.25), transparent);
-            animation: heroShimmer 1.5s linear infinite; z-index: 10; pointer-events: none;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0A0A0A;
+            color: white;
+            overflow-x: hidden;
         }
-        @keyframes heroShimmer { 0% { left: -150%; } 100% { left: 300%; } }
-        #hero-text { opacity: 0; transition: opacity 0.6s ease; }
+        h1, h2, h3, .nav-logo {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+        .hero-section {
+            background-image: linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4));
+            background-size: cover;
+            background-position: center;
+        }
+        .text-outline {
+            -webkit-text-stroke: 1.5px #D6FF00;
+            color: transparent;
+        }
+        .pill {
+            border-radius: 9999px;
+        }
+        .card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgb(214 255 0 / 0.25);
+        }
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(214, 255, 0, 0.15);
+        }
+        .btn-primary {
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 4px rgba(214, 255, 0, 0.3);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D6FF00;
+        }
+        /* SHIMMER EFFECT - ONLY shimmer visible while loading (no text) */
+        .hero-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-shimmer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(214, 255, 0, 0.25),
+                transparent
+            );
+            animation: heroShimmer 1.5s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+        @keyframes heroShimmer {
+            0% { left: -150%; }
+            100% { left: 300%; }
+        }
+        #hero-text {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        /* CTA SECTION - DYNAMIC FROM ADMIN (background image appears here) */
+        #cta-section {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        #cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 10, 10, 0.65);
+            z-index: 1;
+        }
+        #cta-content {
+            position: relative;
+            z-index: 2;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
     <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center">
-        <div class="nav-logo text-3xl font-bold tracking-wider text-white">FIT<span class="text-primary">CORE</span></div>
-        <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
-            <a href="#" class="hover:text-primary transition-colors">Home</a>
-            <a href="#" class="hover:text-primary transition-colors">Programs</a>
-            <a href="#" class="hover:text-primary transition-colors">Trainers</a>
-            <a href="#" class="hover:text-primary transition-colors">Pricing</a>
+        <div class="nav-logo text-3xl font-bold tracking-wider text-white">
+            FIT<span class="text-primary">CORE</span>
         </div>
-        <button onclick="showJoinModal()" class="bg-primary text-black font-heading font-bold px-8 py-3 rounded-pill uppercase tracking-wider btn-primary pill">Join Now</button>
+        <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
+            <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+            <a href="programs.html" class="hover:text-primary transition-colors">Programs</a>
+            <a href="trainers.html" class="hover:text-primary transition-colors">Trainers</a>
+            <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
+            <a href="contact.html" class="hover:text-primary transition-colors">Contact</a>
+        </div>
+        <button onclick="showJoinModal()" class="bg-primary text-black font-heading font-bold px-8 py-3 rounded-pill uppercase tracking-wider btn-primary pill">
+            Join Now
+        </button>
     </nav>
-
     <header id="hero-section" class="hero-section min-h-screen flex items-center pt-20 px-6 md:px-16">
         <div id="hero-content" class="max-w-3xl animate-fadeInUp hero-shimmer">
             <div id="hero-text">
@@ -71,35 +166,145 @@
                     BUILD YOUR <br>
                     <span class="text-outline">PERFECT</span> BODY
                 </h1>
-                <p id="hero-subtext" class="text-gray-400 text-lg md:text-xl mb-10 max-w-xl font-light leading-relaxed">
-                    Loading your transformation...
+                <p id="hero-subtext" class="text-gray-400 text-lg md:text-xl mb-10 max-w-xl font-light">
+                    Transform your physique and mind with our elite training programs, state-of-the-art equipment, and professional coaching. No excuses, just results.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <button onclick="showJoinModal()" id="hero-button" class="bg-primary text-black font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill btn-primary pill">Get Started Free</button>
-                    <button onclick="showVideoModal()" class="border border-white text-white font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill hover:bg-white hover:text-black transition-colors duration-300">Watch Video</button>
+                    <button onclick="showJoinModal()" id="hero-button" class="bg-primary text-black font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill btn-primary pill">
+                        Get Started Free
+                    </button>
+                    <button onclick="showVideoModal()" class="border border-white text-white font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill hover:bg-white hover:text-black transition-colors duration-300">
+                        Watch Video
+                    </button>
                 </div>
-                
+               
                 <div class="flex gap-10 mt-16 border-t border-gray-800 pt-8">
-                    <div><h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">...</h3><p class="text-gray-500 text-sm">Expert Trainers</p></div>
-                    <div><h3 id="stat-members" class="text-3xl font-bold text-white mb-1">...</h3><p class="text-gray-500 text-sm">Active Members</p></div>
-                    <div><h3 id="stat-programs" class="text-3xl font-bold text-white mb-1">...</h3><p class="text-gray-500 text-sm">Fitness Programs</p></div>
+                    <div>
+                        <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">...</h3>
+                        <p class="text-gray-500 text-sm">Expert Trainers</p>
+                    </div>
+                    <div>
+                        <h3 id="stat-members" class="text-3xl font-bold text-white mb-1">...</h3>
+                        <p class="text-gray-500 text-sm">Active Members</p>
+                    </div>
+                    <div>
+                        <h3 id="stat-programs" class="text-3xl font-bold text-white mb-1">...</h3>
+                        <p class="text-gray-500 text-sm">Fitness Programs</p>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
-
+    <section class="py-24 px-6 md:px-16 bg-dark">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+            <div>
+                <h4 class="text-primary font-heading tracking-[0.2em] mb-2 text-sm">Our Services</h4>
+                <h2 class="text-4xl md:text-5xl font-bold">PUSH YOUR <span class="text-primary">LIMITS</span></h2>
+            </div>
+            <a href="programs.html" class="text-gray-400 hover:text-primary mt-4 md:mt-0 font-heading tracking-wider uppercase border-b border-gray-600 pb-1">View All Programs</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
+                <div class="w-14 h-14 bg-gray-900 text-primary flex items-center justify-center rounded-full mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <h3 id="service1-title" class="text-2xl font-bold mb-3">Power Lifting</h3>
+                <p id="service1-desc" class="text-gray-400 text-sm mb-6 leading-relaxed">Focus on heavy compound movements to build raw strength and muscle mass with our expert-led sessions.</p>
+                <button onclick="openServiceDetail('powerlifting')" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></button>
+            </div>
+            <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
+                <div class="w-14 h-14 bg-gray-900 text-primary flex items-center justify-center rounded-full mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                </div>
+                <h3 id="service2-title" class="text-2xl font-bold mb-3">Cardio Training</h3>
+                <p id="service2-desc" class="text-gray-400 text-sm mb-6 leading-relaxed">Elevate your heart rate and burn fat with high-intensity interval training and endurance programs.</p>
+                <button onclick="openServiceDetail('cardio')" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></button>
+            </div>
+            <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
+                <div class="w-14 h-14 bg-gray-900 text-primary flex items-center justify-center rounded-full mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h3 id="service3-title" class="text-2xl font-bold mb-3">Personal Training</h3>
+                <p id="service3-desc" class="text-gray-400 text-sm mb-6 leading-relaxed">Get 1-on-1 attention with customized workout and nutrition plans tailored to your specific goals.</p>
+                <button onclick="openServiceDetail('personal')" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></button>
+            </div>
+        </div>
+    </section>
+    <section id="cta-section" class="py-20 relative text-center">
+        <div id="cta-content" class="relative z-10 max-w-4xl mx-auto px-6">
+            <h2 id="cta-main-heading" class="text-5xl md:text-7xl font-bold mb-6 text-white text-outline animate-fadeInUp">NEVER GIVE UP</h2>
+            <p id="cta-sub-paragraph" class="text-xl text-gray-200 mb-10">Sign up today and get your first week absolutely free.</p>
+            <button onclick="showJoinModal()" id="cta-button" class="bg-primary text-black font-heading font-bold px-12 py-5 text-xl uppercase tracking-wider rounded-pill btn-primary pill shadow-[0_0_20px_rgba(214,255,0,0.4)]">
+                Claim Your Free Trial
+            </button>
+        </div>
+    </section>
+    <footer class="bg-card pt-16 pb-8 px-6 md:px-16 border-t border-gray-900">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <div class="col-span-1 md:col-span-2">
+                <div class="nav-logo text-3xl font-bold tracking-wider text-white mb-6">FIT<span class="text-primary">CORE</span></div>
+                <p class="text-gray-400 text-sm max-w-md">Premium fitness equipment and expert coaching.</p>
+            </div>
+            <div>
+                <h4 class="font-heading font-bold text-xl mb-6">Quick Links</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><a href="programs.html" class="hover:text-primary transition-colors">Programs</a></li>
+                    <li><a href="trainers.html" class="hover:text-primary transition-colors">Trainers</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-heading font-bold text-xl mb-6">Contact</h4>
+                <p class="text-sm text-gray-400">info@fitcore.com</p>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-600">© 2026 FitCore Gym.</div>
+    </footer>
+    <div id="video-modal" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-[100] px-4">
+        <div class="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-gray-800">
+            <button onclick="hideVideoModal()" class="absolute top-4 right-4 z-50 text-white bg-black/50 hover:bg-primary hover:text-black w-10 h-10 rounded-full flex items-center justify-center transition-all text-2xl">&times;</button>
+            <iframe id="video-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
     <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
         <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
             <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
-            <form onsubmit="handleJoinSubmit(event)" class="space-y-4">
-                <input id="join-name" type="text" placeholder="Full Name" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none">
-                <button type="submit" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Submit Request</button>
-                <button type="button" onclick="hideJoinModal()" class="w-full text-gray-500 mt-2">Close</button>
+            <form id="join-form" onsubmit="handleJoinSubmit(event)">
+                <div class="space-y-6">
+                    <input id="join-name" type="text" placeholder="Full Name" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                    <input id="join-email" type="email" placeholder="Email Address" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                    <input id="join-phone" type="tel" placeholder="Phone Number" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                    <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                        <option value="">Select Plan</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Annual">Annual</option>
+                    </select>
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 rounded-full">Cancel</button>
+                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full">Submit Request</button>
+                </div>
             </form>
         </div>
     </div>
-
+    <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
+        <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
+            <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-2 uppercase">Success!</h3>
+            <p class="text-gray-400 mb-8">Data sent to admin dashboard.</p>
+            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Close</button>
+        </div>
+    </div>
+    <div id="service-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[60] px-6">
+        <div class="bg-card border border-gray-900 w-full max-w-2xl rounded-3xl p-10 animate-fadeInUp relative text-white">
+            <button onclick="closeServiceDetail()" class="absolute top-6 right-6 text-gray-500 hover:text-white text-2xl">&times;</button>
+            <div id="service-content"></div>
+            <button onclick="closeServiceDetail(); showJoinModal();" class="mt-8 w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Get Started</button>
+        </div>
+    </div>
     <script>
+        // YOUR SPECIFIC FIREBASE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
             authDomain: "pinotp-d7ef5.firebaseapp.com",
@@ -109,47 +314,136 @@
             messagingSenderId: "708458917827",
             appId: "1:708458917827:web:375de278577df0adcf9776"
         };
-        
+        let db;
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        async function syncHomepageContent() {
-            db.ref('homepage/hero').on('value', (snapshot) => {
-                const data = snapshot.val() || {};
-                
-                // 1. Update Heading
-                if (data.heading) document.getElementById("hero-main-heading").innerHTML = data.heading;
-                
-                // 2. UPDATE SUBTEXT (Using .innerHTML to support <span> tags from admin)
-                if (data.subtext) {
-                    document.getElementById("hero-subtext").innerHTML = data.subtext;
-                }
-
-                if (data.buttonText) document.getElementById("hero-button").innerText = data.buttonText;
-                
-                if (data.imageUrl) {
-                    document.getElementById("hero-section").style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${data.imageUrl}')`;
-                }
-
-                // Reveal UI
-                document.getElementById("hero-content").classList.remove("hero-shimmer");
-                document.getElementById("hero-text").style.opacity = "1";
-            });
-        }
-
+        db = firebase.database();
+        // REALTIME STATS
         function loadLiveStats() {
             db.ref('stats/trainers').on('value', s => document.getElementById("stat-trainers").innerText = s.val() || "50+");
             db.ref('stats/members').on('value', s => document.getElementById("stat-members").innerText = s.val() || "970+");
             db.ref('stats/programs').on('value', s => document.getElementById("stat-programs").innerText = s.val() || "30+");
         }
+        // REAL-TIME SYNC FOR HERO + SERVICES
+        let serviceData = {
+            powerlifting: { title: "Power Lifting", desc: "Build raw strength.", features: ["Form Correction", "Strength Blocks"] },
+            cardio: { title: "Cardio", desc: "Burn fat fast.", features: ["HIIT", "Endurance"] },
+            personal: { title: "Personal Training", desc: "1-on-1 focus.", features: ["Bespoke Plans", "24/7 Check-ins"] }
+        };
+        async function syncHomepageContent() {
+            const heroSnap = await db.ref('homepage/hero').once('value');
+            const heroData = heroSnap.val() || {};
+            if (heroData.heading) document.getElementById("hero-main-heading").innerHTML = heroData.heading;
+            if (heroData.subtext) document.getElementById("hero-subtext").innerText = heroData.subtext;
+            if (heroData.buttonText) document.getElementById("hero-button").innerText = heroData.buttonText;
+            if (heroData.imageUrl) {
+                const hero = document.getElementById("hero-section");
+                hero.style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${heroData.imageUrl}')`;
+            }
+            document.getElementById("hero-content").classList.remove("hero-shimmer");
+            document.getElementById("hero-text").style.opacity = "1";
+            db.ref('homepage/hero').on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                if (data.heading) document.getElementById("hero-main-heading").innerHTML = data.heading;
+                if (data.subtext) document.getElementById("hero-subtext").innerText = data.subtext;
+                if (data.buttonText) document.getElementById("hero-button").innerText = data.buttonText;
+                if (data.imageUrl) {
+                    const hero = document.getElementById("hero-section");
+                    hero.style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${data.imageUrl}')`;
+                }
+            });
+            db.ref('homepage/services').on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                for (let i = 1; i <= 3; i++) {
+                    const card = data[i] || {};
+                    const titleEl = document.getElementById(`service${i}-title`);
+                    const descEl = document.getElementById(`service${i}-desc`);
+                    if (card.title && titleEl) titleEl.innerText = card.title;
+                    if (card.description && descEl) descEl.innerText = card.description;
+                    const key = i === 1 ? 'powerlifting' : i === 2 ? 'cardio' : 'personal';
+                    if (card.title) serviceData[key].title = card.title;
+                    if (card.description) serviceData[key].desc = card.description;
+                }
+            });
+        }
 
+        // CTA SECTION SYNC (heading, subtext, button + background image from admin)
+        function syncCtaSection() {
+            db.ref('homepage/cta').on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                if (data.heading) document.getElementById("cta-main-heading").innerHTML = data.heading;
+                if (data.subtext) document.getElementById("cta-sub-paragraph").innerText = data.subtext;
+                if (data.buttonText) document.getElementById("cta-button").innerText = data.buttonText;
+                if (data.imageUrl) {
+                    document.getElementById("cta-section").style.backgroundImage = `url('${data.imageUrl}')`;
+                }
+            });
+        }
+
+        // VIDEO MODAL LOGIC
+        function showVideoModal() {
+            const modal = document.getElementById("video-modal");
+            const iframe = document.getElementById("video-iframe");
+            // Replace with your actual promo video link
+            iframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
+            modal.classList.remove("hidden");
+            document.body.style.overflow = "hidden"; // Prevent background scroll
+        }
+        function hideVideoModal() {
+            const modal = document.getElementById("video-modal");
+            const iframe = document.getElementById("video-iframe");
+            iframe.src = ""; // Stop video when closing
+            modal.classList.add("hidden");
+            document.body.style.overflow = "auto";
+        }
+        // SERVICE MODAL
+        function openServiceDetail(id) {
+            const s = serviceData[id];
+            document.getElementById("service-content").innerHTML = `
+                <h2 class="text-primary text-4xl font-bold mb-4 uppercase">${s.title}</h2>
+                <p class="text-gray-300 text-lg mb-6">${s.desc}</p>
+                <ul class="space-y-2">
+                    ${s.features.map(f => `<li class="text-gray-400">✓ ${f}</li>`).join('')}
+                </ul>`;
+            document.getElementById("service-modal").classList.remove("hidden");
+        }
+        function closeServiceDetail() {
+            document.getElementById("service-modal").classList.add("hidden");
+        }
         function showJoinModal() { document.getElementById("join-modal").classList.remove("hidden"); }
         function hideJoinModal() { document.getElementById("join-modal").classList.add("hidden"); }
-
+        function showSuccessModal() { document.getElementById("success-modal").classList.remove("hidden"); }
+        function hideSuccessModal() { document.getElementById("success-modal").classList.add("hidden"); }
+        // SUBMISSION
+        async function handleJoinSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById("submit-btn");
+            const data = {
+                name: document.getElementById("join-name").value,
+                email: document.getElementById("join-email").value,
+                phone: document.getElementById("join-phone").value,
+                plan: document.getElementById("join-plan").value,
+                timestamp: Date.now()
+            };
+            try {
+                btn.disabled = true;
+                btn.innerText = "Sending...";
+                await db.ref('membershipRequests').push(data);
+                hideJoinModal();
+                showSuccessModal();
+                document.getElementById("join-form").reset();
+            } catch (err) { alert("Error connecting to database."); }
+            finally { btn.disabled = false; btn.innerText = "Submit Request"; }
+        }
+        // INITIALIZE - ALL SECTIONS LINKED TO ADMIN
         window.onload = () => {
             loadLiveStats();
             syncHomepageContent();
+            syncCtaSection();   // ← CTA + background image now live from admin
         };
+        // Close video modal on ESC key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") hideVideoModal();
+        });
     </script>
 </body>
 </html>

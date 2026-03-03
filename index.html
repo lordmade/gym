@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
     
     <script>
         tailwind.config = {
@@ -186,12 +186,12 @@
         </div>
     </section>
 
-    <section class="py-20 relative">
+    <section class="py-20 relative text-center">
         <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1469&auto=format&fit=crop')] bg-cover bg-center bg-fixed opacity-40"></div>
-        <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
+        <div class="relative z-10 max-w-4xl mx-auto px-6">
             <h2 class="text-5xl md:text-7xl font-bold mb-6 text-white text-outline animate-fadeInUp">NEVER GIVE UP</h2>
-            <p class="text-xl text-gray-200 mb-10">Sign up today and get your first week absolutely free. Start your transformation journey with the best in the business.</p>
-            <button onclick="showJoinModal()" class="inline-block bg-primary text-black font-heading font-bold px-12 py-5 text-xl uppercase tracking-wider rounded-pill btn-primary pill shadow-[0_0_20px_rgba(214,255,0,0.4)]">
+            <p class="text-xl text-gray-200 mb-10">Sign up today and get your first week absolutely free.</p>
+            <button onclick="showJoinModal()" class="bg-primary text-black font-heading font-bold px-12 py-5 text-xl uppercase tracking-wider rounded-pill btn-primary pill shadow-[0_0_20px_rgba(214,255,0,0.4)]">
                 Claim Your Free Trial
             </button>
         </div>
@@ -200,32 +200,22 @@
     <footer class="bg-card pt-16 pb-8 px-6 md:px-16 border-t border-gray-900">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div class="col-span-1 md:col-span-2">
-                <div class="nav-logo text-3xl font-bold tracking-wider text-white mb-6">
-                    FIT<span class="text-primary">CORE</span>
-                </div>
-                <p class="text-gray-400 text-sm max-w-md">We provide premium fitness equipment, professional trainers, and specialized programs to help you achieve your ultimate dream physique.</p>
+                <div class="nav-logo text-3xl font-bold tracking-wider text-white mb-6">FIT<span class="text-primary">CORE</span></div>
+                <p class="text-gray-400 text-sm max-w-md">Premium fitness equipment and expert coaching.</p>
             </div>
             <div>
                 <h4 class="font-heading font-bold text-xl mb-6">Quick Links</h4>
                 <ul class="space-y-3 text-sm text-gray-400">
-                    <li><a href="#" class="hover:text-primary transition-colors">About Us</a></li>
-                    <li><a href="programs.html" class="hover:text-primary transition-colors">Classes</a></li>
+                    <li><a href="programs.html" class="hover:text-primary transition-colors">Programs</a></li>
                     <li><a href="trainers.html" class="hover:text-primary transition-colors">Trainers</a></li>
-                    <li><a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-heading font-bold text-xl mb-6">Contact</h4>
-                <ul class="space-y-3 text-sm text-gray-400">
-                    <li>123 Fitness Street, NY</li>
-                    <li>info@fitcore.com</li>
-                    <li>+1 (555) 123-4567</li>
-                </ul>
+                <p class="text-sm text-gray-400">info@fitcore.com</p>
             </div>
         </div>
-        <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-600">
-            © 2026 FitCore Gym. All rights reserved.
-        </div>
+        <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-600">© 2026 FitCore Gym.</div>
     </footer>
 
     <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
@@ -233,32 +223,18 @@
             <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
             <form id="join-form" onsubmit="handleJoinSubmit(event)">
                 <div class="space-y-6">
-                    <div>
-                        <label class="text-xs text-gray-400 block mb-2">Full Name</label>
-                        <input id="join-name" type="text" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    </div>
-                    <div>
-                        <label class="text-xs text-gray-400 block mb-2">Email</label>
-                        <input id="join-email" type="email" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    </div>
-                    <div>
-                        <label class="text-xs text-gray-400 block mb-2">Phone</label>
-                        <input id="join-phone" type="tel" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    </div>
-                    <div>
-                        <label class="text-xs text-gray-400 block mb-2">Preferred Plan</label>
-                        <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                            <option value="" class="bg-dark">Choose Plan</option>
-                            <option value="Monthly" class="bg-dark">Monthly Membership</option>
-                            <option value="Quarterly" class="bg-dark">Quarterly Membership</option>
-                            <option value="Annual" class="bg-dark">Annual Membership</option>
-                            <option value="Personal Training" class="bg-dark">Personal Training</option>
-                        </select>
-                    </div>
+                    <input id="join-name" type="text" placeholder="Full Name" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                    <input id="join-email" type="email" placeholder="Email Address" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                    <input id="join-phone" type="tel" placeholder="Phone Number" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                    <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                        <option value="">Select Plan</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Annual">Annual</option>
+                    </select>
                 </div>
                 <div class="flex gap-4 mt-8">
-                    <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 hover:bg-gray-900 rounded-full">Cancel</button>
-                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full disabled:opacity-50 disabled:cursor-not-allowed">Submit Request</button>
+                    <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 rounded-full">Cancel</button>
+                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full">Submit Request</button>
                 </div>
             </form>
         </div>
@@ -266,142 +242,83 @@
 
     <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
         <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
-            <div class="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
             </div>
-            <h3 class="text-2xl font-bold mb-2">REQUEST SENT!</h3>
-            <p class="text-gray-400 mb-8">Your application is now with our admin team. We'll reach out within 24 hours.</p>
-            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase tracking-widest">Great, thanks!</button>
+            <h3 class="text-2xl font-bold mb-2 uppercase">Success!</h3>
+            <p class="text-gray-400 mb-8">Data sent to admin dashboard.</p>
+            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Close</button>
         </div>
     </div>
 
     <div id="service-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[60] px-6">
         <div class="bg-card border border-gray-900 w-full max-w-2xl rounded-3xl p-10 animate-fadeInUp relative text-white">
             <button onclick="closeServiceDetail()" class="absolute top-6 right-6 text-gray-500 hover:text-white text-2xl">&times;</button>
-            <div id="service-content">
-                </div>
-            <button onclick="closeServiceDetail(); showJoinModal();" class="mt-8 w-full py-4 bg-primary text-black font-bold rounded-full uppercase tracking-widest">Get Started with this Program</button>
+            <div id="service-content"></div>
+            <button onclick="closeServiceDetail(); showJoinModal();" class="mt-8 w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Get Started</button>
         </div>
     </div>
 
     <script>
-        // ====================== FIREBASE CONFIG ======================
+        // REPLACE WITH YOUR REALTIME DB URL
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
-            authDomain: "your-project-id.firebaseapp.com",
-            projectId: "your-project-id",
-            storageBucket: "your-project-id.appspot.com",
-            messagingSenderId: "your-sender-id",
-            appId: "your-app-id"
+            databaseURL: "https://your-project-default-rtdb.firebaseio.com",
+            projectId: "your-project",
         };
 
         let db;
-        try {
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
-            }
-            db = firebase.firestore();
-        } catch (e) {
-            console.error("Firebase Initialization Error:", e);
-        }
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        db = firebase.database();
 
-        // ====================== LIVE STATS ======================
+        // REALTIME STATS
         function loadLiveStats() {
-            if (!db) {
-                document.getElementById("stat-trainers").textContent = "50+";
-                document.getElementById("stat-members").textContent = "970+";
-                document.getElementById("stat-programs").textContent = "30+";
-                return;
-            }
-            db.collection("trainers").onSnapshot(s => document.getElementById("stat-trainers").textContent = s.size || "50+");
-            db.collection("members").onSnapshot(s => document.getElementById("stat-members").textContent = s.size || "970+");
-            db.collection("classes").onSnapshot(s => document.getElementById("stat-programs").textContent = s.size || "30+");
+            db.ref('stats/trainers').on('value', s => document.getElementById("stat-trainers").innerText = s.val() || "50+");
+            db.ref('stats/members').on('value', s => document.getElementById("stat-members").innerText = s.val() || "970+");
+            db.ref('stats/programs').on('value', s => document.getElementById("stat-programs").innerText = s.val() || "30+");
         }
 
-        // ====================== SERVICE DETAILS ======================
+        // SERVICE DATA
         const serviceData = {
-            powerlifting: {
-                title: "Power Lifting Elite",
-                desc: "Master the art of strength. Our powerlifting program focuses on the 'Big Three'—Squat, Bench Press, and Deadlift.",
-                features: ["Form correction via video analysis", "Custom 12-week strength blocks", "Access to competition-grade plates", "Nutritional guidance"]
-            },
-            cardio: {
-                title: "High Octane Cardio",
-                desc: "Torches calories and strengthens your heart. We combine HIIT, steady-state, and functional endurance.",
-                features: ["Heart rate monitored sessions", "Modern treadmill tech", "Metabolic conditioning", "Endurance tracking"]
-            },
-            personal: {
-                title: "1-on-1 Performance",
-                desc: "The fastest way to reach your goals. Work directly with an expert who builds everything around you.",
-                features: ["Bespoke workout plans", "Monthly biometric scans", "Supplement protocols", "24/7 accountability"]
-            }
+            powerlifting: { title: "Power Lifting", desc: "Build raw strength.", features: ["Form Correction", "Strength Blocks"] },
+            cardio: { title: "Cardio", desc: "Burn fat fast.", features: ["HIIT", "Endurance"] },
+            personal: { title: "Personal Training", desc: "1-on-1 focus.", features: ["Bespoke Plans", "24/7 Check-ins"] }
         };
 
         function openServiceDetail(id) {
-            const service = serviceData[id];
-            const content = `
-                <h2 class="text-primary font-heading text-4xl font-bold mb-4">${service.title}</h2>
-                <p class="text-gray-300 text-lg mb-6 leading-relaxed">${service.desc}</p>
-                <h4 class="text-white font-bold mb-3 uppercase tracking-wider">What's Included:</h4>
-                <ul class="space-y-3">
-                    ${service.features.map(f => `
-                        <li class="flex items-center gap-3 text-gray-400">
-                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            ${f}
-                        </li>
-                    `).join('')}
-                </ul>
-            `;
-            document.getElementById("service-content").innerHTML = content;
+            const s = serviceData[id];
+            document.getElementById("service-content").innerHTML = `<h2 class="text-primary text-4xl font-bold mb-4 uppercase">${s.title}</h2><p class="text-gray-300 text-lg mb-6">${s.desc}</p><ul class="space-y-2">${s.features.map(f => `<li class="text-gray-400">✓ ${f}</li>`).join('')}</ul>`;
             document.getElementById("service-modal").classList.remove("hidden");
         }
 
         function closeServiceDetail() { document.getElementById("service-modal").classList.add("hidden"); }
-
-        // ====================== MODAL CONTROLS ======================
         function showJoinModal() { document.getElementById("join-modal").classList.remove("hidden"); }
         function hideJoinModal() { document.getElementById("join-modal").classList.add("hidden"); }
         function showSuccessModal() { document.getElementById("success-modal").classList.remove("hidden"); }
         function hideSuccessModal() { document.getElementById("success-modal").classList.add("hidden"); }
 
-        // ====================== FORM SUBMISSION ======================
+        // FAST REALTIME SUBMISSION
         async function handleJoinSubmit(e) {
             e.preventDefault();
-            const submitBtn = document.getElementById("submit-btn");
-            
-            const formData = {
+            const btn = document.getElementById("submit-btn");
+            const data = {
                 name: document.getElementById("join-name").value,
                 email: document.getElementById("join-email").value,
                 phone: document.getElementById("join-phone").value,
                 plan: document.getElementById("join-plan").value,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                status: "pending"
+                timestamp: Date.now()
             };
 
-            if (!db) {
-                console.warn("Firebase not connected. Showing success modal for demo.");
-                hideJoinModal();
-                showSuccessModal();
-                document.getElementById("join-form").reset();
-                return;
-            }
-
             try {
-                submitBtn.disabled = true;
-                submitBtn.innerText = "Sending...";
-                
-                await db.collection("membershipRequests").add(formData);
-                
+                btn.disabled = true;
+                btn.innerText = "Sending...";
+                // Pushes data to 'membershipRequests' node in RTDB
+                await db.ref('membershipRequests').push(data);
                 hideJoinModal();
                 showSuccessModal();
                 document.getElementById("join-form").reset();
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Something went wrong. Please try again.");
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Submit Request";
-            }
+            } catch (err) { alert("Error connecting to database."); }
+            finally { btn.disabled = false; btn.innerText = "Submit Request"; }
         }
 
         window.onload = loadLiveStats;

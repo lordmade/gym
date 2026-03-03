@@ -96,7 +96,7 @@
             background: #D6FF00;
         }
 
-        /* SHIMMER EFFECT FOR HERO SECTION WHILE LOADING ADMIN DATA */
+        /* SHIMMER EFFECT - ONLY shimmer visible while loading (no text) */
         .hero-shimmer {
             position: relative;
             overflow: hidden;
@@ -114,13 +114,18 @@
                 rgba(214, 255, 0, 0.25),
                 transparent
             );
-            animation: heroShimmer 1.2s linear infinite;
+            animation: heroShimmer 1.5s linear infinite;
             z-index: 10;
             pointer-events: none;
         }
         @keyframes heroShimmer {
             0% { left: -150%; }
             100% { left: 300%; }
+        }
+
+        #hero-text {
+            opacity: 0;
+            transition: opacity 0.6s ease;
         }
     </style>
 </head>
@@ -142,35 +147,38 @@
     </nav>
     <header id="hero-section" class="hero-section min-h-screen flex items-center pt-20 px-6 md:px-16">
         <div id="hero-content" class="max-w-3xl animate-fadeInUp hero-shimmer">
-            <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm md:text-base">Unleash your potential</h4>
-            <h1 id="hero-main-heading" class="text-6xl md:text-8xl font-bold leading-none mb-6">
-                BUILD YOUR <br>
-                <span class="text-outline">PERFECT</span> BODY
-            </h1>
-            <p id="hero-subtext" class="text-gray-400 text-lg md:text-xl mb-10 max-w-xl font-light">
-                Transform your physique and mind with our elite training programs, state-of-the-art equipment, and professional coaching. No excuses, just results.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4">
-                <button onclick="showJoinModal()" id="hero-button" class="bg-primary text-black font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill btn-primary pill">
-                    Get Started Free
-                </button>
-                <button onclick="alert('Video would play here')" class="border border-white text-white font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill hover:bg-white hover:text-black transition-colors duration-300">
-                    Watch Video
-                </button>
-            </div>
-         
-            <div class="flex gap-10 mt-16 border-t border-gray-800 pt-8">
-                <div>
-                    <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">...</h3>
-                    <p class="text-gray-500 text-sm">Expert Trainers</p>
+            <!-- Text is hidden during shimmer - only shimmer effect is visible -->
+            <div id="hero-text">
+                <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm md:text-base">Unleash your potential</h4>
+                <h1 id="hero-main-heading" class="text-6xl md:text-8xl font-bold leading-none mb-6">
+                    BUILD YOUR <br>
+                    <span class="text-outline">PERFECT</span> BODY
+                </h1>
+                <p id="hero-subtext" class="text-gray-400 text-lg md:text-xl mb-10 max-w-xl font-light">
+                    Transform your physique and mind with our elite training programs, state-of-the-art equipment, and professional coaching. No excuses, just results.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button onclick="showJoinModal()" id="hero-button" class="bg-primary text-black font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill btn-primary pill">
+                        Get Started Free
+                    </button>
+                    <button onclick="alert('Video would play here')" class="border border-white text-white font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill hover:bg-white hover:text-black transition-colors duration-300">
+                        Watch Video
+                    </button>
                 </div>
-                <div>
-                    <h3 id="stat-members" class="text-3xl font-bold text-white mb-1">...</h3>
-                    <p class="text-gray-500 text-sm">Active Members</p>
-                </div>
-                <div>
-                    <h3 id="stat-programs" class="text-3xl font-bold text-white mb-1">...</h3>
-                    <p class="text-gray-500 text-sm">Fitness Programs</p>
+               
+                <div class="flex gap-10 mt-16 border-t border-gray-800 pt-8">
+                    <div>
+                        <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">...</h3>
+                        <p class="text-gray-500 text-sm">Expert Trainers</p>
+                    </div>
+                    <div>
+                        <h3 id="stat-members" class="text-3xl font-bold text-white mb-1">...</h3>
+                        <p class="text-gray-500 text-sm">Active Members</p>
+                    </div>
+                    <div>
+                        <h3 id="stat-programs" class="text-3xl font-bold text-white mb-1">...</h3>
+                        <p class="text-gray-500 text-sm">Fitness Programs</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -297,23 +305,28 @@
         let db;
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         db = firebase.database();
+
         // REALTIME STATS
         function loadLiveStats() {
             db.ref('stats/trainers').on('value', s => document.getElementById("stat-trainers").innerText = s.val() || "50+");
             db.ref('stats/members').on('value', s => document.getElementById("stat-members").innerText = s.val() || "970+");
             db.ref('stats/programs').on('value', s => document.getElementById("stat-programs").innerText = s.val() || "30+");
         }
+
         // REAL-TIME SYNC FOR HERO + SERVICES (admin changes appear instantly)
         let serviceData = {
             powerlifting: { title: "Power Lifting", desc: "Build raw strength.", features: ["Form Correction", "Strength Blocks"] },
             cardio: { title: "Cardio", desc: "Burn fat fast.", features: ["HIIT", "Endurance"] },
             personal: { title: "Personal Training", desc: "1-on-1 focus.", features: ["Bespoke Plans", "24/7 Check-ins"] }
         };
-        // HERO SECTION ALWAYS LOADS ADMIN SAVED DATA FIRST ON REFRESH (no revert, no flash)
+
+        // HERO SECTION - shimmer only (no text visible) until admin data loads
         async function syncHomepageContent() {
-            // INSTANT LOAD on every refresh (keeps hero section exactly as admin set)
+            // INSTANT LOAD on every refresh
             const heroSnap = await db.ref('homepage/hero').once('value');
             const heroData = heroSnap.val() || {};
+
+            // Populate only if admin has saved data
             if (heroData.heading) document.getElementById("hero-main-heading").innerHTML = heroData.heading;
             if (heroData.subtext) document.getElementById("hero-subtext").innerText = heroData.subtext;
             if (heroData.buttonText) document.getElementById("hero-button").innerText = heroData.buttonText;
@@ -322,10 +335,11 @@
                 hero.style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${heroData.imageUrl}')`;
             }
 
-            // REMOVE SHIMMER once data is loaded
+            // REMOVE shimmer and SHOW real content
             document.getElementById("hero-content").classList.remove("hero-shimmer");
+            document.getElementById("hero-text").style.opacity = "1";
 
-            // Live listener (still works for real-time admin changes)
+            // Live listener for real-time admin changes
             db.ref('homepage/hero').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 if (data.heading) document.getElementById("hero-main-heading").innerHTML = data.heading;
@@ -366,6 +380,7 @@
                 }
             });
         }
+
         // SERVICE MODAL
         function openServiceDetail(id) {
             const s = serviceData[id];
@@ -380,10 +395,12 @@
         function closeServiceDetail() {
             document.getElementById("service-modal").classList.add("hidden");
         }
+
         function showJoinModal() { document.getElementById("join-modal").classList.remove("hidden"); }
         function hideJoinModal() { document.getElementById("join-modal").classList.add("hidden"); }
         function showSuccessModal() { document.getElementById("success-modal").classList.remove("hidden"); }
         function hideSuccessModal() { document.getElementById("success-modal").classList.add("hidden"); }
+
         // SUBMISSION
         async function handleJoinSubmit(e) {
             e.preventDefault();
@@ -405,10 +422,11 @@
             } catch (err) { alert("Error connecting to database."); }
             finally { btn.disabled = false; btn.innerText = "Submit Request"; }
         }
+
         // INITIALIZE
         window.onload = () => {
             loadLiveStats();
-            syncHomepageContent(); // loads admin hero section instantly on every refresh + shimmer
+            syncHomepageContent(); // shimmer only until admin data loads
         };
     </script>
 </body>

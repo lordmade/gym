@@ -6,10 +6,10 @@
     <title>FITCORE - Modern Fitness Landing Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-   
+  
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-   
+  
     <script>
         tailwind.config = {
             theme: {
@@ -30,7 +30,7 @@
             }
         }
     </script>
-   
+  
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -131,7 +131,7 @@
                     Watch Video
                 </button>
             </div>
-           
+          
             <div class="flex gap-10 mt-16 border-t border-gray-800 pt-8">
                 <div>
                     <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">...</h3>
@@ -216,7 +216,6 @@
         </div>
         <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-600">© 2026 FitCore Gym.</div>
     </footer>
-
     <!-- MODALS (unchanged) -->
     <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
         <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
@@ -286,30 +285,52 @@
             personal: { title: "Personal Training", desc: "1-on-1 focus.", features: ["Bespoke Plans", "24/7 Check-ins"] }
         };
 
-        function syncHomepageContent() {
-            // HERO SECTION - background image appears only when admin adds it
+        // IMPROVED: First load current values instantly on refresh, then keep live listener
+        async function syncHomepageContent() {
+            // HERO SECTION - instant load + live
+            const heroSnap = await db.ref('homepage/hero').once('value');
+            const heroData = heroSnap.val() || {};
+            
+            if (heroData.heading) document.getElementById("hero-main-heading").innerHTML = heroData.heading;
+            if (heroData.subtext) document.getElementById("hero-subtext").innerText = heroData.subtext;
+            if (heroData.buttonText) document.getElementById("hero-button").innerText = heroData.buttonText;
+            if (heroData.imageUrl) {
+                const hero = document.getElementById("hero-section");
+                hero.style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${heroData.imageUrl}')`;
+            }
+
+            // Live listener for hero
             db.ref('homepage/hero').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
-                
-                if (data.heading) {
-                    document.getElementById("hero-main-heading").innerHTML = data.heading;
-                }
-                if (data.subtext) {
-                    document.getElementById("hero-subtext").innerText = data.subtext;
-                }
-                if (data.buttonText) {
-                    document.getElementById("hero-button").innerText = data.buttonText;
-                }
+                if (data.heading) document.getElementById("hero-main-heading").innerHTML = data.heading;
+                if (data.subtext) document.getElementById("hero-subtext").innerText = data.subtext;
+                if (data.buttonText) document.getElementById("hero-button").innerText = data.buttonText;
                 if (data.imageUrl) {
                     const hero = document.getElementById("hero-section");
                     hero.style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${data.imageUrl}')`;
                 }
             });
 
-            // SERVICES CARDS
+            // SERVICES CARDS - instant load + live
+            const servicesSnap = await db.ref('homepage/services').once('value');
+            const servicesData = servicesSnap.val() || {};
+            
+            for (let i = 1; i <= 3; i++) {
+                const card = servicesData[i] || {};
+                const titleEl = document.getElementById(`service${i}-title`);
+                const descEl = document.getElementById(`service${i}-desc`);
+                
+                if (card.title && titleEl) titleEl.innerText = card.title;
+                if (card.description && descEl) descEl.innerText = card.description;
+                
+                const key = i === 1 ? 'powerlifting' : i === 2 ? 'cardio' : 'personal';
+                if (card.title) serviceData[key].title = card.title;
+                if (card.description) serviceData[key].desc = card.description;
+            }
+
+            // Live listener for services
             db.ref('homepage/services').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
-                
                 for (let i = 1; i <= 3; i++) {
                     const card = data[i] || {};
                     const titleEl = document.getElementById(`service${i}-title`);
@@ -336,8 +357,8 @@
                 </ul>`;
             document.getElementById("service-modal").classList.remove("hidden");
         }
-        function closeServiceDetail() { 
-            document.getElementById("service-modal").classList.add("hidden"); 
+        function closeServiceDetail() {
+            document.getElementById("service-modal").classList.add("hidden");
         }
 
         function showJoinModal() { document.getElementById("join-modal").classList.remove("hidden"); }
@@ -367,10 +388,10 @@
             finally { btn.disabled = false; btn.innerText = "Submit Request"; }
         }
 
-        // INITIALIZE
+        // INITIALIZE - now with instant load on refresh
         window.onload = () => {
             loadLiveStats();
-            syncHomepageContent();
+            syncHomepageContent();   // ← now loads admin changes instantly before anything shows
         };
     </script>
 </body>

@@ -43,7 +43,7 @@
             text-transform: uppercase;
         }
         .hero-section {
-            background-image: linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop');
+            background-image: linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4));
             background-size: cover;
             background-position: center;
         }
@@ -187,7 +187,7 @@
         </div>
     </section>
     <section class="py-20 relative text-center">
-        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1469&auto=format&fit=crop')] bg-cover bg-center bg-fixed opacity-40"></div>
+        <div class="absolute inset-0 bg-black opacity-40"></div>
         <div class="relative z-10 max-w-4xl mx-auto px-6">
             <h2 class="text-5xl md:text-7xl font-bold mb-6 text-white text-outline animate-fadeInUp">NEVER GIVE UP</h2>
             <p class="text-xl text-gray-200 mb-10">Sign up today and get your first week absolutely free.</p>
@@ -272,14 +272,14 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         db = firebase.database();
 
-        // REALTIME STATS (already working)
+        // REALTIME STATS
         function loadLiveStats() {
             db.ref('stats/trainers').on('value', s => document.getElementById("stat-trainers").innerText = s.val() || "50+");
             db.ref('stats/members').on('value', s => document.getElementById("stat-members").innerText = s.val() || "970+");
             db.ref('stats/programs').on('value', s => document.getElementById("stat-programs").innerText = s.val() || "30+");
         }
 
-        // NEW: REAL-TIME SYNC FOR HERO + SERVICES (exactly what admin edits)
+        // REAL-TIME SYNC FOR HERO + SERVICES (admin changes appear instantly)
         let serviceData = {
             powerlifting: { title: "Power Lifting", desc: "Build raw strength.", features: ["Form Correction", "Strength Blocks"] },
             cardio: { title: "Cardio", desc: "Burn fat fast.", features: ["HIIT", "Endurance"] },
@@ -287,7 +287,7 @@
         };
 
         function syncHomepageContent() {
-            // HERO SECTION (matches admin's homepage/hero node)
+            // HERO SECTION - background image appears only when admin adds it
             db.ref('homepage/hero').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 
@@ -306,7 +306,7 @@
                 }
             });
 
-            // SERVICES CARDS (matches admin's homepage/services/1,2,3)
+            // SERVICES CARDS
             db.ref('homepage/services').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 
@@ -318,7 +318,6 @@
                     if (card.title && titleEl) titleEl.innerText = card.title;
                     if (card.description && descEl) descEl.innerText = card.description;
                     
-                    // Also update our local serviceData for the modal
                     const key = i === 1 ? 'powerlifting' : i === 2 ? 'cardio' : 'personal';
                     if (card.title) serviceData[key].title = card.title;
                     if (card.description) serviceData[key].desc = card.description;
@@ -326,7 +325,7 @@
             });
         }
 
-        // SERVICE MODAL (uses live serviceData)
+        // SERVICE MODAL
         function openServiceDetail(id) {
             const s = serviceData[id];
             document.getElementById("service-content").innerHTML = `
@@ -346,7 +345,7 @@
         function showSuccessModal() { document.getElementById("success-modal").classList.remove("hidden"); }
         function hideSuccessModal() { document.getElementById("success-modal").classList.add("hidden"); }
 
-        // FAST REALTIME SUBMISSION (unchanged)
+        // SUBMISSION
         async function handleJoinSubmit(e) {
             e.preventDefault();
             const btn = document.getElementById("submit-btn");
@@ -368,10 +367,10 @@
             finally { btn.disabled = false; btn.innerText = "Submit Request"; }
         }
 
-        // INITIALIZE EVERYTHING
+        // INITIALIZE
         window.onload = () => {
             loadLiveStats();
-            syncHomepageContent();   // ← THIS MAKES ADMIN CHANGES APPEAR INSTANTLY
+            syncHomepageContent();
         };
     </script>
 </body>

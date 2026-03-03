@@ -52,40 +52,78 @@
     <section class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
-            <div class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
+            <div onclick="trackInterest('Powerlifting')" class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
                 <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Strength" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity"></div>
                 <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform">
                     <span class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block">01 / Build Muscle</span>
                     <h3 class="text-3xl font-bold mb-3">Powerlifting</h3>
                     <p class="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Master the squat, bench, and deadlift with our heavy-duty strength cycles.</p>
-                    <a href="#" class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</a>
+                    <span class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</span>
                 </div>
             </div>
 
-            <div class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
+            <div onclick="trackInterest('HIIT Core')" class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
                 <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1470&auto=format&fit=crop" alt="HIIT" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity"></div>
                 <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform">
                     <span class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block">02 / Shred Fat</span>
                     <h3 class="text-3xl font-bold mb-3">HIIT Core</h3>
                     <p class="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">High-Intensity Interval Training designed to torch calories and build endurance fast.</p>
-                    <a href="#" class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</a>
+                    <span class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</span>
                 </div>
             </div>
 
-            <div class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
+            <div onclick="trackInterest('Mobility & Yoga')" class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
                 <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1520&auto=format&fit=crop" alt="Yoga" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity"></div>
                 <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform">
                     <span class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block">03 / Recovery</span>
                     <h3 class="text-3xl font-bold mb-3">Mobility & Yoga</h3>
                     <p class="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Improve flexibility, prevent injuries, and clear your mind with active recovery.</p>
-                    <a href="#" class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</a>
+                    <span class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</span>
                 </div>
             </div>
 
         </div>
     </section>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+    <script>
+        // Your Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
+            authDomain: "pinotp-d7ef5.firebaseapp.com",
+            databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
+            projectId: "pinotp-d7ef5",
+            storageBucket: "pinotp-d7ef5.firebasestorage.app",
+            messagingSenderId: "708458917827",
+            appId: "1:708458917827:web:375de278577df0adcf9776"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Function to track program clicks
+        function trackInterest(programName) {
+            console.log("Tracking interest for:", programName);
+            
+            const interestRef = database.ref('program_clicks');
+            interestRef.push({
+                program: programName,
+                timestamp: new Date().toISOString()
+            })
+            .then(() => {
+                // For now, we just log it and maybe alert or redirect
+                alert(`Interested in ${programName}? One of our trainers will show you the curriculum on your first visit!`);
+            })
+            .catch((error) => {
+                console.error("Firebase error:", error);
+            });
+        }
+    </script>
 </body>
 </html>

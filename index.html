@@ -6,10 +6,10 @@
     <title>FITCORE - Modern Fitness Landing Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  
+ 
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-  
+ 
     <script>
         tailwind.config = {
             theme: {
@@ -30,7 +30,7 @@
             }
         }
     </script>
-  
+ 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -95,6 +95,33 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #D6FF00;
         }
+
+        /* SHIMMER EFFECT FOR HERO SECTION WHILE LOADING ADMIN DATA */
+        .hero-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-shimmer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(214, 255, 0, 0.25),
+                transparent
+            );
+            animation: heroShimmer 1.2s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+        @keyframes heroShimmer {
+            0% { left: -150%; }
+            100% { left: 300%; }
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
@@ -114,7 +141,7 @@
         </button>
     </nav>
     <header id="hero-section" class="hero-section min-h-screen flex items-center pt-20 px-6 md:px-16">
-        <div class="max-w-3xl animate-fadeInUp">
+        <div id="hero-content" class="max-w-3xl animate-fadeInUp hero-shimmer">
             <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm md:text-base">Unleash your potential</h4>
             <h1 id="hero-main-heading" class="text-6xl md:text-8xl font-bold leading-none mb-6">
                 BUILD YOUR <br>
@@ -131,7 +158,7 @@
                     Watch Video
                 </button>
             </div>
-          
+         
             <div class="flex gap-10 mt-16 border-t border-gray-800 pt-8">
                 <div>
                     <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">...</h3>
@@ -270,21 +297,18 @@
         let db;
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         db = firebase.database();
-
         // REALTIME STATS
         function loadLiveStats() {
             db.ref('stats/trainers').on('value', s => document.getElementById("stat-trainers").innerText = s.val() || "50+");
             db.ref('stats/members').on('value', s => document.getElementById("stat-members").innerText = s.val() || "970+");
             db.ref('stats/programs').on('value', s => document.getElementById("stat-programs").innerText = s.val() || "30+");
         }
-
         // REAL-TIME SYNC FOR HERO + SERVICES (admin changes appear instantly)
         let serviceData = {
             powerlifting: { title: "Power Lifting", desc: "Build raw strength.", features: ["Form Correction", "Strength Blocks"] },
             cardio: { title: "Cardio", desc: "Burn fat fast.", features: ["HIIT", "Endurance"] },
             personal: { title: "Personal Training", desc: "1-on-1 focus.", features: ["Bespoke Plans", "24/7 Check-ins"] }
         };
-
         // HERO SECTION ALWAYS LOADS ADMIN SAVED DATA FIRST ON REFRESH (no revert, no flash)
         async function syncHomepageContent() {
             // INSTANT LOAD on every refresh (keeps hero section exactly as admin set)
@@ -297,6 +321,9 @@
                 const hero = document.getElementById("hero-section");
                 hero.style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${heroData.imageUrl}')`;
             }
+
+            // REMOVE SHIMMER once data is loaded
+            document.getElementById("hero-content").classList.remove("hero-shimmer");
 
             // Live listener (still works for real-time admin changes)
             db.ref('homepage/hero').on('value', (snapshot) => {
@@ -339,7 +366,6 @@
                 }
             });
         }
-
         // SERVICE MODAL
         function openServiceDetail(id) {
             const s = serviceData[id];
@@ -354,12 +380,10 @@
         function closeServiceDetail() {
             document.getElementById("service-modal").classList.add("hidden");
         }
-
         function showJoinModal() { document.getElementById("join-modal").classList.remove("hidden"); }
         function hideJoinModal() { document.getElementById("join-modal").classList.add("hidden"); }
         function showSuccessModal() { document.getElementById("success-modal").classList.remove("hidden"); }
         function hideSuccessModal() { document.getElementById("success-modal").classList.add("hidden"); }
-
         // SUBMISSION
         async function handleJoinSubmit(e) {
             e.preventDefault();
@@ -381,11 +405,10 @@
             } catch (err) { alert("Error connecting to database."); }
             finally { btn.disabled = false; btn.innerText = "Submit Request"; }
         }
-
         // INITIALIZE
         window.onload = () => {
             loadLiveStats();
-            syncHomepageContent();   // loads admin hero section instantly on every refresh
+            syncHomepageContent(); // loads admin hero section instantly on every refresh + shimmer
         };
     </script>
 </body>

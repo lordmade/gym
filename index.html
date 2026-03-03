@@ -92,7 +92,6 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #D6FF00;
         }
-        /* SHIMMER EFFECT - ONLY shimmer visible while loading (no text) */
         .hero-shimmer {
             position: relative;
             overflow: hidden;
@@ -122,8 +121,6 @@
             opacity: 0;
             transition: opacity 0.6s ease;
         }
-
-        /* CTA SECTION - DYNAMIC FROM ADMIN (background image appears here) */
         #cta-section {
             background-size: cover;
             background-position: center;
@@ -177,7 +174,7 @@
                         Watch Video
                     </button>
                 </div>
-               
+                
                 <div class="flex gap-10 mt-16 border-t border-gray-800 pt-8">
                     <div>
                         <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">...</h3>
@@ -304,7 +301,6 @@
         </div>
     </div>
     <script>
-        // YOUR SPECIFIC FIREBASE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
             authDomain: "pinotp-d7ef5.firebaseapp.com",
@@ -317,13 +313,11 @@
         let db;
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         db = firebase.database();
-        // REALTIME STATS
         function loadLiveStats() {
             db.ref('stats/trainers').on('value', s => document.getElementById("stat-trainers").innerText = s.val() || "50+");
             db.ref('stats/members').on('value', s => document.getElementById("stat-members").innerText = s.val() || "970+");
             db.ref('stats/programs').on('value', s => document.getElementById("stat-programs").innerText = s.val() || "30+");
         }
-        // REAL-TIME SYNC FOR HERO + SERVICES
         let serviceData = {
             powerlifting: { title: "Power Lifting", desc: "Build raw strength.", features: ["Form Correction", "Strength Blocks"] },
             cardio: { title: "Cardio", desc: "Burn fat fast.", features: ["HIIT", "Endurance"] },
@@ -333,7 +327,10 @@
             const heroSnap = await db.ref('homepage/hero').once('value');
             const heroData = heroSnap.val() || {};
             if (heroData.heading) document.getElementById("hero-main-heading").innerHTML = heroData.heading;
-            if (heroData.subtext) document.getElementById("hero-subtext").innerText = heroData.subtext;
+            
+            // Subtext now supports innerHTML for admin spans
+            if (heroData.subtext) document.getElementById("hero-subtext").innerHTML = heroData.subtext;
+            
             if (heroData.buttonText) document.getElementById("hero-button").innerText = heroData.buttonText;
             if (heroData.imageUrl) {
                 const hero = document.getElementById("hero-section");
@@ -344,7 +341,10 @@
             db.ref('homepage/hero').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 if (data.heading) document.getElementById("hero-main-heading").innerHTML = data.heading;
-                if (data.subtext) document.getElementById("hero-subtext").innerText = data.subtext;
+                
+                // Real-time update subtext with HTML support
+                if (data.subtext) document.getElementById("hero-subtext").innerHTML = data.subtext;
+                
                 if (data.buttonText) document.getElementById("hero-button").innerText = data.buttonText;
                 if (data.imageUrl) {
                     const hero = document.getElementById("hero-section");
@@ -365,37 +365,34 @@
                 }
             });
         }
-
-        // CTA SECTION SYNC (heading, subtext, button + background image from admin)
         function syncCtaSection() {
             db.ref('homepage/cta').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 if (data.heading) document.getElementById("cta-main-heading").innerHTML = data.heading;
-                if (data.subtext) document.getElementById("cta-sub-paragraph").innerText = data.subtext;
+                
+                // Subtext in CTA now also supports HTML for spans
+                if (data.subtext) document.getElementById("cta-sub-paragraph").innerHTML = data.subtext;
+                
                 if (data.buttonText) document.getElementById("cta-button").innerText = data.buttonText;
                 if (data.imageUrl) {
                     document.getElementById("cta-section").style.backgroundImage = `url('${data.imageUrl}')`;
                 }
             });
         }
-
-        // VIDEO MODAL LOGIC
         function showVideoModal() {
             const modal = document.getElementById("video-modal");
             const iframe = document.getElementById("video-iframe");
-            // Replace with your actual promo video link
             iframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
             modal.classList.remove("hidden");
-            document.body.style.overflow = "hidden"; // Prevent background scroll
+            document.body.style.overflow = "hidden";
         }
         function hideVideoModal() {
             const modal = document.getElementById("video-modal");
             const iframe = document.getElementById("video-iframe");
-            iframe.src = ""; // Stop video when closing
+            iframe.src = "";
             modal.classList.add("hidden");
             document.body.style.overflow = "auto";
         }
-        // SERVICE MODAL
         function openServiceDetail(id) {
             const s = serviceData[id];
             document.getElementById("service-content").innerHTML = `
@@ -413,7 +410,6 @@
         function hideJoinModal() { document.getElementById("join-modal").classList.add("hidden"); }
         function showSuccessModal() { document.getElementById("success-modal").classList.remove("hidden"); }
         function hideSuccessModal() { document.getElementById("success-modal").classList.add("hidden"); }
-        // SUBMISSION
         async function handleJoinSubmit(e) {
             e.preventDefault();
             const btn = document.getElementById("submit-btn");
@@ -434,13 +430,11 @@
             } catch (err) { alert("Error connecting to database."); }
             finally { btn.disabled = false; btn.innerText = "Submit Request"; }
         }
-        // INITIALIZE - ALL SECTIONS LINKED TO ADMIN
         window.onload = () => {
             loadLiveStats();
             syncHomepageContent();
-            syncCtaSection();   // ← CTA + background image now live from admin
+            syncCtaSection();
         };
-        // Close video modal on ESC key
         window.addEventListener('keydown', (e) => {
             if (e.key === "Escape") hideVideoModal();
         });

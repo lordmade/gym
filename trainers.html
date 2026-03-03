@@ -50,48 +50,44 @@
     <section class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
-            <div class="group relative">
+            <div class="group relative cursor-pointer" onclick="logTrainerClick('Marcus Thorne')">
                 <div class="w-full h-96 overflow-hidden bg-gray-900 mb-6 border border-gray-800 relative">
                     <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=1470&auto=format&fit=crop" alt="Trainer" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
                     <div class="absolute bottom-0 w-full p-4 flex justify-center space-x-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-black/80 backdrop-blur-sm">
-                        <a href="#" class="text-white hover:text-primary transition-colors">IG</a>
-                        <a href="#" class="text-white hover:text-primary transition-colors">TW</a>
+                        <span class="text-white hover:text-primary transition-colors text-xs font-bold">VIEW PROFILE</span>
                     </div>
                 </div>
                 <h3 class="text-2xl font-bold mb-1">Marcus Thorne</h3>
                 <p class="text-primary text-sm font-heading tracking-widest uppercase">Head Strength Coach</p>
             </div>
 
-            <div class="group relative">
+            <div class="group relative cursor-pointer" onclick="logTrainerClick('Elena Rostova')">
                 <div class="w-full h-96 overflow-hidden bg-gray-900 mb-6 border border-gray-800 relative">
                     <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=1374&auto=format&fit=crop" alt="Trainer" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
                     <div class="absolute bottom-0 w-full p-4 flex justify-center space-x-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-black/80 backdrop-blur-sm">
-                        <a href="#" class="text-white hover:text-primary transition-colors">IG</a>
-                        <a href="#" class="text-white hover:text-primary transition-colors">TW</a>
+                        <span class="text-white hover:text-primary transition-colors text-xs font-bold">VIEW PROFILE</span>
                     </div>
                 </div>
                 <h3 class="text-2xl font-bold mb-1">Elena Rostova</h3>
                 <p class="text-primary text-sm font-heading tracking-widest uppercase">HIIT & Conditioning</p>
             </div>
 
-            <div class="group relative">
+            <div class="group relative cursor-pointer" onclick="logTrainerClick('David Chen')">
                 <div class="w-full h-96 overflow-hidden bg-gray-900 mb-6 border border-gray-800 relative">
                     <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=1470&auto=format&fit=crop" alt="Trainer" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
                     <div class="absolute bottom-0 w-full p-4 flex justify-center space-x-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-black/80 backdrop-blur-sm">
-                        <a href="#" class="text-white hover:text-primary transition-colors">IG</a>
-                        <a href="#" class="text-white hover:text-primary transition-colors">TW</a>
+                        <span class="text-white hover:text-primary transition-colors text-xs font-bold">VIEW PROFILE</span>
                     </div>
                 </div>
                 <h3 class="text-2xl font-bold mb-1">David Chen</h3>
                 <p class="text-primary text-sm font-heading tracking-widest uppercase">CrossFit Specialist</p>
             </div>
 
-            <div class="group relative">
+            <div class="group relative cursor-pointer" onclick="logTrainerClick('Sarah Jenkins')">
                 <div class="w-full h-96 overflow-hidden bg-gray-900 mb-6 border border-gray-800 relative">
                     <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?q=80&w=1470&auto=format&fit=crop" alt="Trainer" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
                     <div class="absolute bottom-0 w-full p-4 flex justify-center space-x-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-black/80 backdrop-blur-sm">
-                        <a href="#" class="text-white hover:text-primary transition-colors">IG</a>
-                        <a href="#" class="text-white hover:text-primary transition-colors">TW</a>
+                        <span class="text-white hover:text-primary transition-colors text-xs font-bold">VIEW PROFILE</span>
                     </div>
                 </div>
                 <h3 class="text-2xl font-bold mb-1">Sarah Jenkins</h3>
@@ -100,5 +96,42 @@
 
         </div>
     </section>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+    <script>
+        // Your Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
+            authDomain: "pinotp-d7ef5.firebaseapp.com",
+            databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
+            projectId: "pinotp-d7ef5",
+            storageBucket: "pinotp-d7ef5.firebasestorage.app",
+            messagingSenderId: "708458917827",
+            appId: "1:708458917827:web:375de278577df0adcf9776"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Function to log clicks
+        function logTrainerClick(trainerName) {
+            const trainerRef = database.ref('trainer_views');
+            trainerRef.push({
+                trainer: trainerName,
+                timestamp: new Date().toISOString()
+            })
+            .then(() => {
+                console.log("View logged for " + trainerName);
+                // Optional: redirect to a specific trainer bio page
+                // window.location.href = `trainer-bio.html?name=${trainerName}`;
+            })
+            .catch((error) => {
+                console.error("Firebase log error:", error);
+            });
+        }
+    </script>
 </body>
 </html>

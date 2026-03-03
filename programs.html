@@ -22,6 +22,11 @@
         .text-outline { -webkit-text-stroke: 1px #D6FF00; color: transparent; }
         .program-card { transition: all 0.4s ease; }
         .program-card:hover img { transform: scale(1.1); }
+        
+        /* Modal Animation */
+        #details-modal { transition: opacity 0.3s ease; }
+        #details-modal.hidden { display: none; opacity: 0; }
+        #details-modal.flex { display: flex; opacity: 1; }
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
@@ -51,9 +56,32 @@
 
     <section class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
         <div id="programs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Dynamic programs loaded here -->
-        </div>
+            </div>
     </section>
+
+    <div id="details-modal" class="hidden fixed inset-0 z-[100] items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+        <div class="bg-card border border-gray-800 max-w-2xl w-full relative overflow-hidden">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-white hover:text-primary z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            
+            <div class="flex flex-col md:flex-row">
+                <div class="w-full md:w-1/2 h-64 md:h-auto">
+                    <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+                </div>
+                <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
+                    <span id="modal-category" class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block"></span>
+                    <h3 id="modal-title" class="text-4xl font-bold mb-4"></h3>
+                    <p id="modal-description" class="text-gray-400 mb-8 font-light leading-relaxed"></p>
+                    <button onclick="closeModal()" class="bg-primary text-black font-heading font-bold px-6 py-3 uppercase text-sm tracking-widest hover:bg-white transition-colors">
+                        Close Details
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
@@ -71,23 +99,38 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Keep your original tracking function exactly as before
-        function trackInterest(programName) {
-            console.log("Tracking interest for:", programName);
+        // Modified to show modal and keep tracking
+        function trackInterest(title, category, description, image) {
+            console.log("Tracking interest for:", title);
+            
+            // Log to Firebase
             const interestRef = database.ref('program_clicks');
             interestRef.push({
-                program: programName,
+                program: title,
                 timestamp: new Date().toISOString()
-            })
-            .then(() => {
-                alert(`Interested in ${programName}? One of our trainers will show you the curriculum on your first visit!`);
-            })
-            .catch((error) => {
-                console.error("Firebase error:", error);
             });
+
+            // Update Modal Content
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-category').innerText = category;
+            document.getElementById('modal-description').innerText = description;
+            document.getElementById('modal-image').src = image;
+
+            // Show Modal
+            const modal = document.getElementById('details-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
         }
 
-        // Render programs exactly like your original design
+        function closeModal() {
+            const modal = document.getElementById('details-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        // Render programs exactly like your original design, updated click handler
         function renderPrograms(programs) {
             const grid = document.getElementById('programs-grid');
             grid.innerHTML = '';
@@ -99,8 +142,13 @@
 
             Object.keys(programs).sort((a, b) => (programs[a].order || 0) - (programs[b].order || 0)).forEach(key => {
                 const p = programs[key];
+                // We escape quotes in the strings to prevent HTML breaking
+                const safeTitle = p.title.replace(/'/g, "\\'");
+                const safeCat = p.category.replace(/'/g, "\\'");
+                const safeDesc = p.description.replace(/'/g, "\\'");
+                
                 const cardHTML = `
-                    <div onclick="trackInterest('${p.title}')" class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
+                    <div onclick="trackInterest('${safeTitle}', '${safeCat}', '${safeDesc}', '${p.image}')" class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
                         <img src="${p.image}" alt="${p.title}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform">
@@ -131,21 +179,21 @@
                         p1: {
                             category: "01 / Build Muscle",
                             title: "Powerlifting",
-                            description: "Master the squat, bench, and deadlift with our heavy-duty strength cycles.",
+                            description: "Master the squat, bench, and deadlift with our heavy-duty strength cycles. Designed for those looking to move maximum weight.",
                             image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop",
                             order: 1
                         },
                         p2: {
                             category: "02 / Shred Fat",
                             title: "HIIT Core",
-                            description: "High-Intensity Interval Training designed to torch calories and build endurance fast.",
+                            description: "High-Intensity Interval Training designed to torch calories and build endurance fast through explosive movements.",
                             image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1470&auto=format&fit=crop",
                             order: 2
                         },
                         p3: {
                             category: "03 / Recovery",
                             title: "Mobility & Yoga",
-                            description: "Improve flexibility, prevent injuries, and clear your mind with active recovery.",
+                            description: "Improve flexibility, prevent injuries, and clear your mind with active recovery techniques and deep stretching.",
                             image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1520&auto=format&fit=crop",
                             order: 3
                         }
@@ -159,6 +207,14 @@
             seedInitialPrograms();
             loadPrograms();
         };
+
+        // Close modal if user clicks outside the content box
+        window.onclick = function(event) {
+            const modal = document.getElementById('details-modal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
     </script>
 </body>
 </html>

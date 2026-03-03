@@ -147,7 +147,6 @@
     </nav>
     <header id="hero-section" class="hero-section min-h-screen flex items-center pt-20 px-6 md:px-16">
         <div id="hero-content" class="max-w-3xl animate-fadeInUp hero-shimmer">
-            <!-- Text is hidden during shimmer - only shimmer effect is visible -->
             <div id="hero-text">
                 <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm md:text-base">Unleash your potential</h4>
                 <h1 id="hero-main-heading" class="text-6xl md:text-8xl font-bold leading-none mb-6">
@@ -161,11 +160,11 @@
                     <button onclick="showJoinModal()" id="hero-button" class="bg-primary text-black font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill btn-primary pill">
                         Get Started Free
                     </button>
-                    <button onclick="alert('Video would play here')" class="border border-white text-white font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill hover:bg-white hover:text-black transition-colors duration-300">
+                    <button onclick="showVideoModal()" class="border border-white text-white font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill hover:bg-white hover:text-black transition-colors duration-300">
                         Watch Video
                     </button>
                 </div>
-               
+                
                 <div class="flex gap-10 mt-16 border-t border-gray-800 pt-8">
                     <div>
                         <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">...</h3>
@@ -192,7 +191,6 @@
             <a href="programs.html" class="text-gray-400 hover:text-primary mt-4 md:mt-0 font-heading tracking-wider uppercase border-b border-gray-600 pb-1">View All Programs</a>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Service Card 1 -->
             <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
                 <div class="w-14 h-14 bg-gray-900 text-primary flex items-center justify-center rounded-full mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -201,7 +199,6 @@
                 <p id="service1-desc" class="text-gray-400 text-sm mb-6 leading-relaxed">Focus on heavy compound movements to build raw strength and muscle mass with our expert-led sessions.</p>
                 <button onclick="openServiceDetail('powerlifting')" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></button>
             </div>
-            <!-- Service Card 2 -->
             <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
                 <div class="w-14 h-14 bg-gray-900 text-primary flex items-center justify-center rounded-full mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
@@ -210,7 +207,6 @@
                 <p id="service2-desc" class="text-gray-400 text-sm mb-6 leading-relaxed">Elevate your heart rate and burn fat with high-intensity interval training and endurance programs.</p>
                 <button onclick="openServiceDetail('cardio')" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></button>
             </div>
-            <!-- Service Card 3 -->
             <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
                 <div class="w-14 h-14 bg-gray-900 text-primary flex items-center justify-center rounded-full mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
@@ -251,7 +247,14 @@
         </div>
         <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-600">© 2026 FitCore Gym.</div>
     </footer>
-    <!-- MODALS (unchanged) -->
+
+    <div id="video-modal" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-[100] px-4">
+        <div class="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-gray-800">
+            <button onclick="hideVideoModal()" class="absolute top-4 right-4 z-50 text-white bg-black/50 hover:bg-primary hover:text-black w-10 h-10 rounded-full flex items-center justify-center transition-all text-2xl">&times;</button>
+            <iframe id="video-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
     <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
         <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
             <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
@@ -273,6 +276,7 @@
             </form>
         </div>
     </div>
+
     <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
         <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
             <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
@@ -283,6 +287,7 @@
             <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Close</button>
         </div>
     </div>
+
     <div id="service-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[60] px-6">
         <div class="bg-card border border-gray-900 w-full max-w-2xl rounded-3xl p-10 animate-fadeInUp relative text-white">
             <button onclick="closeServiceDetail()" class="absolute top-6 right-6 text-gray-500 hover:text-white text-2xl">&times;</button>
@@ -313,20 +318,17 @@
             db.ref('stats/programs').on('value', s => document.getElementById("stat-programs").innerText = s.val() || "30+");
         }
 
-        // REAL-TIME SYNC FOR HERO + SERVICES (admin changes appear instantly)
+        // REAL-TIME SYNC FOR HERO + SERVICES
         let serviceData = {
             powerlifting: { title: "Power Lifting", desc: "Build raw strength.", features: ["Form Correction", "Strength Blocks"] },
             cardio: { title: "Cardio", desc: "Burn fat fast.", features: ["HIIT", "Endurance"] },
             personal: { title: "Personal Training", desc: "1-on-1 focus.", features: ["Bespoke Plans", "24/7 Check-ins"] }
         };
 
-        // HERO SECTION - shimmer only (no text visible) until admin data loads
         async function syncHomepageContent() {
-            // INSTANT LOAD on every refresh
             const heroSnap = await db.ref('homepage/hero').once('value');
             const heroData = heroSnap.val() || {};
 
-            // Populate only if admin has saved data
             if (heroData.heading) document.getElementById("hero-main-heading").innerHTML = heroData.heading;
             if (heroData.subtext) document.getElementById("hero-subtext").innerText = heroData.subtext;
             if (heroData.buttonText) document.getElementById("hero-button").innerText = heroData.buttonText;
@@ -335,11 +337,9 @@
                 hero.style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${heroData.imageUrl}')`;
             }
 
-            // REMOVE shimmer and SHOW real content
             document.getElementById("hero-content").classList.remove("hero-shimmer");
             document.getElementById("hero-text").style.opacity = "1";
 
-            // Live listener for real-time admin changes
             db.ref('homepage/hero').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 if (data.heading) document.getElementById("hero-main-heading").innerHTML = data.heading;
@@ -351,21 +351,6 @@
                 }
             });
 
-            // SERVICES - instant load on refresh
-            const servicesSnap = await db.ref('homepage/services').once('value');
-            const servicesData = servicesSnap.val() || {};
-            for (let i = 1; i <= 3; i++) {
-                const card = servicesData[i] || {};
-                const titleEl = document.getElementById(`service${i}-title`);
-                const descEl = document.getElementById(`service${i}-desc`);
-                if (card.title && titleEl) titleEl.innerText = card.title;
-                if (card.description && descEl) descEl.innerText = card.description;
-                const key = i === 1 ? 'powerlifting' : i === 2 ? 'cardio' : 'personal';
-                if (card.title) serviceData[key].title = card.title;
-                if (card.description) serviceData[key].desc = card.description;
-            }
-
-            // Live listener for services
             db.ref('homepage/services').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 for (let i = 1; i <= 3; i++) {
@@ -379,6 +364,24 @@
                     if (card.description) serviceData[key].desc = card.description;
                 }
             });
+        }
+
+        // VIDEO MODAL LOGIC
+        function showVideoModal() {
+            const modal = document.getElementById("video-modal");
+            const iframe = document.getElementById("video-iframe");
+            // Replace with your actual promo video link
+            iframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"; 
+            modal.classList.remove("hidden");
+            document.body.style.overflow = "hidden"; // Prevent background scroll
+        }
+
+        function hideVideoModal() {
+            const modal = document.getElementById("video-modal");
+            const iframe = document.getElementById("video-iframe");
+            iframe.src = ""; // Stop video when closing
+            modal.classList.add("hidden");
+            document.body.style.overflow = "auto";
         }
 
         // SERVICE MODAL
@@ -426,8 +429,13 @@
         // INITIALIZE
         window.onload = () => {
             loadLiveStats();
-            syncHomepageContent(); // shimmer only until admin data loads
+            syncHomepageContent();
         };
+
+        // Close video modal on ESC key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") hideVideoModal();
+        });
     </script>
 </body>
 </html>

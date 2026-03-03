@@ -109,7 +109,7 @@
             <a href="#" class="hover:text-primary transition-colors">Trainers</a>
             <a href="#" class="hover:text-primary transition-colors">Pricing</a>
         </div>
-        <button onclick="window.location.href='#join'" class="bg-primary text-black font-heading font-bold px-8 py-3 rounded-pill uppercase tracking-wider btn-primary pill">
+        <button onclick="showJoinModal()" class="bg-primary text-black font-heading font-bold px-8 py-3 rounded-pill uppercase tracking-wider btn-primary pill">
             Join Now
         </button>
     </nav>
@@ -126,7 +126,7 @@
                 Transform your physique and mind with our elite training programs, state-of-the-art equipment, and professional coaching. No excuses, just results.
             </p>
             <div class="flex flex-col sm:flex-row gap-4">
-                <button onclick="window.location.href='#join'" class="bg-primary text-black font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill btn-primary pill">
+                <button onclick="showJoinModal()" class="bg-primary text-black font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill btn-primary pill">
                     Get Started Free
                 </button>
                 <button onclick="alert('Video would play here')" class="border border-white text-white font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill hover:bg-white hover:text-black transition-colors duration-300">
@@ -135,7 +135,6 @@
             </div>
            
             <div class="flex gap-10 mt-16 border-t border-gray-800 pt-8">
-                <!-- DYNAMIC STATS - PULLED FROM FIREBASE (same collections as admin dashboard) -->
                 <div>
                     <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">0</h3>
                     <p class="text-gray-500 text-sm">Expert Trainers</p>
@@ -162,7 +161,6 @@
             <a href="#" class="text-gray-400 hover:text-primary mt-4 md:mt-0 font-heading tracking-wider uppercase border-b border-gray-600 pb-1">View All Programs</a>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Power Lifting Card -->
             <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
                 <div class="w-14 h-14 bg-gray-900 text-primary flex items-center justify-center rounded-full mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -171,8 +169,6 @@
                 <p class="text-gray-400 text-sm mb-6 leading-relaxed">Focus on heavy compound movements to build raw strength and muscle mass with our expert-led sessions.</p>
                 <a href="#" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></a>
             </div>
-            
-            <!-- Cardio Card -->
             <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
                 <div class="w-14 h-14 bg-gray-900 text-primary flex items-center justify-center rounded-full mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
@@ -181,8 +177,6 @@
                 <p class="text-gray-400 text-sm mb-6 leading-relaxed">Elevate your heart rate and burn fat with high-intensity interval training and endurance programs.</p>
                 <a href="#" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></a>
             </div>
-            
-            <!-- Personal Training Card -->
             <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
                 <div class="w-14 h-14 bg-gray-900 text-primary flex items-center justify-center rounded-full mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
@@ -200,7 +194,7 @@
         <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
             <h2 class="text-5xl md:text-7xl font-bold mb-6 text-white text-outline animate-fadeInUp">NEVER GIVE UP</h2>
             <p class="text-xl text-gray-200 mb-10">Sign up today and get your first week absolutely free. Start your transformation journey with the best in the business.</p>
-            <a href="#" id="join" onclick="window.scrollTo({top: document.getElementById('join').offsetTop - 100, behavior: 'smooth'})" class="inline-block bg-primary text-black font-heading font-bold px-12 py-5 text-xl uppercase tracking-wider rounded-pill btn-primary pill shadow-[0_0_20px_rgba(214,255,0,0.4)]">
+            <a href="#" onclick="showJoinModal()" class="inline-block bg-primary text-black font-heading font-bold px-12 py-5 text-xl uppercase tracking-wider rounded-pill btn-primary pill shadow-[0_0_20px_rgba(214,255,0,0.4)]">
                 Claim Your Free Trial
             </a>
         </div>
@@ -238,6 +232,43 @@
         </div>
     </footer>
 
+    <!-- JOIN MODAL -->
+    <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+        <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
+            <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
+            <form id="join-form" onsubmit="handleJoinSubmit(event)">
+                <div class="space-y-6">
+                    <div>
+                        <label class="text-xs text-gray-400 block mb-2">Full Name</label>
+                        <input id="join-name" type="text" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 block mb-2">Email</label>
+                        <input id="join-email" type="email" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 block mb-2">Phone</label>
+                        <input id="join-phone" type="tel" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 block mb-2">Preferred Plan</label>
+                        <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none">
+                            <option value="">Choose Plan</option>
+                            <option value="Monthly">Monthly Membership</option>
+                            <option value="Quarterly">Quarterly Membership</option>
+                            <option value="Annual">Annual Membership</option>
+                            <option value="Personal Training">Personal Training</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 hover:bg-gray-900 rounded-full">Cancel</button>
+                    <button type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // ====================== FIREBASE CONFIG (EXACT SAME AS ADMIN DASHBOARD) ======================
         const firebaseConfig = {
@@ -256,39 +287,64 @@
             console.warn("Firebase not configured - using demo numbers");
         }
 
-        // ====================== LOAD LIVE DATA FROM ADMIN DASHBOARD COLLECTIONS ======================
-        async function loadLiveStats() {
+        // ====================== LIVE STATS FROM ADMIN DASHBOARD COLLECTIONS ======================
+        function loadLiveStats() {
             if (!db) {
-                // fallback for demo
                 document.getElementById("stat-trainers").textContent = "50+";
                 document.getElementById("stat-members").textContent = "970+";
                 document.getElementById("stat-programs").textContent = "30+";
                 return;
             }
 
-            // Live Trainers (same collection used in admin)
-            db.collection("trainers").onSnapshot(snapshot => {
-                const count = snapshot.size;
-                document.getElementById("stat-trainers").textContent = count + "+";
+            db.collection("trainers").onSnapshot(s => {
+                document.getElementById("stat-trainers").textContent = s.size + "+";
+            });
+            db.collection("members").onSnapshot(s => {
+                document.getElementById("stat-members").textContent = s.size + "+";
+            });
+            db.collection("classes").onSnapshot(s => {
+                document.getElementById("stat-programs").textContent = s.size + "+";
+            });
+        }
+
+        // ====================== JOIN MODAL ======================
+        function showJoinModal() {
+            document.getElementById("join-modal").classList.remove("hidden");
+        }
+        function hideJoinModal() {
+            document.getElementById("join-modal").classList.add("hidden");
+            document.getElementById("join-form").reset();
+        }
+        async function handleJoinSubmit(e) {
+            e.preventDefault();
+            if (!db) {
+                alert("Demo mode: Request would be sent to admin");
+                hideJoinModal();
+                return;
+            }
+
+            const name = document.getElementById("join-name").value;
+            const email = document.getElementById("join-email").value;
+            const phone = document.getElementById("join-phone").value;
+            const plan = document.getElementById("join-plan").value;
+
+            await db.collection("membershipRequests").add({
+                name,
+                email,
+                phone,
+                plan,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                status: "pending"
             });
 
-            // Live Members (same collection used in admin)
-            db.collection("members").onSnapshot(snapshot => {
-                const count = snapshot.size;
-                document.getElementById("stat-members").textContent = count + "+";
-            });
-
-            // Live Classes / Programs (same collection used in admin)
-            db.collection("classes").onSnapshot(snapshot => {
-                const count = snapshot.size;
-                document.getElementById("stat-programs").textContent = count + "+";
-            });
+            alert("✅ Your membership request has been submitted! The admin will review it shortly.");
+            hideJoinModal();
         }
 
         // ====================== INIT ======================
         window.onload = () => {
             loadLiveStats();
-            console.log("%cFITCORE Public Website v2 - Fully synced with Admin Dashboard 🔥", "color:#D6FF00; font-size:14px");
+            console.log("%cFITCORE Public Website v2 - Synced with Admin Dashboard + Live Join Requests 🔥", "color:#D6FF00; font-size:14px");
         };
     </script>
 </body>

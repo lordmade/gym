@@ -285,12 +285,11 @@
             personal: { title: "Personal Training", desc: "1-on-1 focus.", features: ["Bespoke Plans", "24/7 Check-ins"] }
         };
 
-        // IMPROVED: First load current values instantly on refresh, then keep live listener
+        // HERO SECTION ALWAYS LOADS ADMIN SAVED DATA FIRST ON REFRESH (no revert, no flash)
         async function syncHomepageContent() {
-            // HERO SECTION - instant load + live
+            // INSTANT LOAD on every refresh (keeps hero section exactly as admin set)
             const heroSnap = await db.ref('homepage/hero').once('value');
             const heroData = heroSnap.val() || {};
-            
             if (heroData.heading) document.getElementById("hero-main-heading").innerHTML = heroData.heading;
             if (heroData.subtext) document.getElementById("hero-subtext").innerText = heroData.subtext;
             if (heroData.buttonText) document.getElementById("hero-button").innerText = heroData.buttonText;
@@ -299,7 +298,7 @@
                 hero.style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${heroData.imageUrl}')`;
             }
 
-            // Live listener for hero
+            // Live listener (still works for real-time admin changes)
             db.ref('homepage/hero').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 if (data.heading) document.getElementById("hero-main-heading").innerHTML = data.heading;
@@ -311,18 +310,15 @@
                 }
             });
 
-            // SERVICES CARDS - instant load + live
+            // SERVICES - instant load on refresh
             const servicesSnap = await db.ref('homepage/services').once('value');
             const servicesData = servicesSnap.val() || {};
-            
             for (let i = 1; i <= 3; i++) {
                 const card = servicesData[i] || {};
                 const titleEl = document.getElementById(`service${i}-title`);
                 const descEl = document.getElementById(`service${i}-desc`);
-                
                 if (card.title && titleEl) titleEl.innerText = card.title;
                 if (card.description && descEl) descEl.innerText = card.description;
-                
                 const key = i === 1 ? 'powerlifting' : i === 2 ? 'cardio' : 'personal';
                 if (card.title) serviceData[key].title = card.title;
                 if (card.description) serviceData[key].desc = card.description;
@@ -335,10 +331,8 @@
                     const card = data[i] || {};
                     const titleEl = document.getElementById(`service${i}-title`);
                     const descEl = document.getElementById(`service${i}-desc`);
-                    
                     if (card.title && titleEl) titleEl.innerText = card.title;
                     if (card.description && descEl) descEl.innerText = card.description;
-                    
                     const key = i === 1 ? 'powerlifting' : i === 2 ? 'cardio' : 'personal';
                     if (card.title) serviceData[key].title = card.title;
                     if (card.description) serviceData[key].desc = card.description;
@@ -388,10 +382,10 @@
             finally { btn.disabled = false; btn.innerText = "Submit Request"; }
         }
 
-        // INITIALIZE - now with instant load on refresh
+        // INITIALIZE
         window.onload = () => {
             loadLiveStats();
-            syncHomepageContent();   // ← now loads admin changes instantly before anything shows
+            syncHomepageContent();   // loads admin hero section instantly on every refresh
         };
     </script>
 </body>

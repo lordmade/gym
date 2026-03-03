@@ -3,229 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FITCORE // Admin Master</title>
+    <title>FITCORE - Contact Us</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-    <!-- PDF + Charts + Canvas Capture -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#D6FF00',
-                        dark: '#0A0A0A',
-                        card: '#141414',
-                        accent: '#1F1F1F'
-                    },
-                    fontFamily: {
-                        heading: ['Oswald', 'sans-serif'],
-                        body: ['Poppins', 'sans-serif'],
-                    }
+                    colors: { primary: '#D6FF00', dark: '#0A0A0A', card: '#141414' },
+                    fontFamily: { heading: ['Oswald', 'sans-serif'], body: ['Poppins', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #0A0A0A; color: white; }
-        .font-heading { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
-      
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0A0A0A; }
-        ::-webkit-scrollbar-thumb { background: #D6FF00; border-radius: 10px; }
-        .glass-card {
-            background: rgba(20, 20, 20, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(214, 255, 0, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        h1, h2, h3, .nav-logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        .form-input {
+            background: #141414;
+            border: 1px solid #1f1f1f;
+            padding: 1rem;
+            width: 100%;
+            color: white;
+            outline: none;
+            transition: border-color 0.3s;
         }
-        .glass-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
-            border-color: rgba(214, 255, 0, 0.3);
-        }
-        .nav-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .nav-btn:hover {
-            transform: translateX(8px);
-            background-color: rgba(214, 255, 0, 0.15) !important;
-        }
-        .nav-btn.active {
-            background-color: rgba(214, 255, 0, 0.15);
-            border-color: #D6FF00;
-            color: #D6FF00;
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.4s ease forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .modal {
-            animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        @keyframes modalPop {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .timeline-item { position: relative; padding-left: 24px; }
-        .timeline-item::before { content: ''; position: absolute; left: 8px; top: 6px; bottom: -20px; width: 2px; background: rgba(214,255,0,0.2); }
-        .timeline-item:last-child::before { display: none; }
+        .form-input:focus { border-color: #D6FF00; }
+       
+        /* Modal Animation */
+        #statusModal { transition: opacity 0.3s ease-in-out; }
+        .modal-content { transform: scale(0.9); transition: transform 0.3s ease-in-out; }
+        #statusModal.flex .modal-content { transform: scale(1); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col md:flex-row">
-    <aside class="w-full md:w-64 bg-card border-r border-white/5 p-6 flex flex-col">
-        <div class="font-heading text-2xl font-bold tracking-wider text-white mb-10">
-            FIT<span class="text-primary">CORE</span> <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded ml-2">ADMIN</span>
-        </div>
-      
-        <nav class="space-y-2 flex-grow">
-            <button onclick="showTab('dashboard')" class="nav-btn active w-full flex items-center gap-3 text-primary bg-primary/10 p-3 rounded-2xl border border-primary/20">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round"/></svg>
-                Dashboard
+<body class="antialiased">
+    <div id="statusModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 px-4">
+        <div class="modal-content bg-card border border-gray-800 p-8 md:p-12 max-w-md w-full text-center relative">
+            <div id="modalIcon" class="mb-6 flex justify-center">
+                </div>
+            <h2 id="modalTitle" class="text-3xl font-bold mb-2 tracking-tight"></h2>
+            <p id="modalMessage" class="text-gray-400 mb-8"></p>
+            <button onclick="closeModal()" class="w-full bg-primary text-black font-heading font-bold py-4 uppercase tracking-widest hover:bg-white transition-all">
+                Close
             </button>
-            <button onclick="showTab('members')" class="nav-btn w-full flex items-center gap-3 text-white hover:text-primary p-3 rounded-2xl border border-transparent hover:border-primary/20">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 01-5.356-1.857M17 20H7m5-2v-2c0-.656-.126-1.284-.356-1.852M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.284.356-1.852m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" stroke-width="2" stroke-linecap="round"/></svg>
-                Members
-            </button>
-            <button onclick="showTab('payments')" class="nav-btn w-full flex items-center gap-3 text-white hover:text-primary p-3 rounded-2xl border border-transparent hover:border-primary/20">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-1a2 2 0 01-2-2H9a2 2 0 01-2-2v-1a2 2 0 012-2m0 0V9a2 2 0 012-2" stroke-width="2" stroke-linecap="round"/></svg>
-                Payments
-            </button>
-            <!-- NEW CONTACTS TAB BUTTON -->
-            <button onclick="showTab('contacts')" class="nav-btn w-full flex items-center gap-3 text-white hover:text-primary p-3 rounded-2xl border border-transparent hover:border-primary/20">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2.01 2.01 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2" />
-                </svg>
-                Contacts
-            </button>
-        </nav>
-        <div class="mt-auto pt-6 border-t border-white/5">
-            <p class="text-xs text-gray-500">Connected to:</p>
-            <p class="text-[10px] text-primary truncate">pinotp-d7ef5.firebaseapp.com</p>
         </div>
-    </aside>
-    <main class="flex-1 p-6 md:p-12 overflow-y-auto">
-        <!-- DASHBOARD TAB (unchanged) -->
-        <div id="tab-dashboard" class="tab-content active">
-            <!-- ... your original dashboard content remains exactly the same ... -->
-            <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-                <div>
-                    <h1 class="font-heading text-4xl font-bold">Command <span class="text-primary">Center</span></h1>
-                    <p class="text-gray-400">Manage your athletes and site metrics.</p>
-                </div>
-                <div id="connection-status" class="flex items-center gap-2 text-xs uppercase tracking-widest text-green-500">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                    </span>
-                    Live Database Connected
-                </div>
-            </header>
-            <!-- STATS, HOMEPAGE EDITOR - unchanged -->
-            <!-- (All your original dashboard code stays here - I kept it identical) -->
-            <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <!-- trainers, members, programs cards - unchanged -->
-            </section>
-            <section class="mb-12">
-                <!-- Hero Banner & Services Cards - unchanged -->
-            </section>
+    </div>
+    <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center bg-dark/90 border-b border-gray-900">
+        <a href="index.html" class="nav-logo text-3xl font-bold text-white">FIT<span class="text-primary">CORE</span></a>
+        <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
+            <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+            <a href="programs.html" class="hover:text-primary transition-colors">Programs</a>
+            <a href="trainers.html" class="hover:text-primary transition-colors">Trainers</a>
+            <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
+            <a href="contact.html" class="hover:text-primary transition-colors">Contact</a>
         </div>
-
-        <!-- MEMBERS TAB (unchanged) -->
-        <div id="tab-members" class="tab-content">
-            <!-- your original members tab code unchanged -->
-        </div>
-
-        <!-- PAYMENTS TAB (unchanged) -->
-        <div id="tab-payments" class="tab-content">
-            <!-- your original payments tab code unchanged -->
-        </div>
-
-        <!-- ======================== NEW CONTACTS TAB ======================== -->
-        <div id="tab-contacts" class="tab-content">
-            <div class="flex justify-between items-center mb-8">
-                <h1 class="font-heading text-4xl font-bold">Contact <span class="text-primary">Inbox</span></h1>
-                <button onclick="refreshContacts()" class="bg-primary/10 hover:bg-primary/20 text-primary px-6 py-3 rounded-2xl text-sm font-bold tracking-widest flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.058 11H1M12 3v2m0 16v2m9-9H15m-6 0H3" /></svg>
-                    REFRESH
-                </button>
-            </div>
-
-            <div class="glass-card rounded-3xl overflow-hidden card-hover">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="border-b border-white/5 text-gray-400 text-xs uppercase tracking-widest">
-                                <th class="px-6 py-4">Date</th>
-                                <th class="px-6 py-4">Name</th>
-                                <th class="px-6 py-4">Email</th>
-                                <th class="px-6 py-4">Subject</th>
-                                <th class="px-6 py-4">Message Preview</th>
-                                <th class="px-6 py-4 text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="contacts-list"></tbody>
-                    </table>
+    </nav>
+    <div class="pt-32 min-h-screen grid grid-cols-1 lg:grid-cols-2">
+        <div class="p-10 md:p-24 flex flex-col justify-center">
+            <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm">Get In Touch</h4>
+            <h1 class="text-5xl font-bold mb-8">START YOUR <br><span class="text-primary">JOURNEY</span></h1>
+           
+            <form id="contactForm" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input type="text" id="fullName" placeholder="Full Name" class="form-input" required>
+                    <input type="email" id="email" placeholder="Email Address" class="form-input" required>
                 </div>
-            </div>
+                <input type="text" id="subject" placeholder="Subject" class="form-input" required>
+                <textarea id="message" rows="5" placeholder="Your Message" class="form-input" required></textarea>
+                <button type="submit" id="submitBtn" class="bg-primary text-black font-heading font-bold px-12 py-4 uppercase tracking-widest hover:bg-white transition-all">Send Message</button>
+            </form>
         </div>
-    </main>
-
-    <!-- VIEW FULL MESSAGE MODAL -->
-    <div id="view-contact-modal" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50">
-        <div class="modal glass-card w-full max-w-2xl mx-4 rounded-3xl p-8 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="font-heading text-2xl">Message Details</h3>
-                <button onclick="closeViewModal()" class="text-gray-400 hover:text-white text-3xl leading-none">×</button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div>
-                    <p class="text-xs uppercase tracking-widest text-gray-400 mb-1">NAME</p>
-                    <p id="view-name" class="font-medium text-lg"></p>
+        <div class="relative min-h-[400px] bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=1470&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-50" alt="Gym">
+            <div class="absolute inset-0 flex flex-col justify-end p-10 md:p-24 bg-gradient-to-t from-dark">
+                <div class="space-y-8">
+                    <div>
+                        <h4 class="text-primary font-heading tracking-widest uppercase mb-2">Location</h4>
+                        <p class="text-xl text-gray-300">123 Iron Avenue, <br>Muscle District, NY 1001</p>
+                    </div>
+                    <div>
+                        <h4 class="text-primary font-heading tracking-widest uppercase mb-2">Opening Hours</h4>
+                        <p class="text-xl text-gray-300">Mon - Fri: 5:00 AM - 11:00 PM <br>Sat - Sun: 7:00 AM - 9:00 PM</p>
+                    </div>
+                    <div class="flex gap-6 mt-10">
+                        <a href="#" class="text-white hover:text-primary">Instagram</a>
+                        <a href="#" class="text-white hover:text-primary">Facebook</a>
+                        <a href="#" class="text-white hover:text-primary">Twitter</a>
+                    </div>
                 </div>
-                <div>
-                    <p class="text-xs uppercase tracking-widest text-gray-400 mb-1">EMAIL</p>
-                    <p id="view-email" class="font-medium text-lg"></p>
-                </div>
-            </div>
-            <div class="mb-8">
-                <p class="text-xs uppercase tracking-widest text-gray-400 mb-1">SUBJECT</p>
-                <p id="view-subject" class="text-primary font-semibold text-xl"></p>
-            </div>
-            <div>
-                <p class="text-xs uppercase tracking-widest text-gray-400 mb-3">MESSAGE</p>
-                <div id="view-message" class="bg-dark border border-white/10 rounded-3xl p-6 text-gray-300 whitespace-pre-wrap leading-relaxed"></div>
-            </div>
-            <div class="mt-8 pt-6 border-t border-white/10">
-                <p class="text-xs uppercase tracking-widest text-gray-400">RECEIVED</p>
-                <p id="view-date" class="text-sm text-gray-400"></p>
-            </div>
-
-            <div class="flex gap-3 mt-10">
-                <button onclick="closeViewModal()" class="flex-1 py-4 rounded-2xl border border-white/10 hover:bg-white/5 text-sm font-bold">CLOSE</button>
-                <button onclick="deleteCurrentContact()" class="flex-1 py-4 bg-red-500 hover:bg-red-600 text-white rounded-2xl text-sm font-bold">DELETE MESSAGE</button>
             </div>
         </div>
     </div>
-
-    <!-- SUCCESS MODAL (already in your code - unchanged) -->
-    <!-- ... your existing modals remain ... -->
-
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script>
-        // === YOUR ORIGINAL CONFIG & ALL EXISTING FUNCTIONS (unchanged) ===
+        // Your Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
             authDomain: "pinotp-d7ef5.firebaseapp.com",
@@ -235,131 +107,68 @@
             messagingSenderId: "708458917827",
             appId: "1:708458917827:web:375de278577df0adcf9776"
         };
-        const CLOUD_NAME = "dv5bsbydu";
-        const UPLOAD_PRESET = "admin_tlaka";
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        let currentEditingKey = null;
-        let pendingApproveKey = null;
-        let pendingApproveId = null;
-
-        // TAB SWITCHING (unchanged)
-        function showTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(`tab-${tab}`).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(tab));
-            if (activeBtn) activeBtn.classList.add('active');
-        }
-
-        // === YOUR ORIGINAL FUNCTIONS (syncStats, syncHomepage, updateHero, etc.) remain exactly as you wrote them ===
-
-        // ======================== NEW CONTACTS MANAGEMENT ========================
-        let allContacts = {};
-        let currentViewKey = null;
-
-        function listenToContacts() {
-            db.ref('contacts').on('value', (snapshot) => {
-                allContacts = snapshot.val() || {};
-                renderContacts();
-            });
-        }
-
-        function renderContacts() {
-            const tbody = document.getElementById('contacts-list');
-            tbody.innerHTML = "";
-
-            const sortedKeys = Object.keys(allContacts).sort((a, b) => 
-                (allContacts[b].timestamp || 0) - (allContacts[a].timestamp || 0)
-            );
-
-            sortedKeys.forEach(key => {
-                const c = allContacts[key];
-                const date = new Date(c.timestamp || Date.now()).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
-                const preview = c.message ? c.message.substring(0, 80) + "..." : "—";
-
-                const row = `
-                    <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer">
-                        <td class="px-6 py-4 text-sm">${date}</td>
-                        <td class="px-6 py-4 font-medium">${c.name}</td>
-                        <td class="px-6 py-4 text-sm">${c.email}</td>
-                        <td class="px-6 py-4">${c.subject}</td>
-                        <td class="px-6 py-4 text-sm text-gray-400">${preview}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="viewMessage('${key}'); event.stopImmediatePropagation();" class="text-primary hover:text-white px-5 py-2 text-xs font-medium">VIEW</button>
-                            <button onclick="deleteContact('${key}'); event.stopImmediatePropagation();" class="text-red-400 hover:text-red-500 px-5 py-2 text-xs font-medium">DELETE</button>
-                        </td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
-        }
-
-        function viewMessage(key) {
-            currentViewKey = key;
-            const msg = allContacts[key];
-            document.getElementById('view-name').textContent = msg.name || "—";
-            document.getElementById('view-email').textContent = msg.email || "—";
-            document.getElementById('view-subject').textContent = msg.subject || "—";
-            document.getElementById('view-message').textContent = msg.message || "—";
-            document.getElementById('view-date').textContent = new Date(msg.timestamp || Date.now()).toLocaleString('en-GB');
-            
-            const modal = document.getElementById('view-contact-modal');
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        // Modal Elements
+        const modal = document.getElementById('statusModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        function showModal(success, title, message) {
+            modalTitle.innerText = title;
+            modalMessage.innerText = message;
+           
+            // Set Icon
+            if(success) {
+                modalIcon.innerHTML = `<svg class="w-20 h-20 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+            } else {
+                modalIcon.innerHTML = `<svg class="w-20 h-20 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+            }
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
-
-        function closeViewModal() {
-            const modal = document.getElementById('view-contact-modal');
+        function closeModal() {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
-
-        function deleteCurrentContact() {
-            if (!currentViewKey) return;
-            if (confirm("Delete this message permanently?")) {
-                db.ref(`contacts/${currentViewKey}`).remove().then(() => {
-                    closeViewModal();
-                    showSuccess("Message Deleted", "Inquiry has been removed.");
-                });
-            }
-        }
-
-        function deleteContact(key) {
-            if (confirm("Delete this contact message permanently?")) {
-                db.ref(`contacts/${key}`).remove();
-            }
-        }
-
-        function refreshContacts() {
-            renderContacts();
-        }
-
-        // SUCCESS MODAL (you already have this - just make sure it's there)
-        function showSuccess(title, message) {
-            document.getElementById('success-title').textContent = title;
-            document.getElementById('success-text').innerHTML = message;
-            const modal = document.getElementById('success-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-        function closeSuccessModal() {
-            const modal = document.getElementById('success-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        // ======================== STARTUP ========================
-        window.onload = () => {
-            syncStats();
-            syncHomepage();
-            listenToPending();
-            listenToApprovedMembers();
-            listenToPayments();
-            listenToContacts();          // ← THIS IS THE LINK
-            showTab('dashboard');
-            window.allMembers = {};
-        };
+        // Handle Form Submission
+        const contactForm = document.getElementById('contactForm');
+       
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "Sending...";
+            btn.disabled = true;
+            // Get form values
+            const name = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            // Push data to Firebase under 'contacts' node
+            const contactRef = database.ref('contacts');
+            const newContactRef = contactRef.push();
+           
+            newContactRef.set({
+                name: name,
+                email: email,
+                subject: subject,
+                message: message,
+                timestamp: Date.now()
+            })
+            .then(() => {
+                showModal(true, 'SUCCESS!', 'Your message has been received. Our team will contact you shortly.');
+                contactForm.reset();
+                btn.innerText = "Send Message";
+                btn.disabled = false;
+            })
+            .catch((error) => {
+                console.error("Error writing to database", error);
+                showModal(false, 'SYSTEM ERROR', 'We could not process your request. Please check your connection and try again.');
+                btn.innerText = "Send Message";
+                btn.disabled = false;
+            });
+        });
     </script>
 </body>
 </html>

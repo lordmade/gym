@@ -6,10 +6,8 @@
     <title>FITCORE - Modern Fitness Landing Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
- 
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
- 
     <script>
         tailwind.config = {
             theme: {
@@ -30,7 +28,6 @@
             }
         }
     </script>
- 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -95,7 +92,6 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #D6FF00;
         }
-
         /* SHIMMER EFFECT - ONLY shimmer visible while loading (no text) */
         .hero-shimmer {
             position: relative;
@@ -122,10 +118,27 @@
             0% { left: -150%; }
             100% { left: 300%; }
         }
-
         #hero-text {
             opacity: 0;
             transition: opacity 0.6s ease;
+        }
+
+        /* CTA SECTION - DYNAMIC FROM ADMIN (background image appears here) */
+        #cta-section {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        #cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 10, 10, 0.65);
+            z-index: 1;
+        }
+        #cta-content {
+            position: relative;
+            z-index: 2;
         }
     </style>
 </head>
@@ -164,7 +177,7 @@
                         Watch Video
                     </button>
                 </div>
-                
+               
                 <div class="flex gap-10 mt-16 border-t border-gray-800 pt-8">
                     <div>
                         <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">...</h3>
@@ -217,12 +230,11 @@
             </div>
         </div>
     </section>
-    <section class="py-20 relative text-center">
-        <div class="absolute inset-0 bg-black opacity-40"></div>
-        <div class="relative z-10 max-w-4xl mx-auto px-6">
-            <h2 class="text-5xl md:text-7xl font-bold mb-6 text-white text-outline animate-fadeInUp">NEVER GIVE UP</h2>
-            <p class="text-xl text-gray-200 mb-10">Sign up today and get your first week absolutely free.</p>
-            <button onclick="showJoinModal()" class="bg-primary text-black font-heading font-bold px-12 py-5 text-xl uppercase tracking-wider rounded-pill btn-primary pill shadow-[0_0_20px_rgba(214,255,0,0.4)]">
+    <section id="cta-section" class="py-20 relative text-center">
+        <div id="cta-content" class="relative z-10 max-w-4xl mx-auto px-6">
+            <h2 id="cta-main-heading" class="text-5xl md:text-7xl font-bold mb-6 text-white text-outline animate-fadeInUp">NEVER GIVE UP</h2>
+            <p id="cta-sub-paragraph" class="text-xl text-gray-200 mb-10">Sign up today and get your first week absolutely free.</p>
+            <button onclick="showJoinModal()" id="cta-button" class="bg-primary text-black font-heading font-bold px-12 py-5 text-xl uppercase tracking-wider rounded-pill btn-primary pill shadow-[0_0_20px_rgba(214,255,0,0.4)]">
                 Claim Your Free Trial
             </button>
         </div>
@@ -247,14 +259,12 @@
         </div>
         <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-600">© 2026 FitCore Gym.</div>
     </footer>
-
     <div id="video-modal" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-[100] px-4">
         <div class="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-gray-800">
             <button onclick="hideVideoModal()" class="absolute top-4 right-4 z-50 text-white bg-black/50 hover:bg-primary hover:text-black w-10 h-10 rounded-full flex items-center justify-center transition-all text-2xl">&times;</button>
             <iframe id="video-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
-
     <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
         <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
             <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
@@ -276,7 +286,6 @@
             </form>
         </div>
     </div>
-
     <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
         <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
             <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
@@ -287,7 +296,6 @@
             <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Close</button>
         </div>
     </div>
-
     <div id="service-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[60] px-6">
         <div class="bg-card border border-gray-900 w-full max-w-2xl rounded-3xl p-10 animate-fadeInUp relative text-white">
             <button onclick="closeServiceDetail()" class="absolute top-6 right-6 text-gray-500 hover:text-white text-2xl">&times;</button>
@@ -295,7 +303,6 @@
             <button onclick="closeServiceDetail(); showJoinModal();" class="mt-8 w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Get Started</button>
         </div>
     </div>
-
     <script>
         // YOUR SPECIFIC FIREBASE CONFIG
         const firebaseConfig = {
@@ -310,25 +317,21 @@
         let db;
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         db = firebase.database();
-
         // REALTIME STATS
         function loadLiveStats() {
             db.ref('stats/trainers').on('value', s => document.getElementById("stat-trainers").innerText = s.val() || "50+");
             db.ref('stats/members').on('value', s => document.getElementById("stat-members").innerText = s.val() || "970+");
             db.ref('stats/programs').on('value', s => document.getElementById("stat-programs").innerText = s.val() || "30+");
         }
-
         // REAL-TIME SYNC FOR HERO + SERVICES
         let serviceData = {
             powerlifting: { title: "Power Lifting", desc: "Build raw strength.", features: ["Form Correction", "Strength Blocks"] },
             cardio: { title: "Cardio", desc: "Burn fat fast.", features: ["HIIT", "Endurance"] },
             personal: { title: "Personal Training", desc: "1-on-1 focus.", features: ["Bespoke Plans", "24/7 Check-ins"] }
         };
-
         async function syncHomepageContent() {
             const heroSnap = await db.ref('homepage/hero').once('value');
             const heroData = heroSnap.val() || {};
-
             if (heroData.heading) document.getElementById("hero-main-heading").innerHTML = heroData.heading;
             if (heroData.subtext) document.getElementById("hero-subtext").innerText = heroData.subtext;
             if (heroData.buttonText) document.getElementById("hero-button").innerText = heroData.buttonText;
@@ -336,10 +339,8 @@
                 const hero = document.getElementById("hero-section");
                 hero.style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${heroData.imageUrl}')`;
             }
-
             document.getElementById("hero-content").classList.remove("hero-shimmer");
             document.getElementById("hero-text").style.opacity = "1";
-
             db.ref('homepage/hero').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 if (data.heading) document.getElementById("hero-main-heading").innerHTML = data.heading;
@@ -350,7 +351,6 @@
                     hero.style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${data.imageUrl}')`;
                 }
             });
-
             db.ref('homepage/services').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 for (let i = 1; i <= 3; i++) {
@@ -366,16 +366,28 @@
             });
         }
 
+        // CTA SECTION SYNC (heading, subtext, button + background image from admin)
+        function syncCtaSection() {
+            db.ref('homepage/cta').on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                if (data.heading) document.getElementById("cta-main-heading").innerHTML = data.heading;
+                if (data.subtext) document.getElementById("cta-sub-paragraph").innerText = data.subtext;
+                if (data.buttonText) document.getElementById("cta-button").innerText = data.buttonText;
+                if (data.imageUrl) {
+                    document.getElementById("cta-section").style.backgroundImage = `url('${data.imageUrl}')`;
+                }
+            });
+        }
+
         // VIDEO MODAL LOGIC
         function showVideoModal() {
             const modal = document.getElementById("video-modal");
             const iframe = document.getElementById("video-iframe");
             // Replace with your actual promo video link
-            iframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"; 
+            iframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
             modal.classList.remove("hidden");
             document.body.style.overflow = "hidden"; // Prevent background scroll
         }
-
         function hideVideoModal() {
             const modal = document.getElementById("video-modal");
             const iframe = document.getElementById("video-iframe");
@@ -383,7 +395,6 @@
             modal.classList.add("hidden");
             document.body.style.overflow = "auto";
         }
-
         // SERVICE MODAL
         function openServiceDetail(id) {
             const s = serviceData[id];
@@ -398,12 +409,10 @@
         function closeServiceDetail() {
             document.getElementById("service-modal").classList.add("hidden");
         }
-
         function showJoinModal() { document.getElementById("join-modal").classList.remove("hidden"); }
         function hideJoinModal() { document.getElementById("join-modal").classList.add("hidden"); }
         function showSuccessModal() { document.getElementById("success-modal").classList.remove("hidden"); }
         function hideSuccessModal() { document.getElementById("success-modal").classList.add("hidden"); }
-
         // SUBMISSION
         async function handleJoinSubmit(e) {
             e.preventDefault();
@@ -425,13 +434,12 @@
             } catch (err) { alert("Error connecting to database."); }
             finally { btn.disabled = false; btn.innerText = "Submit Request"; }
         }
-
-        // INITIALIZE
+        // INITIALIZE - ALL SECTIONS LINKED TO ADMIN
         window.onload = () => {
             loadLiveStats();
             syncHomepageContent();
+            syncCtaSection();   // ← CTA + background image now live from admin
         };
-
         // Close video modal on ESC key
         window.addEventListener('keydown', (e) => {
             if (e.key === "Escape") hideVideoModal();

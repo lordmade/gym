@@ -6,10 +6,10 @@
     <title>FITCORE - Modern Fitness Landing Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-   
+    
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-   
+    
     <script>
         tailwind.config = {
             theme: {
@@ -30,7 +30,7 @@
             }
         }
     </script>
-   
+    
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -98,7 +98,6 @@
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
-    <!-- NAV -->
     <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center">
         <div class="nav-logo text-3xl font-bold tracking-wider text-white">
             FIT<span class="text-primary">CORE</span>
@@ -115,7 +114,6 @@
         </button>
     </nav>
 
-    <!-- HERO -->
     <header class="hero-section min-h-screen flex items-center pt-20 px-6 md:px-16">
         <div class="max-w-3xl animate-fadeInUp">
             <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm md:text-base">Unleash your potential</h4>
@@ -134,32 +132,31 @@
                     Watch Video
                 </button>
             </div>
-           
+            
             <div class="flex gap-10 mt-16 border-t border-gray-800 pt-8">
                 <div>
-                    <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">0</h3>
+                    <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">...</h3>
                     <p class="text-gray-500 text-sm">Expert Trainers</p>
                 </div>
                 <div>
-                    <h3 id="stat-members" class="text-3xl font-bold text-white mb-1">0</h3>
+                    <h3 id="stat-members" class="text-3xl font-bold text-white mb-1">...</h3>
                     <p class="text-gray-500 text-sm">Active Members</p>
                 </div>
                 <div>
-                    <h3 id="stat-programs" class="text-3xl font-bold text-white mb-1">0</h3>
+                    <h3 id="stat-programs" class="text-3xl font-bold text-white mb-1">...</h3>
                     <p class="text-gray-500 text-sm">Fitness Programs</p>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- SERVICES -->
     <section class="py-24 px-6 md:px-16 bg-dark">
         <div class="flex flex-col md:flex-row justify-between items-end mb-16">
             <div>
                 <h4 class="text-primary font-heading tracking-[0.2em] mb-2 text-sm">Our Services</h4>
                 <h2 class="text-4xl md:text-5xl font-bold">PUSH YOUR <span class="text-primary">LIMITS</span></h2>
             </div>
-            <a href="#" class="text-gray-400 hover:text-primary mt-4 md:mt-0 font-heading tracking-wider uppercase border-b border-gray-600 pb-1">View All Programs</a>
+            <a href="programs.html" class="text-gray-400 hover:text-primary mt-4 md:mt-0 font-heading tracking-wider uppercase border-b border-gray-600 pb-1">View All Programs</a>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
@@ -168,7 +165,7 @@
                 </div>
                 <h3 class="text-2xl font-bold mb-3">Power Lifting</h3>
                 <p class="text-gray-400 text-sm mb-6 leading-relaxed">Focus on heavy compound movements to build raw strength and muscle mass with our expert-led sessions.</p>
-                <a href="#" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></a>
+                <button onclick="openServiceDetail('powerlifting')" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></button>
             </div>
             <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
                 <div class="w-14 h-14 bg-gray-900 text-primary flex items-center justify-center rounded-full mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
@@ -176,7 +173,7 @@
                 </div>
                 <h3 class="text-2xl font-bold mb-3">Cardio Training</h3>
                 <p class="text-gray-400 text-sm mb-6 leading-relaxed">Elevate your heart rate and burn fat with high-intensity interval training and endurance programs.</p>
-                <a href="#" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></a>
+                <button onclick="openServiceDetail('cardio')" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></button>
             </div>
             <div class="card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl">
                 <div class="w-14 h-14 bg-gray-900 text-primary flex items-center justify-center rounded-full mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
@@ -184,12 +181,11 @@
                 </div>
                 <h3 class="text-2xl font-bold mb-3">Personal Training</h3>
                 <p class="text-gray-400 text-sm mb-6 leading-relaxed">Get 1-on-1 attention with customized workout and nutrition plans tailored to your specific goals.</p>
-                <a href="#" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></a>
+                <button onclick="openServiceDetail('personal')" class="text-primary uppercase font-heading text-sm font-bold tracking-widest flex items-center gap-2">Read More <span class="group-hover:translate-x-2 transition-transform">→</span></button>
             </div>
         </div>
     </section>
 
-    <!-- NEVER GIVE UP -->
     <section class="py-20 relative">
         <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1469&auto=format&fit=crop')] bg-cover bg-center bg-fixed opacity-40"></div>
         <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
@@ -201,7 +197,6 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="bg-card pt-16 pb-8 px-6 md:px-16 border-t border-gray-900">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div class="col-span-1 md:col-span-2">
@@ -214,9 +209,9 @@
                 <h4 class="font-heading font-bold text-xl mb-6">Quick Links</h4>
                 <ul class="space-y-3 text-sm text-gray-400">
                     <li><a href="#" class="hover:text-primary transition-colors">About Us</a></li>
-                    <li><a href="#" class="hover:text-primary transition-colors">Classes</a></li>
-                    <li><a href="#" class="hover:text-primary transition-colors">Trainers</a></li>
-                    <li><a href="#" class="hover:text-primary transition-colors">Pricing</a></li>
+                    <li><a href="programs.html" class="hover:text-primary transition-colors">Classes</a></li>
+                    <li><a href="trainers.html" class="hover:text-primary transition-colors">Trainers</a></li>
+                    <li><a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a></li>
                 </ul>
             </div>
             <div>
@@ -233,7 +228,6 @@
         </div>
     </footer>
 
-    <!-- JOIN MODAL -->
     <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
         <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
             <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
@@ -264,31 +258,43 @@
                 </div>
                 <div class="flex gap-4 mt-8">
                     <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 hover:bg-gray-900 rounded-full">Cancel</button>
-                    <button type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full">Submit Request</button>
+                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full disabled:opacity-50 disabled:cursor-not-allowed">Submit Request</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <div id="service-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[60] px-6">
+        <div class="bg-card border border-gray-900 w-full max-w-2xl rounded-3xl p-10 animate-fadeInUp relative">
+            <button onclick="closeServiceDetail()" class="absolute top-6 right-6 text-gray-500 hover:text-white text-2xl">&times;</button>
+            <div id="service-content">
+                </div>
+            <button onclick="closeServiceDetail(); showJoinModal();" class="mt-8 w-full py-4 bg-primary text-black font-bold rounded-full uppercase tracking-widest">Get Started with this Program</button>
+        </div>
+    </div>
+
     <script>
-        // ====================== FIREBASE CONFIG (EXACT SAME AS ADMIN DASHBOARD) ======================
+        // ====================== FIREBASE CONFIG ======================
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY_HERE",
+            apiKey: "YOUR_API_KEY",
             authDomain: "your-project-id.firebaseapp.com",
             projectId: "your-project-id",
             storageBucket: "your-project-id.appspot.com",
-            messagingSenderId: "123456789012",
-            appId: "1:123456789012:web:abcdef1234567890"
+            messagingSenderId: "your-sender-id",
+            appId: "your-app-id"
         };
+
         let db;
         try {
-            firebase.initializeApp(firebaseConfig);
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
             db = firebase.firestore();
         } catch (e) {
-            console.warn("Firebase not configured - using demo numbers");
+            console.error("Firebase Initialization Error:", e);
         }
 
-        // ====================== LIVE STATS FROM ADMIN DASHBOARD COLLECTIONS ======================
+        // ====================== LIVE STATS FROM ADMIN COLLECTIONS ======================
         function loadLiveStats() {
             if (!db) {
                 document.getElementById("stat-trainers").textContent = "50+";
@@ -297,55 +303,115 @@
                 return;
             }
 
-            db.collection("trainers").onSnapshot(s => {
-                document.getElementById("stat-trainers").textContent = s.size + "+";
+            db.collection("trainers").onSnapshot(snapshot => {
+                document.getElementById("stat-trainers").textContent = snapshot.size;
             });
-            db.collection("members").onSnapshot(s => {
-                document.getElementById("stat-members").textContent = s.size + "+";
+            db.collection("members").onSnapshot(snapshot => {
+                document.getElementById("stat-members").textContent = snapshot.size;
             });
-            db.collection("classes").onSnapshot(s => {
-                document.getElementById("stat-programs").textContent = s.size + "+";
+            db.collection("classes").onSnapshot(snapshot => {
+                document.getElementById("stat-programs").textContent = snapshot.size;
             });
         }
 
-        // ====================== JOIN MODAL ======================
+        // ====================== SERVICE DETAILS DATA ======================
+        const serviceData = {
+            powerlifting: {
+                title: "Power Lifting Elite",
+                desc: "Master the art of strength. Our powerlifting program focuses on the 'Big Three'—Squat, Bench Press, and Deadlift.",
+                features: [
+                    "Form correction via video analysis",
+                    "Custom 12-week strength blocks",
+                    "Access to competition-grade plates & racks",
+                    "Nutritional guidance for mass building"
+                ]
+            },
+            cardio: {
+                title: "High Octane Cardio",
+                desc: "Torches calories and strengthens your heart. We combine HIIT, steady-state, and functional endurance.",
+                features: [
+                    "Heart rate monitored sessions",
+                    "Modern treadmill and rowing tech",
+                    "Metabolic conditioning (MetCon)",
+                    "Endurance tracking via our mobile app"
+                ]
+            },
+            personal: {
+                title: "1-on-1 Performance",
+                desc: "The fastest way to reach your goals. Work directly with an expert who builds everything around you.",
+                features: [
+                    "Bespoke workout plans every week",
+                    "Monthly biometric & body fat scans",
+                    "Personalized supplement protocols",
+                    "24/7 accountability check-ins"
+                ]
+            }
+        };
+
+        function openServiceDetail(id) {
+            const service = serviceData[id];
+            const content = `
+                <h2 class="text-primary font-heading text-4xl font-bold mb-4">${service.title}</h2>
+                <p class="text-gray-300 text-lg mb-6 leading-relaxed">${service.desc}</p>
+                <h4 class="text-white font-bold mb-3 uppercase tracking-wider">What's Included:</h4>
+                <ul class="space-y-3">
+                    ${service.features.map(f => `
+                        <li class="flex items-center gap-3 text-gray-400">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            ${f}
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+            document.getElementById("service-content").innerHTML = content;
+            document.getElementById("service-modal").classList.remove("hidden");
+        }
+
+        function closeServiceDetail() {
+            document.getElementById("service-modal").classList.add("hidden");
+        }
+
+        // ====================== JOIN MODAL LOGIC ======================
         function showJoinModal() {
             document.getElementById("join-modal").classList.remove("hidden");
         }
+
         function hideJoinModal() {
             document.getElementById("join-modal").classList.add("hidden");
             document.getElementById("join-form").reset();
         }
+
         async function handleJoinSubmit(e) {
             e.preventDefault();
-            if (!db) {
-                alert("Demo mode: Request would be sent to admin");
-                hideJoinModal();
-                return;
-            }
+            const submitBtn = document.getElementById("submit-btn");
+            if (!db) { alert("Demo Mode: Configure Firebase to save requests."); return; }
 
-            const name = document.getElementById("join-name").value;
-            const email = document.getElementById("join-email").value;
-            const phone = document.getElementById("join-phone").value;
-            const plan = document.getElementById("join-plan").value;
-
-            await db.collection("membershipRequests").add({
-                name,
-                email,
-                phone,
-                plan,
+            const formData = {
+                name: document.getElementById("join-name").value,
+                email: document.getElementById("join-email").value,
+                phone: document.getElementById("join-phone").value,
+                plan: document.getElementById("join-plan").value,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 status: "pending"
-            });
+            };
 
-            alert("✅ Your membership request has been submitted! The admin will review it shortly.");
-            hideJoinModal();
+            try {
+                submitBtn.disabled = true;
+                submitBtn.innerText = "Processing...";
+                await db.collection("membershipRequests").add(formData);
+                alert("✅ Your request has been sent! We will contact you soon.");
+                hideJoinModal();
+            } catch (error) {
+                alert("❌ Error sending request.");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Request";
+            }
         }
 
-        // ====================== INIT ======================
+        // ====================== INITIALIZE ======================
         window.onload = () => {
             loadLiveStats();
-            console.log("%cFITCORE Public Website v2 - Synced with Admin Dashboard + Live Join Requests 🔥", "color:#D6FF00; font-size:14px");
         };
     </script>
 </body>

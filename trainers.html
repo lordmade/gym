@@ -13,9 +13,35 @@
         body { font-family: 'Poppins', sans-serif; background-color: #0A0A0A; color: white; overflow-x: hidden; }
         h1, h2, h3, .nav-logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
         .text-outline { -webkit-text-stroke: 1px #D6FF00; color: transparent; }
+        
+        /* Modal Animation */
+        #trainerModal { transition: opacity 0.3s ease-in-out; }
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
+    <div id="trainerModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-md">
+        <div class="bg-card border border-gray-800 max-w-2xl w-full relative overflow-hidden flex flex-col md:flex-row">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-white hover:text-primary z-10 bg-black/50 rounded-full p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="w-full md:w-1/2 h-80 md:h-auto">
+                <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+            </div>
+            <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                <p id="modal-title" class="text-primary font-heading tracking-widest uppercase mb-2"></p>
+                <h3 id="modal-name" class="text-4xl font-bold mb-6"></h3>
+                <div class="space-y-4 text-gray-400 text-sm font-light leading-relaxed mb-8">
+                    <p>Expertise in personalized coaching, performance optimization, and metabolic conditioning. Dedicated to pushing athletes beyond their perceived boundaries.</p>
+                </div>
+                <button onclick="closeModal()" class="inline-block border border-primary text-primary hover:bg-primary hover:text-black font-heading uppercase tracking-widest text-sm py-3 px-6 transition-all">
+                    Back to Team
+                </button>
+            </div>
+        </div>
+    </div>
+
     <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center bg-dark/90 backdrop-blur-sm border-b border-gray-900">
         <a href="index.html" class="nav-logo text-3xl font-bold tracking-wider text-white">FIT<span class="text-primary">CORE</span></a>
         <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
@@ -38,8 +64,7 @@
 
     <section class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
         <div id="trainers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Dynamic trainers loaded here -->
-        </div>
+            </div>
     </section>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -58,12 +83,31 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Log trainer click (kept from your original code)
-        function logTrainerClick(trainerName) {
+        // Show Modal and log click
+        function showTrainerProfile(name, title, image) {
+            // Log to Firebase
             database.ref('trainer_views').push({
-                trainer: trainerName,
+                trainer: name,
                 timestamp: new Date().toISOString()
             });
+
+            // Update Modal UI
+            document.getElementById('modal-name').innerText = name;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-image').src = image;
+
+            // Display Modal
+            const modal = document.getElementById('trainerModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('trainerModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
         }
 
         // Render dynamic trainers
@@ -76,10 +120,10 @@
                 return;
             }
 
-            Object.keys(trainers).forEach(key => {
+            Object.keys(trainers).sort((a,b) => trainers[a].order - trainers[b].order).forEach(key => {
                 const t = trainers[key];
                 const cardHTML = `
-                    <div class="group relative cursor-pointer" onclick="logTrainerClick('${t.name}')">
+                    <div class="group relative cursor-pointer" onclick="showTrainerProfile('${t.name}', '${t.title}', '${t.image}')">
                         <div class="w-full h-96 overflow-hidden bg-gray-900 mb-6 border border-gray-800 relative">
                             <img src="${t.image}" alt="${t.name}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
                             <div class="absolute bottom-0 w-full p-4 flex justify-center space-x-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-black/80 backdrop-blur-sm">
@@ -121,6 +165,14 @@
             seedInitialTrainers();
             loadTrainers();
         };
+
+        // Close modal if user clicks outside of the content box
+        window.onclick = function(event) {
+            const modal = document.getElementById('trainerModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
     </script>
 </body>
 </html>

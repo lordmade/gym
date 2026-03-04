@@ -24,9 +24,9 @@
         .program-card:hover img { transform: scale(1.1); }
         
         /* Modal Animation */
-        #details-modal { transition: opacity 0.3s ease; }
-        #details-modal.hidden { display: none; opacity: 0; }
-        #details-modal.flex { display: flex; opacity: 1; }
+        .modal-transition { transition: opacity 0.3s ease; }
+        .modal-hidden { display: none; opacity: 0; }
+        .modal-flex { display: flex; opacity: 1; }
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
@@ -41,7 +41,7 @@
             <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
             <a href="contact.html" class="hover:text-primary transition-colors">Contact</a>
         </div>
-        <button onclick="window.location.href='pricing.html'" class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider hover:bg-white transition-colors rounded-full">
+        <button onclick="openJoinModal()" class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider hover:bg-white transition-colors rounded-full">
             Join Now
         </button>
     </nav>
@@ -59,14 +59,13 @@
             </div>
     </section>
 
-    <div id="details-modal" class="hidden fixed inset-0 z-[100] items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+    <div id="details-modal" class="modal-hidden modal-transition fixed inset-0 z-[100] items-center justify-center p-4 bg-black/90 backdrop-blur-md">
         <div class="bg-card border border-gray-800 max-w-2xl w-full relative overflow-hidden">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-white hover:text-primary z-10">
+            <button onclick="closeModal('details-modal')" class="absolute top-4 right-4 text-white hover:text-primary z-10">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-            
             <div class="flex flex-col md:flex-row">
                 <div class="w-full md:w-1/2 h-64 md:h-auto">
                     <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
@@ -75,11 +74,36 @@
                     <span id="modal-category" class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block"></span>
                     <h3 id="modal-title" class="text-4xl font-bold mb-4"></h3>
                     <p id="modal-description" class="text-gray-400 mb-8 font-light leading-relaxed"></p>
-                    <button onclick="closeModal()" class="bg-primary text-black font-heading font-bold px-6 py-3 uppercase text-sm tracking-widest hover:bg-white transition-colors">
+                    <button onclick="closeModal('details-modal')" class="bg-primary text-black font-heading font-bold px-6 py-3 uppercase text-sm tracking-widest hover:bg-white transition-colors">
                         Close Details
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="join-modal" class="modal-hidden modal-transition fixed inset-0 z-[100] items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+        <div class="bg-card border border-primary/20 max-w-md w-full relative p-10 text-center">
+            <button onclick="closeModal('join-modal')" class="absolute top-4 right-4 text-white hover:text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-4xl font-bold mb-2">JOIN <span class="text-primary">FITCORE</span></h2>
+            <p class="text-gray-400 mb-8 font-light">Start your transformation today.</p>
+            <form class="space-y-4" onsubmit="event.preventDefault(); alert('Registration successful!'); closeModal('join-modal');">
+                <input type="text" placeholder="Full Name" class="w-full bg-dark border border-gray-800 p-4 focus:border-primary outline-none transition-colors" required>
+                <input type="email" placeholder="Email Address" class="w-full bg-dark border border-gray-800 p-4 focus:border-primary outline-none transition-colors" required>
+                <select class="w-full bg-dark border border-gray-800 p-4 focus:border-primary outline-none transition-colors text-gray-400" required>
+                    <option value="" disabled selected>Select Program</option>
+                    <option>Powerlifting</option>
+                    <option>HIIT Core</option>
+                    <option>Mobility & Yoga</option>
+                </select>
+                <button type="submit" class="w-full bg-primary text-black font-heading font-bold py-4 uppercase tracking-widest hover:bg-white transition-colors">
+                    Get Started
+                </button>
+            </form>
         </div>
     </div>
 
@@ -99,50 +123,49 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Modified to show modal and keep tracking
         function trackInterest(title, category, description, image) {
-            console.log("Tracking interest for:", title);
-            
-            // Log to Firebase
             const interestRef = database.ref('program_clicks');
             interestRef.push({
                 program: title,
                 timestamp: new Date().toISOString()
             });
 
-            // Update Modal Content
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-category').innerText = category;
             document.getElementById('modal-description').innerText = description;
             document.getElementById('modal-image').src = image;
 
-            // Show Modal
             const modal = document.getElementById('details-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            modal.classList.remove('modal-hidden');
+            modal.classList.add('modal-flex');
+            document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() {
-            const modal = document.getElementById('details-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        function openJoinModal() {
+            const modal = document.getElementById('join-modal');
+            modal.classList.remove('modal-hidden');
+            modal.classList.add('modal-flex');
+            document.body.style.overflow = 'hidden';
         }
 
-        // Render programs exactly like your original design, updated click handler
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('modal-hidden');
+            modal.classList.remove('modal-flex');
+            document.body.style.overflow = 'auto';
+        }
+
         function renderPrograms(programs) {
             const grid = document.getElementById('programs-grid');
             grid.innerHTML = '';
 
             if (!programs || Object.keys(programs).length === 0) {
-                grid.innerHTML = `<p class="col-span-3 text-center text-gray-400 py-12">No programs added yet. Admin can add them now.</p>`;
+                grid.innerHTML = `<p class="col-span-3 text-center text-gray-400 py-12">No programs added yet.</p>`;
                 return;
             }
 
             Object.keys(programs).sort((a, b) => (programs[a].order || 0) - (programs[b].order || 0)).forEach(key => {
                 const p = programs[key];
-                // We escape quotes in the strings to prevent HTML breaking
                 const safeTitle = p.title.replace(/'/g, "\\'");
                 const safeCat = p.category.replace(/'/g, "\\'");
                 const safeDesc = p.description.replace(/'/g, "\\'");
@@ -163,40 +186,19 @@
             });
         }
 
-        // Load programs in real-time
         function loadPrograms() {
             database.ref('programs').on('value', (snapshot) => {
-                const programsData = snapshot.val();
-                renderPrograms(programsData);
+                renderPrograms(snapshot.val());
             });
         }
 
-        // Seed initial programs (only runs once)
         function seedInitialPrograms() {
             database.ref('programs').once('value', (snap) => {
                 if (!snap.exists()) {
                     const initial = {
-                        p1: {
-                            category: "01 / Build Muscle",
-                            title: "Powerlifting",
-                            description: "Master the squat, bench, and deadlift with our heavy-duty strength cycles. Designed for those looking to move maximum weight.",
-                            image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop",
-                            order: 1
-                        },
-                        p2: {
-                            category: "02 / Shred Fat",
-                            title: "HIIT Core",
-                            description: "High-Intensity Interval Training designed to torch calories and build endurance fast through explosive movements.",
-                            image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1470&auto=format&fit=crop",
-                            order: 2
-                        },
-                        p3: {
-                            category: "03 / Recovery",
-                            title: "Mobility & Yoga",
-                            description: "Improve flexibility, prevent injuries, and clear your mind with active recovery techniques and deep stretching.",
-                            image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1520&auto=format&fit=crop",
-                            order: 3
-                        }
+                        p1: { category: "01 / Build Muscle", title: "Powerlifting", description: "Master the big three lifts.", image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop", order: 1 },
+                        p2: { category: "02 / Shred Fat", title: "HIIT Core", description: "High-intensity calorie burning.", image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1470&auto=format&fit=crop", order: 2 },
+                        p3: { category: "03 / Recovery", title: "Mobility & Yoga", description: "Active recovery and flexibility.", image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1520&auto=format&fit=crop", order: 3 }
                     };
                     database.ref('programs').set(initial);
                 }
@@ -208,11 +210,9 @@
             loadPrograms();
         };
 
-        // Close modal if user clicks outside the content box
         window.onclick = function(event) {
-            const modal = document.getElementById('details-modal');
-            if (event.target == modal) {
-                closeModal();
+            if (event.target.classList.contains('modal-transition')) {
+                closeModal(event.target.id);
             }
         }
     </script>

@@ -29,7 +29,7 @@
             transition: border-color 0.3s;
         }
         .form-input:focus { border-color: #D6FF00; }
-       
+      
         /* Modal Animation */
         #statusModal { transition: opacity 0.3s ease-in-out; }
         .modal-content { transform: scale(0.9); transition: transform 0.3s ease-in-out; }
@@ -62,7 +62,7 @@
         <div class="p-10 md:p-24 flex flex-col justify-center">
             <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm">Get In Touch</h4>
             <h1 class="text-5xl font-bold mb-8">START YOUR <br><span class="text-primary">JOURNEY</span></h1>
-           
+          
             <form id="contactForm" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <input type="text" id="fullName" placeholder="Full Name" class="form-input" required>
@@ -74,16 +74,16 @@
             </form>
         </div>
         <div class="relative min-h-[400px] bg-gray-900">
-            <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=1470&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-50" alt="Gym">
+            <img id="contact-bg-image" src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=1470&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-50" alt="Gym">
             <div class="absolute inset-0 flex flex-col justify-end p-10 md:p-24 bg-gradient-to-t from-dark">
                 <div class="space-y-8">
                     <div>
                         <h4 class="text-primary font-heading tracking-widest uppercase mb-2">Location</h4>
-                        <p class="text-xl text-gray-300">123 Iron Avenue, <br>Muscle District, NY 1001</p>
+                        <p id="contact-location" class="text-xl text-gray-300">123 Iron Avenue, <br>Muscle District, NY 1001</p>
                     </div>
                     <div>
                         <h4 class="text-primary font-heading tracking-widest uppercase mb-2">Opening Hours</h4>
-                        <p class="text-xl text-gray-300">Mon - Fri: 5:00 AM - 11:00 PM <br>Sat - Sun: 7:00 AM - 9:00 PM</p>
+                        <p id="contact-hours" class="text-xl text-gray-300">Mon - Fri: 5:00 AM - 11:00 PM <br>Sat - Sun: 7:00 AM - 9:00 PM</p>
                     </div>
                     <div class="flex gap-6 mt-10">
                         <a href="#" class="text-white hover:text-primary">Instagram</a>
@@ -110,6 +110,32 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+
+        // NEW: Live sync with Admin Dashboard (contactPage node)
+        function loadContactPage() {
+            database.ref('contactPage').on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                
+                // Location (combined from admin's address1 + address2)
+                const locationEl = document.getElementById('contact-location');
+                if (data.address1 || data.address2) {
+                    locationEl.innerHTML = `${data.address1 || ''}<br>${data.address2 || ''}`;
+                }
+                
+                // Opening hours
+                const hoursEl = document.getElementById('contact-hours');
+                if (data.hoursWeekday || data.hoursWeekend) {
+                    hoursEl.innerHTML = `Mon - Fri: ${data.hoursWeekday || '5:00 AM - 11:00 PM'}<br>Sat - Sun: ${data.hoursWeekend || '7:00 AM - 9:00 PM'}`;
+                }
+                
+                // Background image
+                const imgEl = document.getElementById('contact-bg-image');
+                if (data.imageUrl) {
+                    imgEl.src = data.imageUrl;
+                }
+            });
+        }
+
         // Modal Elements
         const modal = document.getElementById('statusModal');
         const modalTitle = document.getElementById('modalTitle');
@@ -118,7 +144,7 @@
         function showModal(success, title, message) {
             modalTitle.innerText = title;
             modalMessage.innerText = message;
-           
+          
             // Set Icon
             if(success) {
                 modalIcon.innerHTML = `<svg class="w-20 h-20 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
@@ -134,7 +160,7 @@
         }
         // Handle Form Submission
         const contactForm = document.getElementById('contactForm');
-       
+      
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
@@ -148,7 +174,7 @@
             // Push data to Firebase under 'contacts' node
             const contactRef = database.ref('contacts');
             const newContactRef = contactRef.push();
-           
+          
             newContactRef.set({
                 name: name,
                 email: email,
@@ -169,6 +195,9 @@
                 btn.disabled = false;
             });
         });
+
+        // Initialize live contact page data
+        window.onload = loadContactPage;
     </script>
 </body>
 </html>

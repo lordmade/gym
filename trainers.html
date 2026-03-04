@@ -1,227 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FITCORE - Trainers</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#D6FF00', dark: '#0A0A0A', card: '#141414' },
-                    fontFamily: { heading: ['Oswald', 'sans-serif'], body: ['Poppins', 'sans-serif'] },
-                    borderRadius: { 'pill': '9999px' }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #0A0A0A; color: white; overflow-x: hidden; }
-        h1, h2, h3, .nav-logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
-        .trainer-card { transition: all 0.4s ease; }
-        .trainer-card:hover img { transform: scale(1.08); }
-        
-        /* Join Now button - EXACT same hover as home page */
-        .btn-primary {
-            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-        }
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 0 4px rgba(214, 255, 0, 0.3);
-        }
-        .pill { border-radius: 9999px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITCORE - Trainers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#D6FF00', dark: '#0A0A0A', card: '#141414' },
+                    fontFamily: { heading: ['Oswald', 'sans-serif'], body: ['Poppins', 'sans-serif'] },
+                    borderRadius: { 'pill': '9999px' }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #0A0A0A; color: white; overflow-x: hidden; }
+        h1, h2, h3, .nav-logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        .trainer-card { transition: all 0.4s ease; }
+        
+        /* UPDATED: Black and white filter by default */
+        .trainer-card img { filter: grayscale(100%); transition: all 0.4s ease; }
 
-        /* Modal Animation - unchanged */
-        .modal-transition { transition: opacity 0.3s ease; }
-        .modal-hidden { display: none; opacity: 0; }
-        .modal-flex { display: flex; opacity: 1; }
-    </style>
+        /* UPDATED: Show color on hover, and scale */
+        .trainer-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
+        
+        /* Join Now button - EXACT same hover as home page */
+        .btn-primary {
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 4px rgba(214, 255, 0, 0.3);
+        }
+        .pill { border-radius: 9999px; }
+
+        /* Modal Animation - unchanged */
+        .modal-transition { transition: opacity 0.3s ease; }
+        .modal-hidden { display: none; opacity: 0; }
+        .modal-flex { display: flex; opacity: 1; }
+    </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
-    <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center bg-dark/90 backdrop-blur-sm border-b border-gray-900">
-        <a href="index.html" class="nav-logo text-3xl font-bold tracking-wider text-white">FIT<span class="text-primary">CORE</span></a>
-        <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
-            <a href="index.html" class="hover:text-primary transition-colors">Home</a>
-            <a href="programs.html" class="hover:text-primary transition-colors">Programs</a>
-            <a href="trainers.html" class="text-primary transition-colors">Trainers</a>
-            <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
-            <a href="contact.html" class="hover:text-primary transition-colors">Contact</a>
-        </div>
-        <!-- JOIN NOW BUTTON - exact same hover as home page -->
-        <button onclick="showJoinModal()" 
-                class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider btn-primary pill">
-            Join Now
-        </button>
-    </nav>
+    <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center bg-dark/90 backdrop-blur-sm border-b border-gray-900">
+        <a href="index.html" class="nav-logo text-3xl font-bold tracking-wider text-white">FIT<span class="text-primary">CORE</span></a>
+        <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
+            <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+            <a href="programs.html" class="hover:text-primary transition-colors">Programs</a>
+            <a href="trainers.html" class="text-primary transition-colors">Trainers</a>
+            <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
+            <a href="contact.html" class="hover:text-primary transition-colors">Contact</a>
+        </div>
+                <button onclick="showJoinModal()" 
+                class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider btn-primary pill">
+            Join Now
+        </button>
+    </nav>
 
-    <header class="pt-40 pb-20 px-6 text-center bg-card border-b border-gray-900">
-        <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm">Meet The Experts</h4>
-        <h1 class="text-5xl md:text-7xl font-bold leading-none mb-6">YOUR COACHES</h1>
-        <p class="text-gray-400 text-lg max-w-2xl mx-auto">Train with industry-leading professionals who will push you past your limits and ensure you reach your maximum potential.</p>
-    </header>
+    <header class="pt-40 pb-20 px-6 text-center bg-card border-b border-gray-900">
+        <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm">Meet The Experts</h4>
+        <h1 class="text-5xl md:text-7xl font-bold leading-none mb-6">YOUR COACHES</h1>
+        <p class="text-gray-400 text-lg max-w-2xl mx-auto">Train with industry-leading professionals who will push you past your limits and ensure you reach your maximum potential.</p>
+    </header>
 
-    <section class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <div id="trainers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Populated by Firebase from admin dashboard -->
-        </div>
-    </section>
+    <section class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
+        <div id="trainers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    </div>
+    </section>
 
-    <!-- TRAINER DETAIL MODAL (unchanged) -->
-    <div id="trainer-modal" class="modal-hidden modal-transition fixed inset-0 z-[100] items-center justify-center p-4 bg-black/90 backdrop-blur-md">
-        <div class="bg-card border border-gray-800 max-w-2xl w-full relative overflow-hidden rounded-3xl">
-            <button onclick="closeModal('trainer-modal')" class="absolute top-6 right-6 text-white hover:text-primary z-10">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-            <div class="flex flex-col md:flex-row">
-                <div class="w-full md:w-2/5">
-                    <img id="modal-trainer-image" src="" class="w-full h-full object-cover">
-                </div>
-                <div class="w-full md:w-3/5 p-10">
-                    <span id="modal-trainer-role" class="text-primary text-xs font-bold tracking-widest uppercase"></span>
-                    <h3 id="modal-trainer-name" class="text-4xl font-bold mt-2 mb-6"></h3>
-                    <p id="modal-trainer-desc" class="text-gray-400 leading-relaxed"></p>
-                    <button onclick="closeModal('trainer-modal')" class="mt-10 bg-primary text-black font-heading font-bold px-8 py-4 uppercase tracking-widest hover:bg-white transition-all">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+        <div id="trainer-modal" class="modal-hidden modal-transition fixed inset-0 z-[100] items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+        <div class="bg-card border border-gray-800 max-w-2xl w-full relative overflow-hidden rounded-3xl">
+            <button onclick="closeModal('trainer-modal')" class="absolute top-6 right-6 text-white hover:text-primary z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div class="flex flex-col md:flex-row">
+                <div class="w-full md:w-2/5">
+                    <img id="modal-trainer-image" src="" class="w-full h-full object-cover">
+                </div>
+                <div class="w-full md:w-3/5 p-10">
+                    <span id="modal-trainer-role" class="text-primary text-xs font-bold tracking-widest uppercase"></span>
+                    <h3 id="modal-trainer-name" class="text-4xl font-bold mt-2 mb-6"></h3>
+                    <p id="modal-trainer-desc" class="text-gray-400 leading-relaxed"></p>
+                    <button onclick="closeModal('trainer-modal')" class="mt-10 bg-primary text-black font-heading font-bold px-8 py-4 uppercase tracking-widest hover:bg-white transition-all">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- JOIN FITCORE MODAL - EXACTLY THE SAME AS HOME PAGE -->
-    <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-        <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
-            <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
-            <form id="join-form" onsubmit="handleJoinSubmit(event)">
-                <div class="space-y-6">
-                    <input id="join-name" type="text" placeholder="Full Name" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    <input id="join-email" type="email" placeholder="Email Address" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    <input id="join-phone" type="tel" placeholder="Phone Number" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                        <option value="">Select Plan</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Annual">Annual</option>
-                    </select>
-                </div>
-                <div class="flex gap-4 mt-8">
-                    <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 rounded-full">Cancel</button>
-                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full">Submit Request</button>
-                </div>
-            </form>
-        </div>
-    </div>
+        <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+        <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
+            <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
+            <form id="join-form" onsubmit="handleJoinSubmit(event)">
+                <div class="space-y-6">
+                    <input id="join-name" type="text" placeholder="Full Name" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                    <input id="join-email" type="email" placeholder="Email Address" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                    <input id="join-phone" type="tel" placeholder="Phone Number" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                    <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+                        <option value="">Select Plan</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Annual">Annual</option>
+                    </select>
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 rounded-full">Cancel</button>
+                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <!-- SUCCESS MODAL - EXACTLY THE SAME AS HOME PAGE -->
-    <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
-        <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
-            <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-            <h3 class="text-2xl font-bold mb-2 uppercase">Success!</h3>
-            <p class="text-gray-400 mb-8">Data sent to admin dashboard.</p>
-            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Close</button>
-        </div>
-    </div>
+        <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
+        <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
+            <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-2 uppercase">Success!</h3>
+            <p class="text-gray-400 mb-8">Data sent to admin dashboard.</p>
+            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Close</button>
+        </div>
+    </div>
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
-            authDomain: "pinotp-d7ef5.firebaseapp.com",
-            databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
-            projectId: "pinotp-d7ef5",
-            storageBucket: "pinotp-d7ef5.firebasestorage.app",
-            messagingSenderId: "708458917827",
-            appId: "1:708458917827:web:375de278577df0adcf9776"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
+            authDomain: "pinotp-d7ef5.firebaseapp.com",
+            databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
+            projectId: "pinotp-d7ef5",
+            storageBucket: "pinotp-d7ef5.firebasestorage.app",
+            messagingSenderId: "708458917827",
+            appId: "1:708458917827:web:375de278577df0adcf9776"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-        function loadTrainers() {
-            database.ref('trainers').on('value', (snapshot) => {
-                const data = snapshot.val() || {};
-                const grid = document.getElementById('trainers-grid');
-                grid.innerHTML = '';
-                const sorted = Object.keys(data).sort((a,b) => (data[a].order || 999) - (data[b].order || 999));
-                sorted.forEach(key => {
-                    const t = data[key];
-                    const card = `
-                        <div onclick="showTrainerDetail('${t.name}', '${t.title}', '${t.description}', '${t.image}')" 
-                             class="trainer-card bg-card border border-gray-800 rounded-3xl overflow-hidden cursor-pointer group">
-                            <div class="relative h-80">
-                                <img src="${t.image}" class="w-full h-full object-cover transition-transform group-hover:scale-105">
-                            </div>
-                            <div class="p-8">
-                                <h3 class="font-bold text-3xl">${t.name}</h3>
-                                <p class="text-primary text-sm tracking-widest uppercase mt-1">${t.title}</p>
-                            </div>
-                        </div>`;
-                    grid.innerHTML += card;
-                });
-            });
-        }
+        function loadTrainers() {
+            database.ref('trainers').on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                const grid = document.getElementById('trainers-grid');
+                grid.innerHTML = '';
+                const sorted = Object.keys(data).sort((a,b) => (data[a].order || 999) - (data[b].order || 999));
+                sorted.forEach(key => {
+                    const t = data[key];
+                    const card = `
+                        <div onclick="showTrainerDetail('${t.name}', '${t.title}', '${t.description}', '${t.image}')" 
+                             class="trainer-card bg-card border border-gray-800 rounded-3xl overflow-hidden cursor-pointer group">
+                            <div class="relative h-80 overflow-hidden">
+                                <img src="${t.image}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-8">
+                                <h3 class="font-bold text-3xl">${t.name}</h3>
+                                <p class="text-primary text-sm tracking-widest uppercase mt-1">${t.title}</p>
+                            </div>
+                        </div>`;
+                    grid.innerHTML += card;
+                });
+            });
+        }
 
-        function showTrainerDetail(name, role, desc, image) {
-            document.getElementById('modal-trainer-name').textContent = name;
-            document.getElementById('modal-trainer-role').textContent = role;
-            document.getElementById('modal-trainer-desc').textContent = desc;
-            document.getElementById('modal-trainer-image').src = image;
-            const modal = document.getElementById('trainer-modal');
-            modal.classList.remove('modal-hidden');
-            modal.classList.add('modal-flex');
-            document.body.style.overflow = 'hidden';
-        }
+        function showTrainerDetail(name, role, desc, image) {
+            document.getElementById('modal-trainer-name').textContent = name;
+            document.getElementById('modal-trainer-role').textContent = role;
+            document.getElementById('modal-trainer-desc').textContent = desc;
+            document.getElementById('modal-trainer-image').src = image;
+            const modal = document.getElementById('trainer-modal');
+            modal.classList.remove('modal-hidden');
+            modal.classList.add('modal-flex');
+            document.body.style.overflow = 'hidden';
+        }
 
-        function closeModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.add('modal-hidden');
-            modal.classList.remove('modal-flex');
-            document.body.style.overflow = 'auto';
-        }
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('modal-hidden');
+            modal.classList.remove('modal-flex');
+            document.body.style.overflow = 'auto';
+        }
 
-        // ==================== JOIN MODAL - EXACT SAME AS HOME PAGE ====================
-        function showJoinModal() {
-            document.getElementById("join-modal").classList.remove("hidden");
-            document.body.style.overflow = "hidden";
-        }
-        function hideJoinModal() {
-            document.getElementById("join-modal").classList.add("hidden");
-            document.body.style.overflow = "auto";
-        }
-        function showSuccessModal() {
-            document.getElementById("success-modal").classList.remove("hidden");
-        }
-        function hideSuccessModal() {
-            document.getElementById("success-modal").classList.add("hidden");
-            document.body.style.overflow = "auto";
-        }
-        async function handleJoinSubmit(e) {
-            e.preventDefault();
-            const btn = document.getElementById("submit-btn");
-            const data = {
-                name: document.getElementById("join-name").value,
-                email: document.getElementById("join-email").value,
-                phone: document.getElementById("join-phone").value,
-                plan: document.getElementById("join-plan").value,
-                timestamp: Date.now()
-            };
-            try {
-                btn.disabled = true;
-                btn.innerText = "Sending...";
-                await database.ref('membershipRequests').push(data);
-                hideJoinModal();
-                showSuccessModal();
-                document.getElementById("join-form").reset();
-            } catch (err) {
-                alert("Error connecting to database.");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "Submit Request";
-            }
-        }
+        // ==================== JOIN MODAL - EXACT SAME AS HOME PAGE ====================
+        function showJoinModal() {
+            document.getElementById("join-modal").classList.remove("hidden");
+            document.body.style.overflow = "hidden";
+        }
+        function hideJoinModal() {
+            document.getElementById("join-modal").classList.add("hidden");
+            document.body.style.overflow = "auto";
+        }
+        function showSuccessModal() {
+            document.getElementById("success-modal").classList.remove("hidden");
+        }
+        function hideSuccessModal() {
+            document.getElementById("success-modal").classList.add("hidden");
+            document.body.style.overflow = "auto";
+        }
+        async function handleJoinSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById("submit-btn");
+            const data = {
+                name: document.getElementById("join-name").value,
+                email: document.getElementById("join-email").value,
+                phone: document.getElementById("join-phone").value,
+                plan: document.getElementById("join-plan").value,
+                timestamp: Date.now()
+            };
+            try {
+                btn.disabled = true;
+                btn.innerText = "Sending...";
+                await database.ref('membershipRequests').push(data);
+                hideJoinModal();
+                showSuccessModal();
+                document.getElementById("join-form").reset();
+            } catch (err) {
+                alert("Error connecting to database.");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Submit Request";
+            }
+        }
 
-        window.onload = loadTrainers;
-    </script>
+        window.onload = loadTrainers;
+    </script>
 </body>
 </html>

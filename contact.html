@@ -42,11 +42,27 @@
             transform: scale(1.05);
             box-shadow: 0 0 0 4px rgba(214, 255, 0, 0.3);
         }
+
+        /* Shimmer for location while admin data loads - only on background area */
+        .shimmer {
+            display: block;
+            height: 24px;
+            background: linear-gradient(90deg, #1f1f1f 25%, #333333 50%, #1f1f1f 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+            border-radius: 9999px;
+            width: 100%;
+            max-width: 260px;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
     </style>
 </head>
 <body class="antialiased">
     <div id="statusModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 px-4">
-        <div class="modal-content bg-card border border-gray-800 p-8 md:p-12 max-w-md w-full text-center relative rounded-3xl overflow-hidden">
+        <div class="modal-content bg-card border border-gray-800 p-8 md:p-12 max-w-md w-full text-center relative">
             <div id="modalIcon" class="mb-6 flex justify-center">
                 </div>
             <h2 id="modalTitle" class="text-3xl font-bold mb-2 tracking-tight"></h2>
@@ -85,9 +101,12 @@
             <img id="contact-bg-image" src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=1470&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-50" alt="Gym">
             <div class="absolute inset-0 flex flex-col justify-end p-10 md:p-24 bg-gradient-to-t from-dark">
                 <div class="space-y-8">
-                    <div>
+                    <!-- Oval pill-shaped background ONLY where location information is -->
+                    <div class="bg-card border border-gray-800 rounded-full p-8">
                         <h4 class="text-primary font-heading tracking-widest uppercase mb-2">Location</h4>
-                        <p id="contact-location" class="text-xl text-gray-300">123 Iron Avenue, <br>Muscle District, NY 1001</p>
+                        <p id="contact-location" class="text-xl text-gray-300">
+                            <span class="shimmer"></span>
+                        </p>
                     </div>
                     <div>
                         <h4 class="text-primary font-heading tracking-widest uppercase mb-2">Opening Hours</h4>

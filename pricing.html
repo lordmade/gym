@@ -1,316 +1,545 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FITCORE - Membership Pricing</title>
+
+    <title>FITCORE - Our Programs</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
     <script>
+
         tailwind.config = {
+
             theme: {
+
                 extend: {
+
                     colors: { primary: '#D6FF00', dark: '#0A0A0A', card: '#141414' },
+
                     fontFamily: { heading: ['Oswald', 'sans-serif'], body: ['Poppins', 'sans-serif'] },
+
                     borderRadius: { 'pill': '9999px' }
+
                 }
+
             }
+
         }
+
     </script>
+
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #0A0A0A; color: white; }
+
+        body { font-family: 'Poppins', sans-serif; background-color: #0A0A0A; color: white; overflow-x: hidden; }
+
         h1, h2, h3, .nav-logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+
         .text-outline { -webkit-text-stroke: 1px #D6FF00; color: transparent; }
-        #successModal { transition: opacity 0.3s ease-in-out; }
 
-        /* PROGRAM-STYLE CARDS */
-        .pricing-card {
-            transition: all 0.4s ease;
-            position: relative;
-            height: 24rem;
-            overflow: hidden;
-            cursor: pointer;
-            border: 1px solid #111;
-        }
-        .pricing-card img {
-            transition: transform 0.7s ease;
-        }
-        .pricing-card:hover img {
-            transform: scale(1.1);
-        }
-        .pricing-card .card-overlay {
-            background: linear-gradient(to top, black, rgba(0,0,0,0.5), transparent);
-            opacity: 0.90;
-            transition: opacity 0.4s ease;
-        }
-        .pricing-card:hover .card-overlay {
-            opacity: 0.75;
-        }
-        .pricing-card .card-content {
-            transform: translateY(1rem);
-            transition: transform 0.4s ease;
-        }
-        .pricing-card:hover .card-content {
-            transform: translateY(0);
-        }
-        .pricing-card .card-features {
-            opacity: 0;
-            transition: opacity 0.5s ease 0.1s;
-        }
-        .pricing-card:hover .card-features {
-            opacity: 1;
-        }
+        .program-card { transition: all 0.4s ease; }
 
-        /* JOIN NOW BUTTON */
+        .program-card:hover img { transform: scale(1.1); }
+
+       
+
+        /* Modal Animation */
+
+        .modal-transition { transition: opacity 0.3s ease; }
+
+        .modal-hidden { display: none; opacity: 0; }
+
+        .modal-flex { display: flex; opacity: 1; }
+
+
+
+        /* Join Now button - exact same as home page */
+
         .btn-primary {
+
             transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+
         }
+
         .btn-primary:hover {
+
             transform: scale(1.05);
+
             box-shadow: 0 0 0 4px rgba(214, 255, 0, 0.3);
+
         }
 
-        .pill-btn { border-radius: 9999px; }
-        .btn-loading { pointer-events: none; opacity: 0.6; }
+        .pill {
+
+            border-radius: 9999px;
+
+        }
+
     </style>
+
 </head>
-<body class="antialiased">
 
-    <!-- JOIN FITCORE MODAL - EXACT SAME AS HOME PAGE -->
-    <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-        <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8">
-            <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
-            <form id="join-form" onsubmit="handleJoinSubmit(event)">
-                <div class="space-y-6">
-                    <input id="join-name" type="text" placeholder="Full Name" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    <input id="join-email" type="email" placeholder="Email Address" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    <input id="join-phone" type="tel" placeholder="Phone Number" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                        <option value="">Select Plan</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Annual">Annual</option>
-                    </select>
-                </div>
-                <div class="flex gap-4 mt-8">
-                    <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 rounded-full">Cancel</button>
-                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full">Submit Request</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- JOIN SUCCESS MODAL - EXACT SAME AS HOME PAGE -->
-    <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
-        <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center">
-            <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-            <h3 class="text-2xl font-bold mb-2 uppercase">Success!</h3>
-            <p class="text-gray-400 mb-8">Data sent to admin dashboard.</p>
-            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Close</button>
-        </div>
-    </div>
-
-    <!-- PRICING SUCCESS MODAL (kept completely unchanged) -->
-    <div id="successModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-black/90 backdrop-blur-md">
-        <div class="bg-card border-2 border-primary p-8 md:p-12 max-w-md w-full text-center shadow-[0_0_50px_rgba(214,255,0,0.2)] rounded-3xl">
-            <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-            <h2 class="text-3xl font-bold mb-2">WELCOME TO THE TEAM</h2>
-            <p class="text-gray-400 mb-8">Your <span id="selectedPlanName" class="text-primary font-bold"></span> plan selection has been recorded. Our team will contact you shortly.</p>
-            <button onclick="closeModal()" class="w-full py-4 bg-primary text-black font-heading font-bold uppercase tracking-widest hover:bg-white transition-all pill-btn">Continue</button>
-        </div>
-    </div>
+<body class="antialiased selection:bg-primary selection:text-black">
 
     <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center bg-dark/90 backdrop-blur-sm border-b border-gray-900">
-        <a href="index.html" class="nav-logo text-3xl font-bold tracking-wider text-white">FIT<span class="text-primary">CORE</span></a>
+
+        <a href="index.html" class="nav-logo text-3xl font-bold tracking-wider text-white">
+
+            FIT<span class="text-primary">CORE</span>
+
+        </a>
+
         <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
+
             <a href="index.html" class="hover:text-primary transition-colors">Home</a>
-            <a href="programs.html" class="hover:text-primary transition-colors">Programs</a>
+
+            <a href="programs.html" class="text-primary transition-colors">Programs</a>
+
             <a href="trainers.html" class="hover:text-primary transition-colors">Trainers</a>
-            <a href="pricing.html" class="text-primary transition-colors">Pricing</a>
+
+            <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
+
             <a href="contact.html" class="hover:text-primary transition-colors">Contact</a>
+
         </div>
-        <button onclick="showJoinModal()"
-                class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider btn-primary pill rounded-full">
+
+        <!-- JOIN NOW BUTTON - exact same styling + hover as home page -->
+
+        <button onclick="showJoinModal()" 
+
+                class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider btn-primary pill">
+
             Join Now
+
         </button>
+
     </nav>
 
-    <header class="pt-40 pb-20 px-6 text-center bg-card border-b border-gray-900">
-        <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm">Flexible Plans</h4>
-        <h1 class="text-5xl md:text-7xl font-bold leading-none mb-6">CHOOSE YOUR <span class="text-outline">LEVEL</span></h1>
+    <header class="pt-40 pb-20 px-6 md:px-16 bg-card border-b border-gray-900">
+
+        <div class="max-w-4xl mx-auto text-center">
+
+            <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm">Choose Your Path</h4>
+
+            <h1 class="text-5xl md:text-7xl font-bold leading-none mb-6">ELITE <span class="text-outline">PROGRAMS</span></h1>
+
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto font-light">Whether you want to build muscle, lose weight, or improve your overall endurance, we have a specialized program designed for your exact goals.</p>
+
+        </div>
+
     </header>
 
-    <section id="pricing-section" class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <div id="pricing-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        </div>
+    <section class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
+
+        <div id="programs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            </div>
+
     </section>
 
+
+
+    <!-- PROGRAM DETAILS MODAL - unchanged -->
+
+    <div id="details-modal" class="modal-hidden modal-transition fixed inset-0 z-[100] items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+
+        <div class="bg-card border border-gray-800 max-w-2xl w-full relative overflow-hidden">
+
+            <button onclick="closeModal('details-modal')" class="absolute top-4 right-4 text-white hover:text-primary z-10">
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+
+                </svg>
+
+            </button>
+
+            <div class="flex flex-col md:flex-row">
+
+                <div class="w-full md:w-1/2 h-64 md:h-auto">
+
+                    <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+
+                </div>
+
+                <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
+
+                    <span id="modal-category" class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block"></span>
+
+                    <h3 id="modal-title" class="text-4xl font-bold mb-4"></h3>
+
+                    <p id="modal-description" class="text-gray-400 mb-8 font-light leading-relaxed"></p>
+
+                    <button onclick="closeModal('details-modal')" class="bg-primary text-black font-heading font-bold px-6 py-3 uppercase text-sm tracking-widest hover:bg-white transition-colors">
+
+                        Close Details
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- JOIN MODAL - EXACTLY THE SAME AS HOME PAGE -->
+
+    <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+
+        <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
+
+            <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
+
+            <form id="join-form" onsubmit="handleJoinSubmit(event)">
+
+                <div class="space-y-6">
+
+                    <input id="join-name" type="text" placeholder="Full Name" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+
+                    <input id="join-email" type="email" placeholder="Email Address" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+
+                    <input id="join-phone" type="tel" placeholder="Phone Number" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+
+                    <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
+
+                        <option value="">Select Plan</option>
+
+                        <option value="Monthly">Monthly</option>
+
+                        <option value="Annual">Annual</option>
+
+                    </select>
+
+                </div>
+
+                <div class="flex gap-4 mt-8">
+
+                    <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 rounded-full">Cancel</button>
+
+                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full">Submit Request</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SUCCESS MODAL - EXACTLY THE SAME AS HOME PAGE -->
+
+    <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
+
+        <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
+
+            <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+
+            </div>
+
+            <h3 class="text-2xl font-bold mb-2 uppercase">Success!</h3>
+
+            <p class="text-gray-400 mb-8">Data sent to admin dashboard.</p>
+
+            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Close</button>
+
+        </div>
+
+    </div>
+
+
+
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
     <script>
+
         const firebaseConfig = {
+
             apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
+
             authDomain: "pinotp-d7ef5.firebaseapp.com",
+
             databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
+
             projectId: "pinotp-d7ef5",
+
             storageBucket: "pinotp-d7ef5.firebasestorage.app",
+
             messagingSenderId: "708458917827",
+
             appId: "1:708458917827:web:375de278577df0adcf9776"
+
         };
 
         firebase.initializeApp(firebaseConfig);
+
         const database = firebase.database();
 
-        // ==================== JOIN MODAL FUNCTIONS - EXACT SAME AS HOME PAGE ====================
-        function showJoinModal() {
-            document.getElementById("join-modal").classList.remove("hidden");
-            document.body.style.overflow = "hidden";
-        }
-        function hideJoinModal() {
-            document.getElementById("join-modal").classList.add("hidden");
-            document.body.style.overflow = "auto";
-        }
-        function showSuccessModal() {
-            document.getElementById("success-modal").classList.remove("hidden");
-        }
-        function hideSuccessModal() {
-            document.getElementById("success-modal").classList.add("hidden");
-            document.body.style.overflow = "auto";
-        }
-        async function handleJoinSubmit(e) {
-            e.preventDefault();
-            const btn = document.getElementById("submit-btn");
-            const data = {
-                name: document.getElementById("join-name").value,
-                email: document.getElementById("join-email").value,
-                phone: document.getElementById("join-phone").value,
-                plan: document.getElementById("join-plan").value,
-                timestamp: Date.now()
-            };
-            try {
-                btn.disabled = true;
-                btn.innerText = "Sending...";
-                await database.ref('membershipRequests').push(data);
-                hideJoinModal();
-                showSuccessModal();
-                document.getElementById("join-form").reset();
-            } catch (err) {
-                alert("Error connecting to database.");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "Submit Request";
-            }
-        }
 
-        // ==================== PRICING LOGIC (COMPLETELY UNCHANGED) ====================
 
-        // Background images to cycle through for cards without images
-        const fallbackImages = [
-            "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1470&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop"
-        ];
+        function trackInterest(title, category, description, image) {
 
-        function loadPricing() {
-            database.ref('pricing/packages').on('value', (snapshot) => {
-                const data = snapshot.val() || {};
-                const container = document.getElementById('pricing-grid');
-                container.innerHTML = '';
-                const sortedKeys = Object.keys(data).sort((a, b) =>
-                    (data[a].order || 9999) - (data[b].order || 9999)
-                );
-                sortedKeys.forEach((key, idx) => {
-                    const p = data[key];
-                    const isPopular = !!p.isPopular;
-                    const bgImage = p.image || fallbackImages[idx % fallbackImages.length];
-                    const featureLines = (p.features || '').split('\n').filter(l => l.trim());
+            const interestRef = database.ref('program_clicks');
 
-                    const cardHTML = `
-                        <div class="pricing-card${isPopular ? ' ring-2 ring-primary' : ''}" onclick="selectPlan('${p.title.replace(/'/g,"\\'")}', ${p.price})">
-                            <!-- Background image -->
-                            <img src="${bgImage}" alt="${p.title}" class="absolute inset-0 w-full h-full object-cover">
-                            <!-- Gradient overlay -->
-                            <div class="card-overlay absolute inset-0"></div>
-                            ${isPopular ? `
-                            <div class="absolute top-4 right-4 bg-primary text-black font-heading font-bold px-4 py-1 text-xs tracking-widest uppercase z-10">
-                                Most Popular
-                            </div>` : ''}
-                            <!-- Card content -->
-                            <div class="card-content absolute bottom-0 left-0 p-8 w-full">
-                                <span class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block">
-                                    R${p.price || 0}${p.period || '/mo'}
-                                </span>
-                                <h3 class="text-3xl font-bold mb-3">${p.title || 'Plan'}</h3>
-                                <ul class="card-features space-y-2 mb-4 text-gray-300 text-sm">
-                                    ${featureLines.map(line => `
-                                    <li class="flex items-center gap-2">
-                                        <svg class="w-4 h-4 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        ${line.trim()}
-                                    </li>`).join('')}
-                                </ul>
-                                <span class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">
-                                    ${p.buttonText || (isPopular ? 'Get Started' : 'Select Plan')}
-                                </span>
-                            </div>
-                        </div>
-                    `;
-                    container.innerHTML += cardHTML;
-                });
+            interestRef.push({
+
+                program: title,
+
+                timestamp: new Date().toISOString()
+
             });
-        }
 
-        async function selectPlan(planName, price) {
-            const buttons = document.querySelectorAll('button[onclick^="selectPlan"]');
-            let btn = null;
-            for (let b of buttons) {
-                if (b.getAttribute('onclick').includes(planName)) {
-                    btn = b;
-                    break;
-                }
-            }
-            if (btn) {
-                btn.innerText = "Processing...";
-                btn.classList.add('btn-loading');
-            }
-            try {
-                await database.ref('membership_selections').push({
-                    plan: planName,
-                    price: price,
-                    timestamp: new Date().toISOString()
-                });
-                showModal(planName);
-            } catch (err) {
-                console.error(err);
-                alert("Connection error.");
-            } finally {
-                if (btn) {
-                    btn.innerText = "Select Plan";
-                    btn.classList.remove('btn-loading');
-                }
-            }
-        }
+            document.getElementById('modal-title').innerText = title;
 
-        function showModal(planName) {
-            document.getElementById('selectedPlanName').innerText = planName;
-            const modal = document.getElementById('successModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            document.getElementById('modal-category').innerText = category;
+
+            document.getElementById('modal-description').innerText = description;
+
+            document.getElementById('modal-image').src = image;
+
+            const modal = document.getElementById('details-modal');
+
+            modal.classList.remove('modal-hidden');
+
+            modal.classList.add('modal-flex');
+
             document.body.style.overflow = 'hidden';
+
         }
 
-        function closeModal() {
-            const modal = document.getElementById('successModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+
+
+        // ==================== JOIN MODAL FUNCTIONS (EXACTLY SAME AS HOME PAGE) ====================
+
+        function showJoinModal() {
+
+            document.getElementById("join-modal").classList.remove("hidden");
+
+            document.body.style.overflow = "hidden";
+
+        }
+
+        function hideJoinModal() {
+
+            document.getElementById("join-modal").classList.add("hidden");
+
+            document.body.style.overflow = "auto";
+
+        }
+
+        function showSuccessModal() {
+
+            document.getElementById("success-modal").classList.remove("hidden");
+
+        }
+
+        function hideSuccessModal() {
+
+            document.getElementById("success-modal").classList.add("hidden");
+
+            document.body.style.overflow = "auto";
+
+        }
+
+        async function handleJoinSubmit(e) {
+
+            e.preventDefault();
+
+            const btn = document.getElementById("submit-btn");
+
+            const data = {
+
+                name: document.getElementById("join-name").value,
+
+                email: document.getElementById("join-email").value,
+
+                phone: document.getElementById("join-phone").value,
+
+                plan: document.getElementById("join-plan").value,
+
+                timestamp: Date.now()
+
+            };
+
+            try {
+
+                btn.disabled = true;
+
+                btn.innerText = "Sending...";
+
+                await database.ref('membershipRequests').push(data);
+
+                hideJoinModal();
+
+                showSuccessModal();
+
+                document.getElementById("join-form").reset();
+
+            } catch (err) {
+
+                alert("Error connecting to database.");
+
+            } finally {
+
+                btn.disabled = false;
+
+                btn.innerText = "Submit Request";
+
+            }
+
+        }
+
+
+
+        function closeModal(modalId) {
+
+            const modal = document.getElementById(modalId);
+
+            modal.classList.add('modal-hidden');
+
+            modal.classList.remove('modal-flex');
+
             document.body.style.overflow = 'auto';
+
         }
 
-        window.onload = loadPricing;
+
+
+        function renderPrograms(programs) {
+
+            const grid = document.getElementById('programs-grid');
+
+            grid.innerHTML = '';
+
+            if (!programs || Object.keys(programs).length === 0) {
+
+                grid.innerHTML = `<p class="col-span-3 text-center text-gray-400 py-12">No programs added yet.</p>`;
+
+                return;
+
+            }
+
+            Object.keys(programs).sort((a, b) => (programs[a].order || 0) - (programs[b].order || 0)).forEach(key => {
+
+                const p = programs[key];
+
+                const safeTitle = p.title.replace(/'/g, "\\'");
+
+                const safeCat = p.category.replace(/'/g, "\\'");
+
+                const safeDesc = p.description.replace(/'/g, "\\'");
+
+               
+
+                const cardHTML = `
+
+                    <div onclick="trackInterest('${safeTitle}', '${safeCat}', '${safeDesc}', '${p.image}')" class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
+
+                        <img src="${p.image}" alt="${p.title}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity"></div>
+
+                        <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform">
+
+                            <span class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block">${p.category}</span>
+
+                            <h3 class="text-3xl font-bold mb-3">${p.title}</h3>
+
+                            <p class="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">${p.description}</p>
+
+                            <span class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+                grid.innerHTML += cardHTML;
+
+            });
+
+        }
+
+
+
+        function loadPrograms() {
+
+            database.ref('programs').on('value', (snapshot) => {
+
+                renderPrograms(snapshot.val());
+
+            });
+
+        }
+
+
+
+        function seedInitialPrograms() {
+
+            database.ref('programs').once('value', (snap) => {
+
+                if (!snap.exists()) {
+
+                    const initial = {
+
+                        p1: { category: "01 / Build Muscle", title: "Powerlifting", description: "Master the big three lifts.", image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop", order: 1 },
+
+                        p2: { category: "02 / Shred Fat", title: "HIIT Core", description: "High-intensity calorie burning.", image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1470&auto=format&fit=crop", order: 2 },
+
+                        p3: { category: "03 / Recovery", title: "Mobility & Yoga", description: "Active recovery and flexibility.", image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1520&auto=format&fit=crop", order: 3 }
+
+                    };
+
+                    database.ref('programs').set(initial);
+
+                }
+
+            });
+
+        }
+
+
+
+        window.onload = () => {
+
+            seedInitialPrograms();
+
+            loadPrograms();
+
+        };
+
+
+
+        window.onclick = function(event) {
+
+            if (event.target.classList.contains('modal-transition')) {
+
+                closeModal(event.target.id);
+
+            }
+
+        }
+
     </script>
+
 </body>
-</html>
+
+</html> 

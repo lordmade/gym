@@ -23,12 +23,11 @@
         .text-outline { -webkit-text-stroke: 1px #D6FF00; color: transparent; }
         .program-card { transition: all 0.4s ease; }
         .program-card:hover img { transform: scale(1.1); }
-       
+      
         /* Modal Animation */
         .modal-transition { transition: opacity 0.3s ease; }
         .modal-hidden { display: none; opacity: 0; }
         .modal-flex { display: flex; opacity: 1; }
-
         /* Join Now button - exact same as home page */
         .btn-primary {
             transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
@@ -55,7 +54,7 @@
             <a href="contact.html" class="hover:text-primary transition-colors">Contact</a>
         </div>
         <!-- JOIN NOW BUTTON - exact same styling + hover as home page -->
-        <button onclick="showJoinModal()" 
+        <button onclick="showJoinModal()"
                 class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider btn-primary pill">
             Join Now
         </button>
@@ -71,7 +70,6 @@
         <div id="programs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             </div>
     </section>
-
     <!-- PROGRAM DETAILS MODAL - unchanged -->
     <div id="details-modal" class="modal-hidden modal-transition fixed inset-0 z-[100] items-center justify-center p-4 bg-black/90 backdrop-blur-md">
         <div class="bg-card border border-gray-800 max-w-2xl w-full relative overflow-hidden">
@@ -95,7 +93,6 @@
             </div>
         </div>
     </div>
-
     <!-- JOIN MODAL - EXACTLY THE SAME AS HOME PAGE -->
     <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
         <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
@@ -118,7 +115,6 @@
             </form>
         </div>
     </div>
-
     <!-- SUCCESS MODAL - EXACTLY THE SAME AS HOME PAGE -->
     <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
         <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
@@ -130,7 +126,6 @@
             <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Close</button>
         </div>
     </div>
-
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script>
@@ -145,7 +140,6 @@
         };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-
         function trackInterest(title, category, description, image) {
             const interestRef = database.ref('program_clicks');
             interestRef.push({
@@ -161,7 +155,6 @@
             modal.classList.add('modal-flex');
             document.body.style.overflow = 'hidden';
         }
-
         // ==================== JOIN MODAL FUNCTIONS (EXACTLY SAME AS HOME PAGE) ====================
         function showJoinModal() {
             document.getElementById("join-modal").classList.remove("hidden");
@@ -202,14 +195,12 @@
                 btn.innerText = "Submit Request";
             }
         }
-
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.add('modal-hidden');
             modal.classList.remove('modal-flex');
             document.body.style.overflow = 'auto';
         }
-
         function renderPrograms(programs) {
             const grid = document.getElementById('programs-grid');
             grid.innerHTML = '';
@@ -222,15 +213,16 @@
                 const safeTitle = p.title.replace(/'/g, "\\'");
                 const safeCat = p.category.replace(/'/g, "\\'");
                 const safeDesc = p.description.replace(/'/g, "\\'");
-               
+              
                 const cardHTML = `
-                    <div onclick="trackInterest('${safeTitle}', '${safeCat}', '${safeDesc}', '${p.image}')" class="program-card relative h-96 overflow-hidden group cursor-pointer border border-gray-900">
-                        <img src="${p.image}" alt="${p.title}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity"></div>
-                        <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                    <div onclick="trackInterest('${safeTitle}', '${safeCat}', '${safeDesc}', '${p.image}')" class="program-card bg-card border border-gray-800 rounded-3xl overflow-hidden cursor-pointer group">
+                        <div class="relative h-80">
+                            <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700">
+                        </div>
+                        <div class="p-8">
                             <span class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block">${p.category}</span>
                             <h3 class="text-3xl font-bold mb-3">${p.title}</h3>
-                            <p class="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">${p.description}</p>
+                            <p class="text-gray-300 text-sm mb-4">${p.description}</p>
                             <span class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</span>
                         </div>
                     </div>
@@ -238,13 +230,11 @@
                 grid.innerHTML += cardHTML;
             });
         }
-
         function loadPrograms() {
             database.ref('programs').on('value', (snapshot) => {
                 renderPrograms(snapshot.val());
             });
         }
-
         function seedInitialPrograms() {
             database.ref('programs').once('value', (snap) => {
                 if (!snap.exists()) {
@@ -257,12 +247,10 @@
                 }
             });
         }
-
         window.onload = () => {
             seedInitialPrograms();
             loadPrograms();
         };
-
         window.onclick = function(event) {
             if (event.target.classList.contains('modal-transition')) {
                 closeModal(event.target.id);

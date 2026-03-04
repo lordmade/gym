@@ -15,10 +15,11 @@
         .text-outline { -webkit-text-stroke: 1px #D6FF00; color: transparent; }
         
         /* Modal Animation */
-        #trainerModal { transition: opacity 0.3s ease-in-out; }
+        #trainerModal, #joinModal { transition: opacity 0.3s ease-in-out; }
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
+
     <div id="trainerModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-md">
         <div class="bg-card border border-gray-800 max-w-2xl w-full relative overflow-hidden flex flex-col md:flex-row">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-white hover:text-primary z-10 bg-black/50 rounded-full p-1">
@@ -42,6 +43,29 @@
         </div>
     </div>
 
+    <div id="joinModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-md">
+        <div class="bg-card border border-primary/30 max-w-md w-full p-8 relative">
+            <button onclick="closeJoinModal()" class="absolute top-4 right-4 text-white hover:text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-3xl font-bold mb-2">JOIN <span class="text-primary">FITCORE</span></h2>
+            <p class="text-gray-400 text-sm mb-6">Start your transformation today.</p>
+            <form class="space-y-4">
+                <input type="text" placeholder="Full Name" class="w-full bg-dark border border-gray-800 p-3 focus:border-primary outline-none transition-colors">
+                <input type="email" placeholder="Email Address" class="w-full bg-dark border border-gray-800 p-3 focus:border-primary outline-none transition-colors">
+                <select class="w-full bg-dark border border-gray-800 p-3 focus:border-primary outline-none transition-colors text-gray-400">
+                    <option>Select Program</option>
+                    <option>Strength Training</option>
+                    <option>HIIT & Cardio</option>
+                    <option>Yoga & Mobility</option>
+                </select>
+                <button type="button" class="w-full bg-primary text-black font-heading font-bold py-4 uppercase tracking-widest hover:bg-white transition-colors">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
     <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center bg-dark/90 backdrop-blur-sm border-b border-gray-900">
         <a href="index.html" class="nav-logo text-3xl font-bold tracking-wider text-white">FIT<span class="text-primary">CORE</span></a>
         <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
@@ -51,7 +75,7 @@
             <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
              <a href="contact.html" class="hover:text-primary transition-colors">Contact</a>
         </div>
-        <button class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider hover:bg-white transition-colors">Join Now</button>
+        <button onclick="openJoinModal()" class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider hover:bg-white transition-colors rounded-full">Join Now</button>
     </nav>
 
     <header class="pt-40 pb-20 px-6 md:px-16 bg-card border-b border-gray-900">
@@ -82,6 +106,21 @@
 
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+
+        // Join Modal Functions
+        function openJoinModal() {
+            const modal = document.getElementById('joinModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeJoinModal() {
+            const modal = document.getElementById('joinModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
 
         // Show Modal and log click
         function showTrainerProfile(name, title, image) {
@@ -166,11 +205,15 @@
             loadTrainers();
         };
 
-        // Close modal if user clicks outside of the content box
+        // Close modals if user clicks outside of the content box
         window.onclick = function(event) {
-            const modal = document.getElementById('trainerModal');
-            if (event.target == modal) {
+            const trainerModal = document.getElementById('trainerModal');
+            const joinModal = document.getElementById('joinModal');
+            if (event.target == trainerModal) {
                 closeModal();
+            }
+            if (event.target == joinModal) {
+                closeJoinModal();
             }
         }
     </script>

@@ -3,48 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FITCORE - Our Programs</title>
+    <title>Robert Mphephu Fitness Centre | Programs</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { primary: '#D6FF00', dark: '#0A0A0A', card: '#141414' },
-                    fontFamily: { heading: ['Oswald', 'sans-serif'], body: ['Poppins', 'sans-serif'] },
-                    borderRadius: { 'pill': '9999px' }
+                    colors: {
+                        primary: '#C5A059', // Logo Gold
+                        secondary: '#3b46d0', // Logo Blue
+                        dark: '#0A0A0A',
+                        card: '#141414',
+                    },
+                    fontFamily: {
+                        heading: ['Oswald', 'sans-serif'],
+                        body: ['Poppins', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'pill': '9999px',
+                    }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #0A0A0A; color: white; overflow-x: hidden; }
-        h1, h2, h3, .nav-logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
-        .text-outline { -webkit-text-stroke: 1px #D6FF00; color: transparent; }
-        .program-card { transition: all 0.4s ease; }
-        .program-card:hover img { transform: scale(1.1); }
-      
-        /* Modal Animation */
-        .modal-transition { transition: opacity 0.3s ease; }
-        .modal-hidden { display: none; opacity: 0; }
-        .modal-flex { display: flex; opacity: 1; }
-        /* Join Now button - exact same as home page */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0A0A0A;
+            color: white;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .nav-logo {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+        .text-outline {
+            -webkit-text-stroke: 1.5px #C5A059;
+            color: transparent;
+        }
+        .program-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .program-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgb(197 160 89 / 0.2);
+        }
+        .program-card:hover img {
+            transform: scale(1.1);
+        }
+        .pill {
+            border-radius: 9999px;
+        }
         .btn-primary {
             transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
         }
         .btn-primary:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 0 4px rgba(214, 255, 0, 0.3);
+            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.3);
         }
-        .pill {
+        /* Navbar Scroll Logic */
+        nav {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+        }
+        .nav-hidden {
+            transform: translateY(-100%);
+        }
+        .nav-scrolled {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+        /* Modal Animation */
+        .modal-transition { transition: opacity 0.3s ease; }
+        .modal-hidden { display: none; opacity: 0; }
+        .modal-flex { display: flex; opacity: 1; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
             border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C5A059;
         }
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
-    <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center bg-dark/90 backdrop-blur-sm border-b border-gray-900">
-        <a href="index.html" class="nav-logo text-3xl font-bold tracking-wider text-white">
-            FIT<span class="text-primary">CORE</span>
+    <nav id="main-nav" class="fixed top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center bg-dark/90 backdrop-blur-sm border-b border-gray-900">
+        <a href="index.html" class="flex items-center">
+            <img src="https://i.postimg.cc/P5m6Yp62/IMG-20260312-101643.png" alt="RM FITNESS" class="h-14 w-auto object-contain">
         </a>
         <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
             <a href="index.html" class="hover:text-primary transition-colors">Home</a>
@@ -53,26 +116,90 @@
             <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
             <a href="contact.html" class="hover:text-primary transition-colors">Contact</a>
         </div>
-        <!-- JOIN NOW BUTTON - exact same styling + hover as home page -->
-        <button onclick="showJoinModal()"
-                class="bg-primary text-black font-heading font-bold px-8 py-3 uppercase tracking-wider btn-primary pill">
+        <button onclick="showJoinModal()" class="bg-primary text-black font-heading font-bold px-8 py-3 rounded-pill uppercase tracking-wider btn-primary pill">
             Join Now
         </button>
     </nav>
+
     <header class="pt-40 pb-20 px-6 md:px-16 bg-card border-b border-gray-900">
         <div class="max-w-4xl mx-auto text-center">
-            <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm">Choose Your Path</h4>
+            <h4 class="text-secondary font-heading tracking-[0.2em] mb-4 text-sm font-bold">Choose Your Path</h4>
             <h1 class="text-5xl md:text-7xl font-bold leading-none mb-6">ELITE <span class="text-outline">PROGRAMS</span></h1>
             <p class="text-gray-400 text-lg max-w-2xl mx-auto font-light">Whether you want to build muscle, lose weight, or improve your overall endurance, we have a specialized program designed for your exact goals.</p>
         </div>
     </header>
+
     <section class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-        <div id="programs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            </div>
+        <div id="programs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </section>
-    <!-- PROGRAM DETAILS MODAL - unchanged -->
+
+    <!-- Footer matching home page -->
+    <footer class="bg-card pt-20 pb-10 px-6 md:px-16 border-t border-primary/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div class="space-y-6">
+                    <img src="https://i.postimg.cc/P5m6Yp62/IMG-20260312-101643.png" alt="RM FITNESS" class="h-16 w-auto">
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
+                        The premier destination for fitness excellence. We combine professional methodology with an elite community environment.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-dark flex items-center justify-center text-gray-400 hover:bg-secondary hover:text-white transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c.796 0 1.441.645 1.441 1.44s-.645 1.44-1.441 1.44c-.795 0-1.439-.645-1.439-1.44s.644-1.44 1.439-1.44z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-dark flex items-center justify-center text-gray-400 hover:bg-secondary hover:text-white transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-primary">Programs</h4>
+                    <ul class="space-y-4 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-secondary transition-colors">Strength Training</a></li>
+                        <li><a href="#" class="hover:text-secondary transition-colors">Weight Management</a></li>
+                        <li><a href="#" class="hover:text-secondary transition-colors">Sports Performance</a></li>
+                        <li><a href="#" class="hover:text-secondary transition-colors">Mobility & Rehab</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-primary">Company</h4>
+                    <ul class="space-y-4 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-secondary transition-colors">About Robert</a></li>
+                        <li><a href="#" class="hover:text-secondary transition-colors">Our Trainers</a></li>
+                        <li><a href="#" class="hover:text-secondary transition-colors">Testimonials</a></li>
+                        <li><a href="#" class="hover:text-secondary transition-colors">Membership Info</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-primary">Contact</h4>
+                    <div class="space-y-4 text-sm text-gray-400">
+                        <p class="flex items-center gap-3">
+                            <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            Pretoria, South Africa
+                        </p>
+                        <p class="flex items-center gap-3">
+                            <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            contact@rmfitness.co.za
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600 uppercase tracking-widest">
+                <p>© 2026 Robert Mphephu Fitness Centre. Built for Greatness.</p>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PROGRAM DETAILS MODAL -->
     <div id="details-modal" class="modal-hidden modal-transition fixed inset-0 z-[100] items-center justify-center p-4 bg-black/90 backdrop-blur-md">
-        <div class="bg-card border border-gray-800 max-w-2xl w-full relative overflow-hidden">
+        <div class="bg-card border border-gray-800 max-w-2xl w-full relative overflow-hidden rounded-3xl">
             <button onclick="closeModal('details-modal')" class="absolute top-4 right-4 text-white hover:text-primary z-10">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -83,51 +210,53 @@
                     <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
                 </div>
                 <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
-                    <span id="modal-category" class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block"></span>
-                    <h3 id="modal-title" class="text-4xl font-bold mb-4"></h3>
+                    <span id="modal-category" class="text-secondary text-xs font-bold tracking-widest uppercase mb-2 block"></span>
+                    <h3 id="modal-title" class="text-4xl font-bold mb-4 text-primary"></h3>
                     <p id="modal-description" class="text-gray-400 mb-8 font-light leading-relaxed"></p>
-                    <button onclick="closeModal('details-modal')" class="bg-primary text-black font-heading font-bold px-6 py-3 uppercase text-sm tracking-widest hover:bg-white transition-colors">
+                    <button onclick="closeModal('details-modal')" class="bg-primary text-black font-heading font-bold px-6 py-3 uppercase text-sm tracking-widest hover:bg-white transition-colors rounded-pill">
                         Close Details
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- JOIN MODAL - EXACTLY THE SAME AS HOME PAGE -->
+
+    <!-- JOIN MODAL - matching home page -->
     <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-        <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
-            <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
+        <div class="bg-card border border-primary/20 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
+            <h3 class="text-2xl font-bold mb-6 text-primary">Start Your Journey</h3>
             <form id="join-form" onsubmit="handleJoinSubmit(event)">
                 <div class="space-y-6">
-                    <input id="join-name" type="text" placeholder="Full Name" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    <input id="join-email" type="email" placeholder="Email Address" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    <input id="join-phone" type="tel" placeholder="Phone Number" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                    <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-primary outline-none text-white">
-                        <option value="">Select Plan</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Annual">Annual</option>
+                    <input id="join-name" type="text" placeholder="Full Name" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-secondary outline-none text-white">
+                    <input id="join-email" type="email" placeholder="Email Address" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-secondary outline-none text-white">
+                    <input id="join-phone" type="tel" placeholder="Phone Number" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-secondary outline-none text-white">
+                    <select id="join-plan" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-secondary outline-none text-white">
+                        <option value="">Select Training Level</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Pro">Professional Athlete</option>
                     </select>
                 </div>
                 <div class="flex gap-4 mt-8">
-                    <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 rounded-full">Cancel</button>
-                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full">Submit Request</button>
+                    <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 rounded-full">Close</button>
+                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full">Apply Now</button>
                 </div>
             </form>
         </div>
     </div>
-    <!-- SUCCESS MODAL - EXACTLY THE SAME AS HOME PAGE -->
+
+    <!-- SUCCESS MODAL - matching home page -->
     <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
         <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
             <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
             </div>
-            <h3 class="text-2xl font-bold mb-2 uppercase">Success!</h3>
-            <p class="text-gray-400 mb-8">Data sent to admin dashboard.</p>
-            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Close</button>
+            <h3 class="text-2xl font-bold mb-2 uppercase">Application Sent</h3>
+            <p class="text-gray-400 mb-8">We will contact you shortly to schedule your first session.</p>
+            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Got it</button>
         </div>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
@@ -138,8 +267,28 @@
             messagingSenderId: "708458917827",
             appId: "1:708458917827:web:375de278577df0adcf9776"
         };
-        firebase.initializeApp(firebaseConfig);
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+
+        // Navbar scroll handling
+        let lastScrollY = window.scrollY;
+        const nav = document.getElementById('main-nav');
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                nav.classList.add('nav-hidden');
+            } else {
+                nav.classList.remove('nav-hidden');
+            }
+            if (currentScrollY > 50) {
+                nav.classList.add('nav-scrolled');
+            } else {
+                nav.classList.remove('nav-scrolled');
+            }
+            lastScrollY = currentScrollY;
+        });
+
         function trackInterest(title, category, description, image) {
             const interestRef = database.ref('program_clicks');
             interestRef.push({
@@ -155,22 +304,26 @@
             modal.classList.add('modal-flex');
             document.body.style.overflow = 'hidden';
         }
-        // ==================== JOIN MODAL FUNCTIONS (EXACTLY SAME AS HOME PAGE) ====================
+
         function showJoinModal() {
             document.getElementById("join-modal").classList.remove("hidden");
             document.body.style.overflow = "hidden";
         }
+
         function hideJoinModal() {
             document.getElementById("join-modal").classList.add("hidden");
             document.body.style.overflow = "auto";
         }
+
         function showSuccessModal() {
             document.getElementById("success-modal").classList.remove("hidden");
         }
+
         function hideSuccessModal() {
             document.getElementById("success-modal").classList.add("hidden");
             document.body.style.overflow = "auto";
         }
+
         async function handleJoinSubmit(e) {
             e.preventDefault();
             const btn = document.getElementById("submit-btn");
@@ -183,7 +336,7 @@
             };
             try {
                 btn.disabled = true;
-                btn.innerText = "Sending...";
+                btn.innerText = "Applying...";
                 await database.ref('membershipRequests').push(data);
                 hideJoinModal();
                 showSuccessModal();
@@ -192,15 +345,17 @@
                 alert("Error connecting to database.");
             } finally {
                 btn.disabled = false;
-                btn.innerText = "Submit Request";
+                btn.innerText = "Apply Now";
             }
         }
+
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.add('modal-hidden');
             modal.classList.remove('modal-flex');
             document.body.style.overflow = 'auto';
         }
+
         function renderPrograms(programs) {
             const grid = document.getElementById('programs-grid');
             grid.innerHTML = '';
@@ -215,47 +370,56 @@
                 const safeDesc = p.description.replace(/'/g, "\\'");
               
                 const cardHTML = `
-                    <div onclick="trackInterest('${safeTitle}', '${safeCat}', '${safeDesc}', '${p.image}')" class="program-card bg-card border border-gray-800 rounded-3xl overflow-hidden cursor-pointer group">
-                        <div class="relative h-80">
+                    <div onclick="trackInterest('${safeTitle}', '${safeCat}', '${safeDesc}', '${p.image}')" class="program-card bg-card p-8 hover-lift group border border-gray-900 rounded-3xl cursor-pointer overflow-hidden">
+                        <div class="relative h-80 mb-6 -mx-8 -mt-8">
                             <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700">
                         </div>
-                        <div class="p-8">
-                            <span class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block">${p.category}</span>
-                            <h3 class="text-3xl font-bold mb-3">${p.title}</h3>
-                            <p class="text-gray-300 text-sm mb-4">${p.description}</p>
-                            <span class="inline-block border-b border-primary text-primary font-heading uppercase tracking-widest text-sm pb-1">View Details</span>
-                        </div>
+                        <span class="text-secondary text-xs font-bold tracking-widest uppercase mb-2 block">${p.category}</span>
+                        <h3 class="text-3xl font-bold mb-3 text-primary">${p.title}</h3>
+                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">${p.description}</p>
+                        <span class="inline-block border-b border-secondary text-secondary font-heading uppercase tracking-widest text-sm pb-1 group-hover:text-primary group-hover:border-primary transition-colors">View Details</span>
                     </div>
                 `;
                 grid.innerHTML += cardHTML;
             });
         }
+
         function loadPrograms() {
             database.ref('programs').on('value', (snapshot) => {
                 renderPrograms(snapshot.val());
             });
         }
+
         function seedInitialPrograms() {
             database.ref('programs').once('value', (snap) => {
                 if (!snap.exists()) {
                     const initial = {
-                        p1: { category: "01 / Build Muscle", title: "Powerlifting", description: "Master the big three lifts.", image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop", order: 1 },
-                        p2: { category: "02 / Shred Fat", title: "HIIT Core", description: "High-intensity calorie burning.", image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1470&auto=format&fit=crop", order: 2 },
-                        p3: { category: "03 / Recovery", title: "Mobility & Yoga", description: "Active recovery and flexibility.", image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1520&auto=format&fit=crop", order: 3 }
+                        p1: { category: "01 / Build Muscle", title: "Powerlifting", description: "Master the big three lifts with expert coaching and competition-grade equipment.", image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop", order: 1 },
+                        p2: { category: "02 / Shred Fat", title: "HIIT Core", description: "High-intensity interval training designed for maximum calorie burn and metabolic boost.", image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1470&auto=format&fit=crop", order: 2 },
+                        p3: { category: "03 / Recovery", title: "Mobility & Yoga", description: "Active recovery sessions focusing on flexibility, balance, and mental wellness.", image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1520&auto=format&fit=crop", order: 3 }
                     };
                     database.ref('programs').set(initial);
                 }
             });
         }
+
         window.onload = () => {
             seedInitialPrograms();
             loadPrograms();
         };
+
         window.onclick = function(event) {
             if (event.target.classList.contains('modal-transition')) {
                 closeModal(event.target.id);
             }
         }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") {
+                closeModal('details-modal');
+                hideJoinModal();
+            }
+        });
     </script>
 </body>
 </html>

@@ -137,57 +137,6 @@
             position: relative;
             z-index: 2;
         }
-
-        /* DARK MODE TOGGLE - LIGHT MODE OVERRIDES (minimal addition only) */
-        body.light-mode {
-            background-color: #f8fafc !important;
-            color: #0f172a !important;
-        }
-        .light-mode .bg-dark {
-            background-color: #f1f5f9 !important;
-        }
-        .light-mode .bg-card {
-            background-color: #ffffff !important;
-            border-color: #e5e7eb !important;
-        }
-        .light-mode .text-white,
-        .light-mode h1,
-        .light-mode h2,
-        .light-mode h3,
-        .light-mode .nav-logo {
-            color: #0f172a !important;
-        }
-        .light-mode .text-gray-400,
-        .light-mode .text-gray-500 {
-            color: #64748b !important;
-        }
-        .light-mode .text-gray-200 {
-            color: #475569 !important;
-        }
-        .light-mode .border-gray-900,
-        .light-mode .border-gray-800 {
-            border-color: #e5e7eb !important;
-        }
-        .light-mode .border-gray-700 {
-            border-color: #cbd5e1 !important;
-        }
-        .light-mode .hero-section {
-            background-image: linear-gradient(to right, rgba(248, 250, 252, 0.95) 30%, rgba(248, 250, 252, 0.4)) !important;
-        }
-        .light-mode .text-primary {
-            color: #000000 !important;
-        }
-        .light-mode .btn-primary {
-            background-color: #000000 !important;
-            color: #D6FF00 !important;
-        }
-        .light-mode .text-outline {
-            -webkit-text-stroke: 1.5px #000000;
-            color: transparent;
-        }
-        .light-mode #cta-section::before {
-            background: rgba(248, 250, 252, 0.65) !important;
-        }
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
@@ -203,12 +152,9 @@
             <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
             <a href="contact.html" class="hover:text-primary transition-colors">Contact</a>
         </div>
-        <div class="flex items-center gap-4">
-            <button onclick="toggleTheme()" id="theme-toggle" class="text-2xl hover:text-primary transition-colors">🌙</button>
-            <button onclick="showJoinModal()" class="bg-primary text-black font-heading font-bold px-8 py-3 rounded-pill uppercase tracking-wider btn-primary pill">
-                Join Now
-            </button>
-        </div>
+        <button onclick="showJoinModal()" class="bg-primary text-black font-heading font-bold px-8 py-3 rounded-pill uppercase tracking-wider btn-primary pill">
+            Join Now
+        </button>
     </nav>
     <header id="hero-section" class="hero-section min-h-screen flex items-center pt-20 px-6 md:px-16">
         <div id="hero-content" class="max-w-3xl animate-fadeInUp hero-shimmer">
@@ -484,28 +430,10 @@
             } catch (err) { alert("Error connecting to database."); }
             finally { btn.disabled = false; btn.innerText = "Submit Request"; }
         }
-
-        /* DARK MODE TOGGLE FUNCTIONALITY */
-        function toggleTheme() {
-            const body = document.body;
-            const toggleBtn = document.getElementById("theme-toggle");
-            body.classList.toggle("light-mode");
-            const isLight = body.classList.contains("light-mode");
-            toggleBtn.innerHTML = isLight ? "☀️" : "🌙";
-            localStorage.setItem("theme", isLight ? "light" : "dark");
-        }
-
         window.onload = () => {
             loadLiveStats();
             syncHomepageContent();
             syncCtaSection();
-
-            /* APPLY SAVED THEME */
-            const savedTheme = localStorage.getItem("theme");
-            if (savedTheme === "light") {
-                document.body.classList.add("light-mode");
-                document.getElementById("theme-toggle").innerHTML = "☀️";
-            }
         };
         window.addEventListener('keydown', (e) => {
             if (e.key === "Escape") hideVideoModal();

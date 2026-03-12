@@ -181,7 +181,7 @@
                     Experience the gold standard of fitness at Robert Mphephu Fitness Centre. Elite coaching and premium facilities designed for your transformation.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <button onclick="showJoinModal()" id="hero-button" class="bg-primary text-black font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill btn-primary pill">
+                    <button onclick="showJoinModal()" id="hero-button" class="bg-white text-black font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill btn-primary pill">
                         Start Training
                     </button>
                     <button onclick="showVideoModal()" class="border border-secondary text-white font-heading font-bold px-10 py-4 text-lg uppercase tracking-wider rounded-pill hover:bg-secondary transition-colors duration-300">
@@ -268,7 +268,7 @@
                     </div>
                 </div>
                 <div>
-                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-primary">Programs</h4>
+                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-white">Programs</h4>
                     <ul class="space-y-4 text-sm text-gray-400">
                         <li><a href="#" class="hover:text-secondary transition-colors">Strength Training</a></li>
                         <li><a href="#" class="hover:text-secondary transition-colors">Weight Management</a></li>
@@ -277,7 +277,7 @@
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-primary">Company</h4>
+                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-white">Company</h4>
                     <ul class="space-y-4 text-sm text-gray-400">
                         <li><a href="#" class="hover:text-secondary transition-colors">About Robert</a></li>
                         <li><a href="#" class="hover:text-secondary transition-colors">Our Trainers</a></li>
@@ -286,7 +286,7 @@
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-primary">Contact</h4>
+                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-white">Contact</h4>
                     <div class="space-y-4 text-sm text-gray-400">
                         <p class="flex items-center gap-3">
                             <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -316,7 +316,7 @@
     </div>
     <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
         <div class="bg-card border border-primary/20 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
-            <h3 class="text-2xl font-bold mb-6 text-primary">Start Your Journey</h3>
+            <h3 class="text-2xl font-bold mb-6 text-white">Start Your Journey</h3>
             <form id="join-form" onsubmit="handleJoinSubmit(event)">
                 <div class="space-y-6">
                     <input id="join-name" type="text" placeholder="Full Name" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-secondary outline-none text-white">
@@ -341,16 +341,16 @@
             <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
             </div>
-            <h3 class="text-2xl font-bold mb-2 uppercase">Application Sent</h3>
+            <h3 class="text-2xl font-bold mb-2 uppercase text-white">Application Sent</h3>
             <p class="text-gray-400 mb-8">We will contact you shortly to schedule your first session.</p>
-            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Got it</button>
+            <button onclick="hideSuccessModal()" class="w-full py-4 bg-white text-black font-bold rounded-full uppercase">Got it</button>
         </div>
     </div>
     <div id="service-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[60] px-6">
         <div class="bg-card border border-primary/20 w-full max-w-2xl rounded-3xl p-10 animate-fadeInUp relative text-white">
             <button onclick="closeServiceDetail()" class="absolute top-6 right-6 text-gray-500 hover:text-white text-2xl">&times;</button>
             <div id="service-content"></div>
-            <button onclick="closeServiceDetail(); showJoinModal();" class="mt-8 w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Join Program</button>
+            <button onclick="closeServiceDetail(); showJoinModal();" class="mt-8 w-full py-4 bg-white text-black font-bold rounded-full uppercase">Join Program</button>
         </div>
     </div>
     <script>
@@ -449,7 +449,7 @@
         function openServiceDetail(id) {
             const s = serviceData[id];
             document.getElementById("service-content").innerHTML = `
-                <h2 class="text-primary text-4xl font-bold mb-4 uppercase">${s.title}</h2>
+                <h2 class="text-white text-4xl font-bold mb-4 uppercase">${s.title}</h2>
                 <p class="text-gray-300 text-lg mb-6">${s.desc}</p>
                 <ul class="space-y-3">
                     ${s.features.map(f => `<li class="text-gray-400 flex items-center gap-2"><span class="text-secondary">✦</span> ${f}</li>`).join('')}

@@ -143,7 +143,7 @@
     <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center">
         <!-- WITH this -->
 <a href="index.html" class="flex items-center">
-    <img src="https://i.postimg.cc/3JLt8FDM/craiyon-090524-image.png" alt="FITCORE" class="h-12 w-auto object-contain">
+    <img src="https://i.postimg.cc/3JLt8FDM/craiyon-090524-image.png" alt="FITCORE" class="h-20 w-auto object-contain">
 </a>
         <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wide">
             <a href="index.html" class="hover:text-primary transition-colors">Home</a>
@@ -161,8 +161,7 @@
             <div id="hero-text">
                 <h4 class="text-primary font-heading tracking-[0.2em] mb-4 text-sm md:text-base">Unleash your potential</h4>
                 <h1 id="hero-main-heading" class="text-6xl md:text-8xl font-bold leading-none mb-6">
-                    BUILD YOUR <br>
-                    <span class="text-outline">PERFECT</span> BODY
+                    BUILD YOUR <span class="text-outline">PERFECT</span> BODY
                 </h1>
                 <p id="hero-subtext" class="text-gray-400 text-lg md:text-xl mb-10 max-w-xl font-light">
                     Transform your physique and mind with our elite training programs, state-of-the-art equipment, and professional coaching. No excuses, just results.
@@ -175,7 +174,7 @@
                         Watch Video
                     </button>
                 </div>
-                
+               
                 <div class="flex gap-10 mt-16 border-t border-gray-800 pt-8">
                     <div>
                         <h3 id="stat-trainers" class="text-3xl font-bold text-white mb-1">...</h3>
@@ -328,10 +327,10 @@
             const heroSnap = await db.ref('homepage/hero').once('value');
             const heroData = heroSnap.val() || {};
             if (heroData.heading) document.getElementById("hero-main-heading").innerHTML = heroData.heading;
-            
+           
             // Subtext now supports innerHTML for admin spans
             if (heroData.subtext) document.getElementById("hero-subtext").innerHTML = heroData.subtext;
-            
+           
             if (heroData.buttonText) document.getElementById("hero-button").innerText = heroData.buttonText;
             if (heroData.imageUrl) {
                 const hero = document.getElementById("hero-section");
@@ -342,10 +341,10 @@
             db.ref('homepage/hero').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 if (data.heading) document.getElementById("hero-main-heading").innerHTML = data.heading;
-                
+               
                 // Real-time update subtext with HTML support
                 if (data.subtext) document.getElementById("hero-subtext").innerHTML = data.subtext;
-                
+               
                 if (data.buttonText) document.getElementById("hero-button").innerText = data.buttonText;
                 if (data.imageUrl) {
                     const hero = document.getElementById("hero-section");
@@ -370,10 +369,10 @@
             db.ref('homepage/cta').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 if (data.heading) document.getElementById("cta-main-heading").innerHTML = data.heading;
-                
+               
                 // Subtext in CTA now also supports HTML for spans
                 if (data.subtext) document.getElementById("cta-sub-paragraph").innerHTML = data.subtext;
-                
+               
                 if (data.buttonText) document.getElementById("cta-button").innerText = data.buttonText;
                 if (data.imageUrl) {
                     document.getElementById("cta-section").style.backgroundImage = `url('${data.imageUrl}')`;

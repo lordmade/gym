@@ -116,25 +116,22 @@
             <a href="pricing.html" class="hover:text-primary transition-colors">Pricing</a>
             <a href="contact.html" class="hover:text-primary transition-colors">Contact</a>
         </div>
-        <button onclick="showJoinModal()" class="bg-primary text-black font-heading font-bold px-8 py-3 rounded-pill uppercase tracking-wider btn-primary pill">
+        <button onclick="showJoinModal()" class="bg-white text-black font-heading font-bold px-8 py-3 rounded-pill uppercase tracking-wider btn-primary pill">
             Join Now
         </button>
     </nav>
-
     <header class="pt-40 pb-20 px-6 md:px-16 bg-card border-b border-gray-900">
         <div class="max-w-4xl mx-auto text-center">
-            <h4 class="text-secondary font-heading tracking-[0.2em] mb-4 text-sm font-bold">Meet The Experts</h4>
+            <h4 class="text-white font-heading tracking-[0.2em] mb-4 text-sm font-bold">Meet The Experts</h4>
             <h1 class="text-5xl md:text-7xl font-bold leading-none mb-6">YOUR <span class="text-outline">COACHES</span></h1>
             <p class="text-gray-400 text-lg max-w-2xl mx-auto font-light">Train with industry-leading professionals who will push you past your limits and ensure you reach your maximum potential.</p>
         </div>
     </header>
-
     <section class="py-24 px-6 md:px-16 max-w-7xl mx-auto">
         <div id="trainers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Populated by Firebase from admin dashboard -->
         </div>
     </section>
-
     <!-- Footer matching home page -->
     <footer class="bg-card pt-20 pb-10 px-6 md:px-16 border-t border-primary/10">
         <div class="max-w-7xl mx-auto">
@@ -153,7 +150,6 @@
                         </a>
                     </div>
                 </div>
-
                 <div>
                     <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-primary">Programs</h4>
                     <ul class="space-y-4 text-sm text-gray-400">
@@ -163,7 +159,6 @@
                         <li><a href="#" class="hover:text-secondary transition-colors">Mobility & Rehab</a></li>
                     </ul>
                 </div>
-
                 <div>
                     <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-primary">Company</h4>
                     <ul class="space-y-4 text-sm text-gray-400">
@@ -173,7 +168,6 @@
                         <li><a href="#" class="hover:text-secondary transition-colors">Membership Info</a></li>
                     </ul>
                 </div>
-
                 <div>
                     <h4 class="font-heading font-bold text-lg mb-6 tracking-wider text-primary">Contact</h4>
                     <div class="space-y-4 text-sm text-gray-400">
@@ -188,7 +182,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600 uppercase tracking-widest">
                 <p>© 2026 Robert Mphephu Fitness Centre. Built for Greatness.</p>
                 <div class="flex gap-8">
@@ -198,7 +191,6 @@
             </div>
         </div>
     </footer>
-
     <!-- TRAINER DETAIL MODAL -->
     <div id="trainer-modal" class="modal-hidden modal-transition fixed inset-0 z-[100] items-center justify-center p-4 bg-black/90 backdrop-blur-md">
         <div class="bg-card border border-gray-800 max-w-2xl w-full relative overflow-hidden rounded-3xl">
@@ -211,18 +203,17 @@
                 </div>
                 <div class="w-full md:w-3/5 p-10">
                     <span id="modal-trainer-role" class="text-secondary text-xs font-bold tracking-widest uppercase"></span>
-                    <h3 id="modal-trainer-name" class="text-4xl font-bold mt-2 mb-6 text-primary"></h3>
+                    <h3 id="modal-trainer-name" class="text-4xl font-bold mt-2 mb-6 text-white"></h3>
                     <p id="modal-trainer-desc" class="text-gray-400 leading-relaxed"></p>
-                    <button onclick="closeModal('trainer-modal')" class="mt-10 bg-primary text-black font-heading font-bold px-8 py-4 uppercase tracking-widest hover:bg-white transition-all rounded-pill">Close</button>
+                    <button onclick="closeModal('trainer-modal')" class="mt-10 bg-white text-black font-heading font-bold px-8 py-4 uppercase tracking-widest hover:bg-white transition-all rounded-pill">Close</button>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- JOIN MODAL - matching home page -->
     <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
         <div class="bg-card border border-primary/20 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
-            <h3 class="text-2xl font-bold mb-6 text-primary">Start Your Journey</h3>
+            <h3 class="text-2xl font-bold mb-6 text-white">Start Your Journey</h3>
             <form id="join-form" onsubmit="handleJoinSubmit(event)">
                 <div class="space-y-6">
                     <input id="join-name" type="text" placeholder="Full Name" required class="w-full bg-dark border border-gray-700 rounded-2xl px-5 py-4 focus:border-secondary outline-none text-white">
@@ -237,24 +228,22 @@
                 </div>
                 <div class="flex gap-4 mt-8">
                     <button type="button" onclick="hideJoinModal()" class="flex-1 py-4 border border-gray-700 rounded-full">Close</button>
-                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-primary text-black font-bold rounded-full">Apply Now</button>
+                    <button id="submit-btn" type="submit" class="flex-1 py-4 bg-white text-black font-bold rounded-full">Apply Now</button>
                 </div>
             </form>
         </div>
     </div>
-
     <!-- SUCCESS MODAL - matching home page -->
     <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
         <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
             <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
             </div>
-            <h3 class="text-2xl font-bold mb-2 uppercase">Application Sent</h3>
+            <h3 class="text-2xl font-bold mb-2 uppercase text-white">Application Sent</h3>
             <p class="text-gray-400 mb-8">We will contact you shortly to schedule your first session.</p>
-            <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Got it</button>
+            <button onclick="hideSuccessModal()" class="w-full py-4 bg-white text-black font-bold rounded-full uppercase">Got it</button>
         </div>
     </div>
-
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
@@ -267,11 +256,9 @@
         };
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-
         // Navbar scroll handling
         let lastScrollY = window.scrollY;
         const nav = document.getElementById('main-nav');
-
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
             if (currentScrollY > lastScrollY && currentScrollY > 100) {
@@ -286,7 +273,6 @@
             }
             lastScrollY = currentScrollY;
         });
-
         function loadTrainers() {
             database.ref('trainers').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
@@ -296,19 +282,18 @@
                 sorted.forEach(key => {
                     const t = data[key];
                     const card = `
-                        <div onclick="showTrainerDetail('${t.name}', '${t.title}', '${t.description}', '${t.image}')" 
+                        <div onclick="showTrainerDetail('${t.name}', '${t.title}', '${t.description}', '${t.image}')"
                              class="trainer-card bg-card border border-gray-900 rounded-3xl overflow-hidden cursor-pointer group p-8 hover-lift">
                             <div class="relative h-80 mb-6 -mx-8 -mt-8">
                                 <img src="${t.image}" class="w-full h-full object-cover transition-transform duration-700 grayscale group-hover:grayscale-0">
                             </div>
-                            <h3 class="font-bold text-3xl text-primary">${t.name}</h3>
+                            <h3 class="font-bold text-3xl text-white">${t.name}</h3>
                             <p class="text-secondary text-sm tracking-widest uppercase mt-1">${t.title}</p>
                         </div>`;
                     grid.innerHTML += card;
                 });
             });
         }
-
         function showTrainerDetail(name, role, desc, image) {
             document.getElementById('modal-trainer-name').textContent = name;
             document.getElementById('modal-trainer-role').textContent = role;
@@ -319,33 +304,27 @@
             modal.classList.add('modal-flex');
             document.body.style.overflow = 'hidden';
         }
-
         function closeModal(id) {
             const modal = document.getElementById(id);
             modal.classList.add('modal-hidden');
             modal.classList.remove('modal-flex');
             document.body.style.overflow = 'auto';
         }
-
         function showJoinModal() {
             document.getElementById("join-modal").classList.remove("hidden");
             document.body.style.overflow = "hidden";
         }
-
         function hideJoinModal() {
             document.getElementById("join-modal").classList.add("hidden");
             document.body.style.overflow = "auto";
         }
-
         function showSuccessModal() {
             document.getElementById("success-modal").classList.remove("hidden");
         }
-
         function hideSuccessModal() {
             document.getElementById("success-modal").classList.add("hidden");
             document.body.style.overflow = "auto";
         }
-
         async function handleJoinSubmit(e) {
             e.preventDefault();
             const btn = document.getElementById("submit-btn");
@@ -370,9 +349,7 @@
                 btn.innerText = "Apply Now";
             }
         }
-
         window.onload = loadTrainers;
-
         window.addEventListener('keydown', (e) => {
             if (e.key === "Escape") {
                 closeModal('trainer-modal');

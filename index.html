@@ -58,6 +58,20 @@
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 25px 50px -12px rgb(214 255 0 / 0.25);
         }
+        /* Navbar Scroll Logic */
+        nav {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+        }
+        .nav-hidden {
+            transform: translateY(-100%);
+        }
+        .nav-scrolled {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -140,7 +154,7 @@
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-black">
-    <nav class="absolute top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center">
+    <nav id="main-nav" class="fixed top-0 w-full z-50 px-6 py-6 md:px-16 flex justify-between items-center">
         <a href="index.html" class="flex items-center">
             <img src="https://i.postimg.cc/P5m6Yp62/IMG-20260312-101643.png" alt="FITCORE" class="h-16 w-auto object-contain invert">
         </a>
@@ -155,6 +169,7 @@
             Join Now
         </button>
     </nav>
+
     <header id="hero-section" class="hero-section min-h-screen flex items-center pt-20 px-6 md:px-16">
         <div id="hero-content" class="max-w-3xl animate-fadeInUp hero-shimmer">
             <div id="hero-text">
@@ -191,6 +206,7 @@
             </div>
         </div>
     </header>
+
     <section class="py-24 px-6 md:px-16 bg-dark">
         <div class="flex flex-col md:flex-row justify-between items-end mb-16">
             <div>
@@ -226,6 +242,7 @@
             </div>
         </div>
     </section>
+
     <section id="cta-section" class="py-20 relative text-center">
         <div id="cta-content" class="relative z-10 max-w-4xl mx-auto px-6">
             <h2 id="cta-main-heading" class="text-5xl md:text-7xl font-bold mb-6 text-white text-outline animate-fadeInUp">NEVER GIVE UP</h2>
@@ -235,34 +252,77 @@
             </button>
         </div>
     </section>
-    <footer class="bg-card pt-16 pb-8 px-6 md:px-16 border-t border-gray-900">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-            <div class="col-span-1 md:col-span-2">
-                <div class="mb-6">
-                    <img src="https://i.postimg.cc/P5m6Yp62/IMG-20260312-101643.png" alt="FITCORE Logo" class="h-16 w-auto object-contain invert">
+
+    <footer class="bg-card pt-20 pb-10 px-6 md:px-16 border-t border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div class="space-y-6">
+                    <img src="https://i.postimg.cc/P5m6Yp62/IMG-20260312-101643.png" alt="FITCORE" class="h-16 w-auto invert brightness-110">
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
+                        Pushing the boundaries of human potential through science-backed training and elite community culture. Elevate your life with FITCORE.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-dark flex items-center justify-center text-gray-400 hover:bg-primary hover:text-black transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c.796 0 1.441.645 1.441 1.44s-.645 1.44-1.441 1.44c-.795 0-1.439-.645-1.439-1.44s.644-1.44 1.439-1.44z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-dark flex items-center justify-center text-gray-400 hover:bg-primary hover:text-black transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                        </a>
+                    </div>
                 </div>
-                <p class="text-gray-400 text-sm max-w-md">Premium fitness equipment and expert coaching.</p>
+
+                <div>
+                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider">Programs</h4>
+                    <ul class="space-y-4 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition-colors">Elite Power Lifting</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">High Intensity Cardio</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Body Recomposition</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Yoga & Mobility</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider">Company</h4>
+                    <ul class="space-y-4 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition-colors">About FITCORE</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Our Trainers</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Member FAQ</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-bold text-lg mb-6 tracking-wider">Contact</h4>
+                    <div class="space-y-4 text-sm text-gray-400">
+                        <p class="flex items-center gap-3">
+                            <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            123 Fitness Way, New York
+                        </p>
+                        <p class="flex items-center gap-3">
+                            <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            info@fitcore.com
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h4 class="font-heading font-bold text-xl mb-6">Quick Links</h4>
-                <ul class="space-y-3 text-sm text-gray-400">
-                    <li><a href="programs.html" class="hover:text-primary transition-colors">Programs</a></li>
-                    <li><a href="trainers.html" class="hover:text-primary transition-colors">Trainers</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-heading font-bold text-xl mb-6">Contact</h4>
-                <p class="text-sm text-gray-400">info@fitcore.com</p>
+
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600 uppercase tracking-widest">
+                <p>© 2026 FitCore Gym. All Rights Reserved.</p>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                    <a href="#" class="hover:text-white transition-colors">Sitemap</a>
+                </div>
             </div>
         </div>
-        <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-600">© 2026 FitCore Gym.</div>
     </footer>
+
     <div id="video-modal" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-[100] px-4">
         <div class="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-gray-800">
             <button onclick="hideVideoModal()" class="absolute top-4 right-4 z-50 text-white bg-black/50 hover:bg-primary hover:text-black w-10 h-10 rounded-full flex items-center justify-center transition-all text-2xl">&times;</button>
             <iframe id="video-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
+
     <div id="join-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
         <div class="bg-card border border-gray-900 w-full max-w-lg rounded-3xl p-8 animate-fadeInUp">
             <h3 class="text-2xl font-bold mb-6">Join FITCORE</h3>
@@ -284,6 +344,7 @@
             </form>
         </div>
     </div>
+
     <div id="success-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[70] px-6">
         <div class="bg-card border border-primary/30 w-full max-w-sm rounded-3xl p-10 text-center animate-fadeInUp">
             <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
@@ -294,6 +355,7 @@
             <button onclick="hideSuccessModal()" class="w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Close</button>
         </div>
     </div>
+
     <div id="service-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[60] px-6">
         <div class="bg-card border border-gray-900 w-full max-w-2xl rounded-3xl p-10 animate-fadeInUp relative text-white">
             <button onclick="closeServiceDetail()" class="absolute top-6 right-6 text-gray-500 hover:text-white text-2xl">&times;</button>
@@ -301,6 +363,7 @@
             <button onclick="closeServiceDetail(); showJoinModal();" class="mt-8 w-full py-4 bg-primary text-black font-bold rounded-full uppercase">Get Started</button>
         </div>
     </div>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
@@ -314,16 +377,43 @@
         let db;
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         db = firebase.database();
+
+        // Navbar Scroll Handling
+        let lastScrollY = window.scrollY;
+        const nav = document.getElementById('main-nav');
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            // Hide/Show Logic
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                nav.classList.add('nav-hidden');
+            } else {
+                nav.classList.remove('nav-hidden');
+            }
+
+            // Visual Styling Logic
+            if (currentScrollY > 50) {
+                nav.classList.add('nav-scrolled');
+            } else {
+                nav.classList.remove('nav-scrolled');
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
         function loadLiveStats() {
             db.ref('stats/trainers').on('value', s => document.getElementById("stat-trainers").innerText = s.val() || "50+");
             db.ref('stats/members').on('value', s => document.getElementById("stat-members").innerText = s.val() || "970+");
             db.ref('stats/programs').on('value', s => document.getElementById("stat-programs").innerText = s.val() || "30+");
         }
+
         let serviceData = {
             powerlifting: { title: "Power Lifting", desc: "Build raw strength.", features: ["Form Correction", "Strength Blocks"] },
             cardio: { title: "Cardio", desc: "Burn fat fast.", features: ["HIIT", "Endurance"] },
             personal: { title: "Personal Training", desc: "1-on-1 focus.", features: ["Bespoke Plans", "24/7 Check-ins"] }
         };
+
         async function syncHomepageContent() {
             const heroSnap = await db.ref('homepage/hero').once('value');
             const heroData = heroSnap.val() || {};
@@ -336,16 +426,14 @@
             }
             document.getElementById("hero-content").classList.remove("hero-shimmer");
             document.getElementById("hero-text").style.opacity = "1";
+            
             db.ref('homepage/hero').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 if (data.heading) document.getElementById("hero-main-heading").innerHTML = data.heading;
                 if (data.subtext) document.getElementById("hero-subtext").innerHTML = data.subtext;
                 if (data.buttonText) document.getElementById("hero-button").innerText = data.buttonText;
-                if (data.imageUrl) {
-                    const hero = document.getElementById("hero-section");
-                    hero.style.backgroundImage = `linear-gradient(to right, rgba(10, 10, 10, 0.95) 30%, rgba(10, 10, 10, 0.4)), url('${data.imageUrl}')`;
-                }
             });
+
             db.ref('homepage/services').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 for (let i = 1; i <= 3; i++) {
@@ -354,23 +442,20 @@
                     const descEl = document.getElementById(`service${i}-desc`);
                     if (card.title && titleEl) titleEl.innerText = card.title;
                     if (card.description && descEl) descEl.innerText = card.description;
-                    const key = i === 1 ? 'powerlifting' : i === 2 ? 'cardio' : 'personal';
-                    if (card.title) serviceData[key].title = card.title;
-                    if (card.description) serviceData[key].desc = card.description;
                 }
             });
         }
+
         function syncCtaSection() {
             db.ref('homepage/cta').on('value', (snapshot) => {
                 const data = snapshot.val() || {};
                 if (data.heading) document.getElementById("cta-main-heading").innerHTML = data.heading;
                 if (data.subtext) document.getElementById("cta-sub-paragraph").innerHTML = data.subtext;
                 if (data.buttonText) document.getElementById("cta-button").innerText = data.buttonText;
-                if (data.imageUrl) {
-                    document.getElementById("cta-section").style.backgroundImage = `url('${data.imageUrl}')`;
-                }
+                if (data.imageUrl) document.getElementById("cta-section").style.backgroundImage = `url('${data.imageUrl}')`;
             });
         }
+
         function showVideoModal() {
             const modal = document.getElementById("video-modal");
             const iframe = document.getElementById("video-iframe");
@@ -378,6 +463,7 @@
             modal.classList.remove("hidden");
             document.body.style.overflow = "hidden";
         }
+
         function hideVideoModal() {
             const modal = document.getElementById("video-modal");
             const iframe = document.getElementById("video-iframe");
@@ -385,6 +471,7 @@
             modal.classList.add("hidden");
             document.body.style.overflow = "auto";
         }
+
         function openServiceDetail(id) {
             const s = serviceData[id];
             document.getElementById("service-content").innerHTML = `
@@ -395,13 +482,13 @@
                 </ul>`;
             document.getElementById("service-modal").classList.remove("hidden");
         }
-        function closeServiceDetail() {
-            document.getElementById("service-modal").classList.add("hidden");
-        }
+
+        function closeServiceDetail() { document.getElementById("service-modal").classList.add("hidden"); }
         function showJoinModal() { document.getElementById("join-modal").classList.remove("hidden"); }
         function hideJoinModal() { document.getElementById("join-modal").classList.add("hidden"); }
         function showSuccessModal() { document.getElementById("success-modal").classList.remove("hidden"); }
         function hideSuccessModal() { document.getElementById("success-modal").classList.add("hidden"); }
+
         async function handleJoinSubmit(e) {
             e.preventDefault();
             const btn = document.getElementById("submit-btn");
@@ -422,13 +509,19 @@
             } catch (err) { alert("Error connecting to database."); }
             finally { btn.disabled = false; btn.innerText = "Submit Request"; }
         }
+
         window.onload = () => {
             loadLiveStats();
             syncHomepageContent();
             syncCtaSection();
         };
+
         window.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") hideVideoModal();
+            if (e.key === "Escape") {
+                hideVideoModal();
+                hideJoinModal();
+                closeServiceDetail();
+            }
         });
     </script>
 </body>
